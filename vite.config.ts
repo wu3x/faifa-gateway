@@ -16,3 +16,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
 }));
+export default defineConfig({
+  base: '/faifa-gateway/',
+  // بقية الأكواد كما هي...
+})
