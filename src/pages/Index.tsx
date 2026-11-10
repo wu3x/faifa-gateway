@@ -1,4 +1,4 @@
-import { Hotel, Trees, Coffee, Bed, Mountain, Binoculars, UtensilsCrossed, Tent, Home, Church, Instagram } from "lucide-react";
+import { Hotel, Trees, Coffee, Bed, Mountain, Binoculars, UtensilsCrossed, Tent, Home, Church, Instagram, ArrowUpLeft, CloudFog, Footprints, Camera } from "lucide-react";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import CategorySection from "@/components/CategorySection";
@@ -25,6 +25,22 @@ const Index = () => {
         <Navigation />
         <CompactControlBar />
 
+        <section id="discover" className="relative overflow-hidden bg-[#102e28] text-white">
+          <div className="pointer-events-none absolute -left-32 -bottom-40 h-96 w-96 rounded-full border border-white/10" />
+          <div className="pointer-events-none absolute -left-16 -bottom-32 h-80 w-80 rounded-full border border-white/10" />
+          <div className="container relative mx-auto grid gap-12 px-6 py-20 md:grid-cols-[1fr_1.1fr] md:items-center md:px-10 md:py-28">
+            <div>
+              <div className="mb-5 flex items-center gap-3 text-xs font-bold tracking-widest text-[#c9d9b6]"><span className="h-px w-10 bg-[#c9d9b6]" />{t("مرحبًا بك في فيفاء", "WELCOME TO FAIFA")}</div>
+              <h2 className="max-w-xl text-3xl font-bold leading-[1.6] md:text-5xl md:leading-[1.5]">{t("ليست مجرد وجهة…", "More than a destination…")}<span className="block text-[#d9e4bd]">{t("إنها تجربة تُعاش.", "A place to experience.")}</span></h2>
+              <p className="mt-6 max-w-xl text-base leading-9 text-white/70">{t("من بيوت الجبل وطرقه المتعرجة، إلى رائحة البن وإطلالات الضباب. جمعنا لك الأماكن التي تستحق الزيارة لتصنع رحلتك بطريقتك.", "From mountain homes and winding roads to coffee aromas and misty views. Find places worth visiting and make the journey your own.")}</p>
+              <a href="#parks" className="mt-8 inline-flex items-center gap-3 border-b border-[#d9e4bd] pb-2 text-sm font-bold text-[#d9e4bd] transition hover:gap-5">{t("اكتشف أجمل الإطلالات", "Discover the viewpoints")} <ArrowUpLeft size={18}/></a>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-4 pt-12"><div className="rounded-3xl border border-white/15 bg-white/10 p-6 backdrop-blur"><CloudFog className="mb-9 text-[#d9e4bd]" size={30}/><h3 className="text-xl font-bold">{t("فوق الغيم", "Above the clouds")}</h3><p className="mt-2 text-sm leading-7 text-white/65">{t("مطلات تلامس السماء", "Views that touch the sky")}</p></div><div className="rounded-3xl border border-white/15 bg-white/5 p-6"><Footprints className="mb-9 text-[#d9e4bd]" size={30}/><h3 className="text-xl font-bold">{t("دروب الجبل", "Mountain trails")}</h3><p className="mt-2 text-sm leading-7 text-white/65">{t("تفاصيل لا تُنسى", "Memories along the way")}</p></div></div>
+              <div className="space-y-4"><div className="rounded-3xl border border-white/15 bg-white/5 p-6"><Coffee className="mb-9 text-[#d9e4bd]" size={30}/><h3 className="text-xl font-bold">{t("روح البن", "Coffee culture")}</h3><p className="mt-2 text-sm leading-7 text-white/65">{t("نكهة الأرض وأهلها", "A taste of the land")}</p></div><div className="rounded-3xl border border-white/15 bg-white/10 p-6 backdrop-blur"><Camera className="mb-9 text-[#d9e4bd]" size={30}/><h3 className="text-xl font-bold">{t("لحظات تستحق", "Picture-perfect")}</h3><p className="mt-2 text-sm leading-7 text-white/65">{t("لكل زاوية حكاية", "Every corner tells a story")}</p></div></div>
+            </div>
+          </div>
+        </section>
         <main className="container mx-auto px-6 md:px-8 py-4 space-y-10">
 
         {/* Hotels Section */}
