@@ -1,4 +1,4 @@
-import { MapPin, MessageCircle, Compass } from "lucide-react";
+import { MapPin, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 interface PlaceCardProps {
   title: string;
@@ -23,6 +23,7 @@ const PlaceCard = ({ title, description, englishDescription, additionalContent, 
   const reviewsLink = placeId
     ? `https://search.google.com/local/reviews?placeid=${encodeURIComponent(placeId)}`
     : mapLink;
+  const iconMotion = /مقهى|كافيه|القهوة|ديوانية|أُلفة|غيمة|Coffee|Café|Cafe/i.test(title) ? "faifa-icon-coffee" : /منتزه|سوق|ممشى|مطل|إطلالة|Park|Trail|Viewpoint/i.test(title) ? "faifa-icon-nature" : "faifa-icon-gentle";
   const parts = splitTitle(title);
   const displayTitle = lang === "en" ? parts.en : parts.ar;
   const primaryDesc = lang === "en" ? (englishDescription || description) : description;
@@ -30,8 +31,7 @@ const PlaceCard = ({ title, description, englishDescription, additionalContent, 
       <article className="group relative flex min-h-[245px] flex-col overflow-hidden rounded-[1.6rem] border border-border/70 bg-card p-6 shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-primary/30 hover:shadow-[0_20px_50px_-25px_rgba(14,60,44,.35)] md:p-7">
         <div className="absolute -left-14 -top-14 h-40 w-40 rounded-full bg-primary/[.035] transition-transform duration-700 group-hover:scale-150" aria-hidden="true" />
         <div className="relative mb-6 flex items-start justify-between gap-4">
-          <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary [&_svg]:h-6 [&_svg]:w-6">{icon}</span>
-          <span className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1.5 text-[11px] text-muted-foreground"><Compass size={12} />{t("اكتشف فيفاء", "Discover Faifa")}</span>
+          <span className={`faifa-animated-icon ${iconMotion} flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary [&_svg]:h-6 [&_svg]:w-6`}>{icon}</span>
         </div>
         <h3 className="relative text-xl font-bold leading-relaxed text-foreground md:text-[1.35rem]">{displayTitle}</h3>
         {primaryDesc && <p className="relative mt-2 line-clamp-3 text-sm leading-7 text-muted-foreground">{primaryDesc}</p>}
