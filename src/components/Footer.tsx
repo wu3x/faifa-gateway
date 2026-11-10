@@ -23,33 +23,6 @@ const Footer = () => {
   const SHARE_TITLE = t("اكتشف فيفاء", "Discover Faifa");
   const SHARE_TEXT = t("تعرف على فيفاء وجمالها من خلال هذا الموقع الرائع ✨", "Explore Faifa and its beauty through this amazing website ✨");
 
-  const socialLinks = [
-    {
-      name: t("تويتر", "Twitter"),
-      icon: "🐦",
-      href: "#",
-      ariaLabel: t("زيارة حساب تويتر", "Visit Twitter")
-    },
-    {
-      name: t("إنستقرام", "Instagram"),
-      icon: "📷",
-      href: "#",
-      ariaLabel: t("زيارة حساب إنستقرام", "Visit Instagram")
-    },
-    {
-      name: t("سناب شات", "Snapchat"),
-      icon: "👻",
-      href: "#",
-      ariaLabel: t("زيارة حساب سناب شات", "Visit Snapchat")
-    },
-    {
-      name: t("تيك توك", "TikTok"),
-      icon: "🎵",
-      href: "#",
-      ariaLabel: t("زيارة حساب تيك توك", "Visit TikTok")
-    }
-  ];
-
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(SHARE_URL);
@@ -148,20 +121,6 @@ const Footer = () => {
           {/* Main Title */}
           <div className="max-w-2xl mx-auto">
             <p className="text-base md:text-lg text-primary-foreground/90 font-medium">{t("الجبل ما ينسى اللي زاره.. استودعناك الله", "The mountain never forgets those who visited it.. we entrust you to God")}</p>
-          </div>
-
-          {/* Social Links */}
-          <div className="flex justify-center gap-6">
-            {socialLinks.map((social) => (
-              <a
-                key={social.name}
-                href={social.href}
-                className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-2xl hover:bg-accent hover:scale-110 transition-all duration-300"
-                aria-label={social.ariaLabel}
-              >
-                <span>{social.icon}</span>
-              </a>
-            ))}
           </div>
 
           {/* Copyright */}
