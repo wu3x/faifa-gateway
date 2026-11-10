@@ -52,6 +52,9 @@ for (const source of SOURCES.filter(x=>x.id==="comprehensive")) {
     addDefinition(term,meaning,source.title,4);
   }
 }
+// Explicit contextual definitions in the comprehensive article, not guesses from similar sounds.
+addDefinition("حيفة","مزرعة صغيرة في المدرجات الجبلية","دليل شامل للهجة الفيفية",8);
+addDefinition("حيضة","مزرعة صغيرة في المدرجات الجبلية","دليل شامل للهجة الفيفية",8);
 const QUESTION = /^(?:(?:وش|ايش|اش|ما|ماذا)\s+(?:معنى|معني|يعني|تعني|تفسير)\s+|(?:معنى|معني|تفسير)\s+|(?:وش|ايش)\s+تقصد\s+ب\s*)(.+)$/;
 function targetFrom(question) {
   const q=norm(question);
@@ -135,7 +138,7 @@ export default {
     const origin=request.headers.get("Origin")||"";
     if(request.method==="OPTIONS")return new Response(null,{status:204,headers:headers(origin)});
     const path=new URL(request.url).pathname;
-    if(path==="/health" && request.method==="GET")return answer(JSON.stringify({ok:true,service:"faifawi",knowledgeChunks:INDEX.length,glossaryEntries:DEFINITIONS.size}),origin,"health");
+    if(path==="/health" && request.method==="GET")return new Response(JSON.stringify({ok:true,service:"faifawi",knowledgeChunks:INDEX.length,glossaryEntries:DEFINITIONS.size}),{status:200,headers:headers(origin)});
     if(path!=="/api/chat")return new Response(JSON.stringify({error:"Not found"}),{status:404,headers:headers(origin)});
     if(request.method!=="POST")return new Response(JSON.stringify({error:"Method not allowed"}),{status:405,headers:headers(origin)});
     if(origin && !ORIGINS.has(origin))return new Response(JSON.stringify({error:"Origin not allowed"}),{status:403,headers:headers(origin)});
