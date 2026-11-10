@@ -5,4 +5,4 @@
 - [x] Tighten vertical spacing so content flows into the Hotels section.
 - [x] Fix Dark Mode toggle RTL mirroring bug (force LTR, fixed width, no overlap).
 - [x] Remove legacy floating green chat button and greeting popup.
-- [x] Wire the new "مساعدك الذكي" control-bar button directly to the chat modal.
+- [ ] Move development to GitHub: connect the project's Git sync (creates a new private repo) and confirm the full source synced. Blocked on the user authorizing GitHub in Project settings -> Git.

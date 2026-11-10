@@ -8,9 +8,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import stcPayLogoAsset from "@/assets/stc-pay-logo.png.asset.json";
-import stcPayQrAsset from "@/assets/stc-pay-qr.jpeg.asset.json";
-import developerAvatarAsset from "@/assets/developer-avatar.png.asset.json";
+import stcPayLogo from "@/assets/stc-pay-logo.png";
+import stcPayQr from "@/assets/stc-pay-qr.jpeg";
+import developerAvatar from "@/assets/developer-avatar.png";
 
 const IBAN = "SA5878000000001019616618";
 
@@ -54,7 +54,7 @@ const DeveloperSection = () => {
           aria-label={t("زيارة حساب المطور على إنستقرام", "Visit the developer's Instagram")}
         >
           <img
-            src={developerAvatarAsset.url}
+            src={developerAvatar}
             alt={t("روح", "Rouh")}
             className="w-5 h-5 rounded-full object-cover border border-purple-100"
           />
@@ -75,7 +75,7 @@ const DeveloperSection = () => {
               aria-label={t("دعم عبر stc pay", "Support via stc pay")}
             >
               <img
-                src={stcPayLogoAsset.url}
+                src={stcPayLogo}
                 alt="stc pay"
                 className="h-5 w-auto object-contain"
               />
@@ -95,7 +95,7 @@ const DeveloperSection = () => {
               <div className="flex justify-center">
                 <div className="w-56 h-56 rounded-xl overflow-hidden border border-border bg-card shadow-sm flex items-center justify-center">
                   <img
-                    src={stcPayQrAsset.url}
+                    src={stcPayQr}
                     alt={t("رمز stc pay", "stc pay QR code")}
                     className="w-full h-full object-contain"
                   />
