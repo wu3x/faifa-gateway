@@ -1,6 +1,5 @@
 import VisitorCounter from "./VisitorCounter";
 import ThemeToggle from "./ThemeToggle";
-import ChatBarButton from "./ChatBarButton";
 
 const CompactControlBar = () => {
   return (
@@ -9,8 +8,6 @@ const CompactControlBar = () => {
         <VisitorCounter compact />
         <div className="w-px h-8 bg-border/50 hidden sm:block" />
         <ThemeToggle compact />
-        <div className="w-px h-8 bg-border/50 hidden sm:block" />
-        <ChatBarButton />
       </div>
     </div>
   );
