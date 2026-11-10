@@ -1,4 +1,5 @@
 import { Children, cloneElement, isValidElement, useEffect, useState } from "react";
+import { STARTER_VOTES } from "@/lib/starterVotes";
 import { VOTES_API, getVoterId } from "@/lib/votes";
 import { ArrowUpLeft } from "lucide-react";
 interface CategorySectionProps {
@@ -16,7 +17,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 const CategorySection = ({ id, title, icon, children }: CategorySectionProps) => {
   const { lang, t } = useLanguage();
   const detail = categoryDetails[id];
-  const [counts, setCounts] = useState<Record<string, number>>({});
+  const [counts, setCounts] = useState<Record<string, number>>(STARTER_VOTES[id] || {});
   const [choice, setChoice] = useState<string | null>(() => {
     try { return localStorage.getItem("faifa-choice-" + id); } catch { return null; }
   });
@@ -26,7 +27,7 @@ const CategorySection = ({ id, title, icon, children }: CategorySectionProps) =>
     let active = true;
     fetch(VOTES_API + "?category=" + encodeURIComponent(id))
       .then(async r => { if (!r.ok) throw new Error("Unavailable"); return r.json(); })
-      .then(data => { if (active) { setCounts(data.counts || {}); setAvailable(true); } })
+      .then(data => { if (active) { setCounts(data.counts || STARTER_VOTES[id] || {}); setAvailable(true); } })
       .catch(() => { if (active) setAvailable(false); });
     return () => { active = false; };
   }, [id]);
