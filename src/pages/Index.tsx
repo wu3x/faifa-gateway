@@ -3,7 +3,6 @@ import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import CategorySection from "@/components/CategorySection";
 import PlaceCard from "@/components/PlaceCard";
-import DeveloperSection from "@/components/DeveloperSection";
 import Footer from "@/components/Footer";
 import CompactControlBar from "@/components/CompactControlBar";
 import InteractiveMap from "@/components/InteractiveMap";
@@ -183,10 +182,6 @@ const Index = () => {
       {/* Interactive Map Section */}
       <div className="container mx-auto px-6">
         <InteractiveMap />
-      </div>
-
-      <div className="container mx-auto px-6 mb-12">
-        <DeveloperSection />
       </div>
 
       <Footer />
