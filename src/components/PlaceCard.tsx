@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { MapPin, Expand } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { MapPin, ArrowUpLeft, Compass } from "lucide-react";
 import ExplodedPlaceView from "./ExplodedPlaceView";
 import { useLanguage } from "@/contexts/LanguageContext";
-
 interface PlaceCardProps {
   title: string;
   description?: string;
@@ -12,17 +10,13 @@ interface PlaceCardProps {
   mapLink: string;
   icon: React.ReactNode;
 }
-
 const PlaceCard = ({ title, description, englishDescription, additionalContent, mapLink, icon }: PlaceCardProps) => {
   const [isExplodedOpen, setIsExplodedOpen] = useState(false);
   const { lang, t } = useLanguage();
-
-  // Titles sometimes come in the form "عربي – English" — pick the right side.
   const splitTitle = (raw: string) => {
-    const seps = [" – ", " - ", " / "];
-    for (const s of seps) {
-      if (raw.includes(s)) {
-        const [ar, en] = raw.split(s);
+    for (const separator of [" – ", " - ", " / "]) {
+      if (raw.includes(separator)) {
+        const [ar, en] = raw.split(separator);
         return { ar: ar.trim(), en: en.trim() };
       }
     }
@@ -31,98 +25,24 @@ const PlaceCard = ({ title, description, englishDescription, additionalContent, 
   const parts = splitTitle(title);
   const displayTitle = lang === "en" ? parts.en : parts.ar;
   const primaryDesc = lang === "en" ? (englishDescription || description) : description;
-  const secondaryDesc = lang === "en" ? undefined : englishDescription;
-
   return (
     <>
-      <div 
-        className="group bg-card rounded-lg shadow-[0_2px_8px_hsl(0_0%_0%/0.04),0_8px_24px_hsl(0_0%_0%/0.06)] p-6 hover:shadow-[0_4px_16px_hsl(0_0%_0%/0.08),0_12px_32px_hsl(0_0%_0%/0.08)] transition-all duration-300 cursor-pointer relative overflow-hidden"
-        onClick={() => setIsExplodedOpen(true)}
-      >
-        {/* Hover overlay indicator */}
-        <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-300" />
-        
-        {/* Expand icon */}
-        <div className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-            <Expand className="w-4 h-4 text-primary" />
-          </div>
+      <article className="group relative flex min-h-[245px] flex-col overflow-hidden rounded-[1.6rem] border border-border/70 bg-card p-6 shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-primary/30 hover:shadow-[0_20px_50px_-25px_rgba(14,60,44,.35)] md:p-7">
+        <div className="absolute -left-14 -top-14 h-40 w-40 rounded-full bg-primary/[.035] transition-transform duration-700 group-hover:scale-150" aria-hidden="true" />
+        <div className="relative mb-6 flex items-start justify-between gap-4">
+          <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary [&_svg]:h-6 [&_svg]:w-6">{icon}</span>
+          <span className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1.5 text-[11px] text-muted-foreground"><Compass size={12} />{t("اكتشف فيفاء", "Discover Faifa")}</span>
         </div>
-
-        <div className="space-y-5 relative z-10">
-          <div className="flex items-start gap-4">
-            <div className="text-primary/80 mt-0.5 group-hover:text-primary transition-colors">
-              {icon}
-            </div>
-            <h3 className="text-lg font-medium text-foreground leading-snug flex-1">
-              {displayTitle}
-            </h3>
-          </div>
-          
-          {(primaryDesc || secondaryDesc || additionalContent) && (
-            <div className="space-y-2 pr-10">
-              {primaryDesc && (
-                <p className="text-muted-foreground text-sm leading-relaxed">{primaryDesc}</p>
-              )}
-              {secondaryDesc && (
-                <p className="text-muted-foreground/70 text-xs leading-relaxed">
-                  {secondaryDesc}
-                </p>
-              )}
-              {additionalContent && (
-                <div className="text-muted-foreground text-sm leading-relaxed" onClick={(e) => e.stopPropagation()}>
-                  {additionalContent}
-                </div>
-              )}
-            </div>
-          )}
-          
-          <div className="pr-10 flex items-center gap-2">
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <a 
-                href={mapLink} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-2"
-              >
-                <MapPin className="w-3.5 h-3.5" />
-                <span>{t("عرض الموقع", "View location")}</span>
-              </a>
-            </Button>
-            
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-primary/70 hover:text-primary hover:bg-primary/10"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsExplodedOpen(true);
-              }}
-            >
-              <Expand className="w-3.5 h-3.5 mr-1" />
-              <span>{t("استكشف", "Explore")}</span>
-            </Button>
-          </div>
+        <h3 className="relative text-xl font-bold leading-relaxed text-foreground md:text-[1.35rem]">{displayTitle}</h3>
+        {primaryDesc && <p className="relative mt-2 line-clamp-3 text-sm leading-7 text-muted-foreground">{primaryDesc}</p>}
+        {additionalContent && <div className="relative mt-4 text-sm" onClick={e => e.stopPropagation()}>{additionalContent}</div>}
+        <div className="relative mt-auto flex items-center justify-between gap-3 border-t border-border/70 pt-5" style={{ marginTop: "auto", paddingTop: "1.25rem" }}>
+          <button onClick={() => setIsExplodedOpen(true)} className="inline-flex items-center gap-2 text-sm font-bold text-primary transition hover:gap-3" aria-label={t("استكشف", "Explore") + " " + displayTitle}>{t("اكتشف المكان", "Explore place")} <ArrowUpLeft size={17} /></button>
+          <a href={mapLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-2 text-xs font-medium text-foreground transition hover:border-primary hover:text-primary" aria-label={t("عرض الموقع على الخريطة", "View on map") + " " + displayTitle}><MapPin size={15} />{t("الموقع", "Location")}</a>
         </div>
-      </div>
-
-      <ExplodedPlaceView
-        isOpen={isExplodedOpen}
-        onClose={() => setIsExplodedOpen(false)}
-        title={displayTitle}
-        description={primaryDesc}
-        englishDescription={secondaryDesc}
-        mapLink={mapLink}
-        icon={icon}
-      />
+      </article>
+      <ExplodedPlaceView isOpen={isExplodedOpen} onClose={() => setIsExplodedOpen(false)} title={displayTitle} description={primaryDesc} englishDescription={lang === "ar" ? englishDescription : undefined} mapLink={mapLink} icon={icon} />
     </>
   );
 };
-
 export default PlaceCard;
