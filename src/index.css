@@ -238,3 +238,27 @@
 .faifa-icon-coffee::before, .faifa-icon-coffee::after { content: ''; position: absolute; top: 2px; left: 46%; width: 2px; height: 9px; border-radius: 50%; background: currentColor; opacity: 0; pointer-events: none; animation: faifa-coffee-steam 2.8s ease-out infinite; }
 .faifa-icon-coffee::after { left: 59%; animation-delay: 1.2s; }
 @media (prefers-reduced-motion: reduce) { .faifa-animated-icon > svg, .faifa-icon-coffee::before, .faifa-icon-coffee::after { animation: none !important; } }
+
+/* Community voting: warm metallic gold, small responsive feedback and rising star. */
+.faifa-vote-button { box-shadow: inset 0 1px 0 rgba(255,215,125,.13), 0 0 14px rgba(245,158,11,.06); }
+.faifa-vote-button:not(:disabled):active { transform: scale(.94); }
+.faifa-vote-star { filter: drop-shadow(0 0 5px rgba(251,191,36,.34)); }
+@keyframes faifa-vote-pop {
+  0% { transform: scale(1) rotate(0); filter: drop-shadow(0 0 2px #fbbf24); }
+  22% { transform: scale(1.38) rotate(-17deg); }
+  44% { transform: scale(.87) rotate(14deg); }
+  70% { transform: scale(1.2) rotate(-7deg); filter: drop-shadow(0 0 15px #fbbf24); }
+  100% { transform: scale(1) rotate(0); }
+}
+@keyframes faifa-vote-rise {
+  0% { opacity: 0; transform: translateY(0) scale(.55) rotate(-12deg); }
+  20% { opacity: 1; transform: translateY(-10px) scale(1.3) rotate(12deg); }
+  75% { opacity: .9; transform: translateY(-48px) scale(.9) rotate(-10deg); }
+  100% { opacity: 0; transform: translateY(-74px) scale(.45) rotate(16deg); }
+}
+.faifa-vote-burst { animation: faifa-vote-pop .65s cubic-bezier(.2,.8,.25,1) both; }
+.faifa-vote-fly { pointer-events: none; animation: faifa-vote-rise .85s ease-out forwards; filter: drop-shadow(0 0 9px #fbbf24); }
+@media (prefers-reduced-motion: reduce) {
+  .faifa-vote-burst, .faifa-vote-fly { animation: none !important; }
+  .faifa-vote-fly { display: none; }
+}
