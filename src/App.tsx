@@ -30,7 +30,7 @@ const AppRoutes = () => {
 };
 
 const App = () => {
-  if (typeof window !== "undefined" && window.location.pathname === "/chat") {
+  if (typeof window !== "undefined" && window.location.pathname === "/chat" || window.location.pathname === "/faifa-gateway/chat") {
     return <Chat />;
   }
 
@@ -40,7 +40,7 @@ const App = () => {
         <LanguageProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter>
+          <BrowserRouter basename="/faifa-gateway">
             <AppRoutes />
           </BrowserRouter>
         </LanguageProvider>
