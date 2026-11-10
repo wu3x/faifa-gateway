@@ -102,7 +102,7 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className={`bg-mountain text-mountain-foreground sticky top-0 z-50 transition-all duration-500 ${isScrolled ? 'shadow-lg shadow-primary/10 border-b border-primary/20' : 'shadow-lg'}`}>
+    <nav className={`sticky top-0 z-50 border-b border-white/10 bg-[#102e28]/95 text-white backdrop-blur-xl transition-all duration-500 ${isScrolled ? 'shadow-lg shadow-primary/10 border-b border-primary/20' : 'shadow-lg'}`}>
       <div className="container mx-auto px-4 md:px-6">
         <ul className="flex justify-center items-center flex-nowrap gap-2 md:gap-6 py-3 overflow-x-auto">
           {navItems.map((item, index) => {
@@ -113,7 +113,7 @@ const Navigation = () => {
               <li key={item.id} className="flex-shrink-0">
                 <button
                   onClick={() => scrollToSection(item.id)}
-                  className={`flex items-center gap-2 px-3 py-2 md:px-5 md:py-2.5 rounded-lg transition-all duration-300 hover:bg-accent hover:text-accent-foreground text-sm md:text-base whitespace-nowrap ${isActive ? 'bg-accent text-accent-foreground font-bold' : 'font-medium'} ${isGlowing ? 'animate-nav-pulse ring-2 ring-primary/50' : ''}`}
+                  className={`flex items-center gap-2 px-3 py-2 md:px-5 md:py-2.5 rounded-full transition-all duration-300 hover:bg-white/15 hover:text-white text-sm md:text-base whitespace-nowrap ${isActive ? 'bg-white/20 text-white font-bold' : 'font-medium text-white/80'} ${isGlowing ? 'animate-nav-pulse ring-2 ring-primary/50' : ''}`}
                   aria-label={item.ariaLabel}
                 >
                   <IconComponent className={`w-4 h-4 md:w-5 md:h-5 transition-transform duration-500 ${isGlowing ? 'animate-icon-bounce' : ''}`} />
