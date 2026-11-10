@@ -1,6 +1,7 @@
 name: Deploy Static Content to Pages
 
 on:
+  workflow_dispatch:
   push:
     branches: ["main"]
 
