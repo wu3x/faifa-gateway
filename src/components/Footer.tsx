@@ -1,6 +1,6 @@
 import { useState } from "react";
 import DeveloperSection from "./DeveloperSection";
-import { Heart, Share2, Copy, Check, ExternalLink } from "lucide-react";
+import { Share2, Copy, Check, ExternalLink } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -59,7 +59,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gradient-hero text-primary-foreground mt-20">
+    <footer className="bg-gradient-hero dark:bg-none dark:bg-[#101820] text-primary-foreground mt-20">
       <div className="container mx-auto px-6 py-12">
         <div className="text-center space-y-8">
           {/* Compact developer and sharing actions side by side */}
@@ -134,11 +134,6 @@ const Footer = () => {
           <div className="border-t border-white/20 pt-8 space-y-3">
             <p className="text-primary-foreground/80">
               {t("© 2024 اكتشف فيفاء - جميع الحقوق محفوظة", "© 2024 Discover Faifa - All rights reserved")}
-            </p>
-            <p className="flex items-center justify-center gap-2 text-primary-foreground/70">
-              <span>{t("صمم بكل", "Made with")}</span>
-              <Heart className="w-4 h-4 text-red-400 fill-current" />
-              <span>{t("لأجمل أماكن السعودية", "for the most beautiful places in Saudi Arabia")}</span>
             </p>
           </div>
         </div>
