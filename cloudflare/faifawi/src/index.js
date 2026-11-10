@@ -281,7 +281,7 @@ const RESPONSE_POLICY = `أنت فيفاوي، دليل فيفاء ومحادث 
 function normalize(s) {
   return String(s).normalize("NFKC").replace(/[\u064B-\u065F\u0670]/g, "").replace(/ـ/g, "").replace(/[أإآ]/g,"ا").replace(/ى/g,"ي").trim().toLowerCase();
 }
-const DIALECT_LINES = sourceSections.lexicon.split("\\n").filter(line => line.trim().startsWith("- "));
+const DIALECT_LINES = sourceSections.lexicon.split("\n").filter(line => line.trim().startsWith("- "));
 const definitions = [];
 for (const line of DIALECT_LINES) {
   // Dictionary lines use "term = definition", with multiple pairs separated by pipes.
@@ -316,7 +316,7 @@ function relevantKnowledge(last, history) {
   if (seasonWords.test(q)) sections.push(sourceSections.seasons);
   if (placeWords.test(q)) sections.push(sourceSections.places);
   if (!sections.length) sections.push(sourceSections.language.slice(0,1400),sourceSections.places.slice(0,280));
-  return sections.join("\\n\\n").slice(0, 7800);
+  return sections.join("\n\n").slice(0, 7800);
 }
 function compactReply(value) {
   let out = String(value).trim().slice(0, 500);
@@ -369,13 +369,14 @@ export default {
     const last = input[input.length - 1].content;
     const greeting = /^(جيفا الله بجا|جيفا الله برينه|هلا|هلا والله|السلام عليكم|مرحبا|يا هلا)[!؟?،.\\s]*$/.test(normalize(last));
     if (greeting) return json({ message: "يا مرحبا بجا، حيا الله من جانا! وش ودك نسولف عنه؟ 🌿", response: "يا مرحبا بجا، حيا الله من جانا! وش ودك نسولف عنه؟ 🌿", model: "local-greeting" }, 200, origin);
+    if (/^(خطا|غلط|مو صحيح|غير صحيح)[!؟?،.\\s]*$/.test(normalize(last))) return json({ message: "معك حق، سامحني. وش المعنى الصحيح؟", response: "معك حق، سامحني. وش المعنى الصحيح؟", model: "local-correction" }, 200, origin);
     const meaning = findDefinition(last);
     if (meaning) return json({ message: meaning.reply, response: meaning.reply, model: "source-dictionary" }, 200, origin);
     const fixed = specialResponse(last);
     if (fixed) return json({ message: fixed, response: fixed, model: "local-rules" }, 200, origin);
     try {
       const result = await env.AI.run(MODEL, {
-        messages: [{ role: "system", content: RESPONSE_POLICY + "\n\n" + FAIFA_KNOWLEDGE }, ...input],
+        messages: [{ role: "system", content: RESPONSE_POLICY + "\n\nمرجع السؤال:\n" + relevantKnowledge(last, input.slice(0,-1)) }, ...input],
         max_tokens: 170,
         temperature: 0.35,
         repetition_penalty: 1.2,
