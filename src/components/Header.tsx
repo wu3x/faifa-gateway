@@ -20,8 +20,8 @@ const Header = () => {
       <div className="absolute inset-0 bg-gradient-to-t from-[#071b19]/95 via-[#071b19]/45 to-[#071b19]/35" />
       <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#071b19]/30" />
       <div className="relative z-10 mx-auto flex min-h-[72svh] max-w-7xl flex-col px-6 md:min-h-screen md:px-10">
-        <div className="flex items-center justify-end gap-2 pt-4 md:gap-3 md:pt-10">
-          <div className="flex items-center gap-2 md:gap-3"><WeatherWidget /><LanguageToggle /></div>
+        <div className="flex w-full items-start justify-between gap-2 pt-4 md:gap-3 md:pt-10">
+          <WeatherWidget /><LanguageToggle />
         </div>
         <div className="flex flex-1 flex-col justify-center py-7 md:py-24">
           <h1 className="max-w-5xl text-[clamp(3.4rem,11vw,9rem)] font-black leading-[1.08] tracking-tight drop-shadow-xl">
