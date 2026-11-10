@@ -1,55 +1,47 @@
 import { Hotel, Trees, Coffee } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Navigation = () => {
   const { t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [introActive, setIntroActive] = useState(false);
   const [glowIndex, setGlowIndex] = useState(-1);
   const [showGuideText, setShowGuideText] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
-  const triggerIntro = useCallback(() => {
-    const alreadyShown = sessionStorage.getItem('nav-intro-shown');
-    if (alreadyShown) return;
-    sessionStorage.setItem('nav-intro-shown', 'true');
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-    setIntroActive(true);
-    setShowGuideText(true);
-    window.dispatchEvent(new CustomEvent('nav-intro-trigger'));
-
-    // Sequential glow: 0 -> 1 -> 2, each ~600ms
-    setTimeout(() => setGlowIndex(0), 200);
-    setTimeout(() => setGlowIndex(1), 800);
-    setTimeout(() => setGlowIndex(2), 1400);
-    setTimeout(() => setGlowIndex(-1), 2000);
-
-    // End intro after ~2.5s
-    setTimeout(() => {
-      setIntroActive(false);
-      setShowGuideText(false);
-    }, 2500);
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrolled = window.scrollY > 10;
-      setIsScrolled(scrolled);
-      if (scrolled) {
-        triggerIntro();
-      }
+    const startJourneyGuide = () => {
+      timers.current.forEach(clearTimeout);
+      timers.current = [];
+      setGlowIndex(-1);
+      setShowGuideText(false);
+      // Allow smooth scrolling to bring the category navigation into view.
+      timers.current.push(setTimeout(() => {
+        setShowGuideText(true);
+        [0, 1, 2].forEach((index) => {
+          timers.current.push(setTimeout(() => setGlowIndex(index), index * 650));
+        });
+        timers.current.push(setTimeout(() => {
+          setGlowIndex(-1);
+          setShowGuideText(false);
+        }, 2150));
+      }, 650));
     };
-    const handleTouch = () => {
-      triggerIntro();
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("touchstart", handleTouch, { passive: true, once: true });
+    window.addEventListener("faifa-start-journey", startJourneyGuide);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("touchstart", handleTouch);
+      window.removeEventListener("faifa-start-journey", startJourneyGuide);
+      timers.current.forEach(clearTimeout);
     };
-  }, [triggerIntro]);
+  }, []);
 
   // Track active section based on scroll position
   useEffect(() => {
@@ -102,7 +94,7 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className={`sticky top-0 z-50 border-b border-white/10 bg-[#102e28]/95 text-white backdrop-blur-xl transition-all duration-500 ${isScrolled ? 'shadow-lg shadow-primary/10 border-b border-primary/20' : 'shadow-lg'}`}>
+    <nav id="category-navigation" className={`sticky top-0 z-50 border-b border-white/10 bg-[#102e28]/95 text-white backdrop-blur-xl transition-all duration-500 ${isScrolled ? 'shadow-lg shadow-primary/10 border-b border-primary/20' : 'shadow-lg'}`}>
       <div className="container mx-auto px-4 md:px-6">
         <ul className="flex justify-center items-center flex-nowrap gap-2 md:gap-6 py-3 overflow-x-auto">
           {navItems.map((item, index) => {
