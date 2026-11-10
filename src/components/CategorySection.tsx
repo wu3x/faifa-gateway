@@ -86,7 +86,6 @@ const CategorySection = ({ id, title, icon, children }: CategorySectionProps) =>
 
   return (
     <section id={id} className="scroll-mt-28 py-10 md:py-16">
-      <p className="mb-8 text-center text-sm font-medium tracking-wide text-muted-foreground md:mb-10 md:text-base">{t("كل ما زاد عدد النجوم، ترتفع البطاقة للأعلى", "More stars move a place higher in the list")}</p>
       <div className="mb-8 flex flex-col gap-5 border-b border-border/70 pb-7 md:mb-10 md:flex-row md:items-end md:justify-between">
         <div>
           <div className="mb-4 flex items-center gap-3 text-primary"><span className="text-xs font-bold tracking-[.2em]">{detail?.number}</span><span className="h-px w-10 bg-primary/40" /><span className="text-xs font-medium">{t("دليل فيفاء", "FAIFA GUIDE")}</span></div>
