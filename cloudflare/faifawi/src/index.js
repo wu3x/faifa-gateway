@@ -311,13 +311,49 @@ function findDefinition(question) {
   const found = definitions.find(d => d.term === target);
   return found ? { found: true, reply: `«${target}» معناها: ${found.right}` } : { found: false, reply: "ما لقيت معنى «" + target + "» في مرجعي، علّمني وش تقصد بها؟" };
 }
+// Explicit source-backed expressions. Phrase matching precedes single-word matching.
+const PHRASE_DICTIONARY = [
+ ["جيفا الله بجا","كيف حالك؟"],
+ ["قد اوحشنا لكم","اشتقنا إليكم"],
+ ["سا ذابي","إنما قصدي"],
+ ["منتَا ميد","ماذا تريد؟"],
+ ["منتا ميد","ماذا تريد؟"],
+ ["يننتا ميد","وين رايح؟"],
+ ["ميننتا","من وين أنت؟"],
+ ["يقْدا ويل","أين أنت؟"],
+ ["لا سا يتفرج","لا، بل يتفرج (صيغة نفي أو استدراك في المرجع)"],
+ ["نا بوك","أنا أبوك"],
+ ["نا بوجا","أنا أبوك"]
+];
+function previousCorrection(history, last) {
+  const q = normalize(last).replace(/[؟?!.،:؛]/g," ").replace(/\\s+/g," ").trim();
+  const m = q.match(/^(?:وش|ايش|ماذا|ما)\\s+(?:تعني|يعني|معني|معنى)\\s+(.+)$/);
+  if (!m) return null;
+  const term = m[1].trim();
+  for (let i=history.length-1; i>0; i--) {
+    const answer = normalize(history[i].content);
+    const previous = normalize(history[i-1].content);
+    if (history[i].role !== "user" || !/(?:يعني|معناه|معناها|المقصود|الصحيح)/.test(answer)) continue;
+    if (!previous.includes(term) && !answer.includes(term)) continue;
+    const value = history[i].content.match(/(?:يعني|معناه|معناها|المقصود|الصحيح)\\s*[:：-]?\\s*(.+)/);
+    if (value && value[1].length < 130) return `مثل ما علّمتني قبل: «${term}» تعني ${value[1].trim()}`;
+  }
+  return null;
+}
+function directPhrase(question) {
+ const q=normalize(question).replace(/[؟?!.،:؛"«»]/g," ").replace(/\\s+/g," ").trim();
+ const m=q.match(/^(?:وش|ايش|ماذا|ما)\\s+(?:تعني|يعني|معني|معنى)\\s+(.+)$/);
+ if(!m)return null;
+ const entry=PHRASE_DICTIONARY.find(([term])=>normalize(term)===m[1].trim());
+ return entry ? `«${m[1].trim()}» معناها: ${entry[1]}` : null;
+}
 function relevantKnowledge(last, history) {
   const q = normalize(last + " " + history.slice(-2).map(m=>m.content).join(" "));
-  const seasonWords = /موسم|انواء|زراع|حصاد|شهر|مطر|بن|ذره|شعير|سهيل|جوزاء/;
+  const seasonWords = /موسم|انواء|زراع|حصاد|شهر|مطر|\bبن\b|ذره|شعير|سهيل|جوزاء/;
   const placeWords = /فندق|فنادق|كافيه|قهوه|مقهي|مقهى|مطل|منتزه|سياح|مكان|اماكن|مطلات|اقام|سكن|خريط|موقع|رابط|ممشي/;
   const dialectWords = /لهج|فيفي|كلم|معن|تعني|يعني|ترجم|كيف|جيفا|مذا|ميد|هش|برشوم|حقين|حيفه/;
   const sections = [];
-  if (dialectWords.test(q) || definitions.some(d=>d.term.length>2 && q.includes(d.term))) sections.push(sourceSections.lexicon);
+  if (dialectWords.test(q) || definitions.some(d=>d.term.length>2 && q.includes(d.term))) sections.push(sourceSections.lexicon, sourceSections.language.slice(0,2100));
   if (seasonWords.test(q)) sections.push(sourceSections.seasons);
   if (placeWords.test(q)) sections.push(sourceSections.places);
   if (!sections.length) sections.push(sourceSections.language.slice(0,1400),sourceSections.places.slice(0,280));
@@ -338,10 +374,9 @@ const ALLOWED_ORIGINS = new Set(["https://wu3x.github.io"]);
 const MODEL = "@cf/meta/llama-3.1-8b-instruct-fast";
 const ADDITIONAL_DICTIONARY = [
  ["حيفه","مزرعة صغيرة (وردت في المصدر بصيغة حيضة/حيفة)"],
- ["دار","بيت أو منزل، ويختلف الاستعمال بحسب السياق"],
+ ["دار","بيت أو منزل بحسب سياق الاستعمال المحلي"],
  ["زقر","نادى أو صاح"],
- ["حيفه","مزرعة صغيرة"],
- ["كلحه","الفم"],
+  ["كلحه","الفم"],
  ["برشوم","الوجه"],
  ["حقينه","اللبن الرائب (المخيض) بعد استخراج الزبدة"],
  ["جرن","البيدر أو مكان تجميع الحبوب وتصفيتها"],
@@ -408,9 +443,13 @@ export default {
       : typeof body?.message === "string" ? [{ role: "user", content: body.message.trim().slice(0, 1200) }] : [];
     if (!input.length || input[input.length - 1].role !== "user") return json({ error: "Missing user message" }, 400, origin);
     const last = input[input.length - 1].content;
-    const greeting = /^(جيفا الله بجا|جيفا الله برينه|هلا|هلا والله|السلام عليكم|مرحبا|يا هلا)[!؟?،.\\s]*$/.test(normalize(last));
+    const greeting = /^(جيفا الله بجا|جيفا الله برينه|هلا|هلا والله|السلام عليكم|مرحبا|يا هلا)[!؟?،.\s]*$/.test(normalize(last));
     if (greeting) return json({ message: "يا مرحبا بجا، حيا الله من جانا! وش ودك نسولف عنه؟ 🌿", response: "يا مرحبا بجا، حيا الله من جانا! وش ودك نسولف عنه؟ 🌿", model: "local-greeting" }, 200, origin);
-    if (/^(خطا|غلط|مو صحيح|غير صحيح)[!؟?،.\\s]*$/.test(normalize(last))) return json({ message: "معك حق، سامحني. وش المعنى الصحيح؟", response: "معك حق، سامحني. وش المعنى الصحيح؟", model: "local-correction" }, 200, origin);
+    if (/^(خطا|غلط|مو صحيح|غير صحيح)[!؟?،.\s]*$/.test(normalize(last))) return json({ message: "معك حق، سامحني. وش المعنى الصحيح؟", response: "معك حق، سامحني. وش المعنى الصحيح؟", model: "local-correction" }, 200, origin);
+    const corrected = previousCorrection(input.slice(0,-1), last);
+    if (corrected) return json({ message: corrected, response: corrected, model: "conversation-correction" }, 200, origin);
+    const phrase = directPhrase(last);
+    if (phrase) return json({ message: phrase, response: phrase, model: "source-phrase" }, 200, origin);
     const meaning = findDefinition(last);
     if (meaning) return json({ message: meaning.reply, response: meaning.reply, model: "source-dictionary" }, 200, origin);
     const fixed = specialResponse(last);
