@@ -5,4 +5,4 @@
 - [x] Tighten vertical spacing so content flows into the Hotels section.
 - [x] Fix Dark Mode toggle RTL mirroring bug (force LTR, fixed width, no overlap).
 - [x] Remove legacy floating green chat button and greeting popup.
-- [ ] Move development to GitHub: connect the project's Git sync (creates a new private repo) and confirm the full source synced. Blocked on the user authorizing GitHub in Project settings -> Git.
+- [ ] Move development to GitHub: sync is live but points at the wrong account and is public. Must disconnect in Project settings -> Git, then reconnect with the wu3x account so a new private repo is created. Blocked on the user's disconnect/reconnect clicks.
