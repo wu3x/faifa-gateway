@@ -1,4 +1,10 @@
+import { STARTER_VOTES } from "./starterVotes.js";
 const categories = new Set(["hotels", "parks", "cafes"]);
+const withStarter = (category, rows) => {
+  const counts = {...(STARTER_VOTES[category] || {})};
+  for (const row of rows || []) counts[row.place_id] = (counts[row.place_id] || 0) + Number(row.votes);
+  return counts;
+};
 const response = (body, status, headers) => new Response(JSON.stringify(body), {status, headers});
 export async function handleVotes(request, env, headers) {
   if (!env.VOTES_DB) return response({error:"Voting database not configured"},503,headers);
@@ -7,7 +13,7 @@ export async function handleVotes(request, env, headers) {
   if (request.method === "GET") {
     if (!categories.has(category)) return response({error:"Invalid category"},400,headers);
     const rows = await env.VOTES_DB.prepare("SELECT place_id, COUNT(*) AS votes FROM votes WHERE category = ? GROUP BY place_id").bind(category).all();
-    const counts = Object.fromEntries((rows.results || []).map(r => [r.place_id, Number(r.votes)]));
+    const counts = withStarter(category, rows.results);
     return response({counts},200,headers);
   }
   if (request.method !== "POST") return response({error:"Method not allowed"},405,headers);
@@ -18,5 +24,5 @@ export async function handleVotes(request, env, headers) {
   if (!categories.has(cat) || typeof placeId !== "string" || !placeId.trim() || placeId.length > 180 || typeof voterId !== "string" || !/^[0-9a-f-]{36}$/i.test(voterId)) return response({error:"Invalid vote"},400,headers);
   await env.VOTES_DB.prepare("INSERT INTO votes(category,voter_id,place_id) VALUES(?,?,?) ON CONFLICT(category,voter_id) DO UPDATE SET place_id=excluded.place_id, updated_at=CURRENT_TIMESTAMP").bind(cat,voterId,placeId).run();
   const rows = await env.VOTES_DB.prepare("SELECT place_id, COUNT(*) AS votes FROM votes WHERE category = ? GROUP BY place_id").bind(cat).all();
-  return response({counts:Object.fromEntries((rows.results||[]).map(r=>[r.place_id,Number(r.votes)])),choice:placeId},200,headers);
+  return response({counts:withStarter(cat, rows.results),choice:placeId},200,headers);
 }
