@@ -13,7 +13,7 @@ const ThemeToggle = ({ compact }: ThemeToggleProps) => {
     if (typeof window !== "undefined") {
       return document.documentElement.classList.contains("dark");
     }
-    return false;
+    return true;
   });
 
   useEffect(() => {
@@ -28,9 +28,7 @@ const ThemeToggle = ({ compact }: ThemeToggleProps) => {
 
   useEffect(() => {
     const saved = localStorage.getItem("theme");
-    if (saved === "dark") {
-      setIsDark(true);
-    }
+    setIsDark(saved !== "light");
   }, []);
 
   return (
