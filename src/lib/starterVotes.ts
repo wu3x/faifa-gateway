@@ -15,25 +15,25 @@ export const STARTER_VOTES: Record<string, Record<string, number>> = {
   "parks": {
     "منتزه وإطلالة الخطم – Al-Khatm Park & Viewpoint": 28,
     "سوق النفيعة الشعبي": 25,
-    "منتجع الباخرة – Al-Bakhira Resort": 22,
+    "منتجع الباخرة – Al-Bakhira Resort": 13,
     "ممشى البن الخولاني – Khawlani Coffee Trail": 18,
     "مطل الدفرة – Al-Dafrah Viewpoint": 16,
-    "مطل قرضة – Qarza Viewpoint": 13,
+    "مطل قرضة – Qarza Viewpoint": 10,
     "المصلى المعلق": 10,
-    "مطل العبسية": 7,
+    "مطل العبسية": 17,
     "إطلالة فيفا": 3
   },
   "cafes": {
     "مقهى جارة القمر – Jarat Al-Qamar Café": 30,
     "مقهى جارة الغيم – Jarat Al-Ghaim Café": 27,
-    "مقهى ومطل إيوان – Iwan Café & Viewpoint": 24,
+    "مقهى ومطل إيوان – Iwan Café & Viewpoint": 19,
     "مقهى سكون": 21,
     "كافيه تالقة": 18,
     "لب القهوة": 15,
     "غيمة – Cloud": 12,
-    "مقهى البرنسيسة": 9,
+    "مقهى البرنسيسة": 11,
     "مقهى روز بسنت النسائي": 7,
     "ديوانية واسع الخاطر": 4,
-    "أُلفة": 1
+    "أُلفة": 11
   }
 };
