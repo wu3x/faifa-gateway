@@ -41,6 +41,17 @@ for(const s of SOURCES.filter(x=>x.id==="pronunciation")) {
     for(const term of match[1].split(/\s*\/\s*/)) addDefinition(term.trim(),meaning,s.title,10);
   }
 }
+// Numbered entries in the comprehensive reference often define a term in the first clause.
+for (const source of SOURCES.filter(x=>x.id==="comprehensive")) {
+  for (const line of source.text.split("\n")) {
+    const match=line.match(/^\s*\d+[.،)]\s*([^:：]{2,35})\s*[:：]\s*(.{3,180})/);
+    if(!match)continue;
+    const term=match[1].trim();
+    if(term.split(/\s+/).length>3)continue;
+    const meaning=match[2].split(/[،؛.]/)[0].trim();
+    addDefinition(term,meaning,source.title,4);
+  }
+}
 const QUESTION = /^(?:(?:وش|ايش|اش|ما|ماذا)\s+(?:معنى|معني|يعني|تعني|تفسير)\s+|(?:معنى|معني|تفسير)\s+|(?:وش|ايش)\s+تقصد\s+ب\s*)(.+)$/;
 function targetFrom(question) {
   const q=norm(question);
@@ -57,6 +68,7 @@ function rank(query, limit=9, dialect=false) {
       if(item.normalized.startsWith(token+" ") || item.normalized.includes(" "+token+" :") || item.normalized.includes(" "+token+" "))score+=3;
     }
     if(normalized.length>1 && item.normalized.includes(normalized))score+=32;
+    if(tokens.length===1 && new RegExp("^(?:\\d+ )?"+tokens[0]+" (?:يعني|هو|هي|اسم|:| )").test(item.normalized))score+=55;
     if(dialect && item.source==="pronunciation")score+=3;
     if(!score)continue;
     score=score*item.priority;
