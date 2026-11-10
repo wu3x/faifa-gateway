@@ -36,21 +36,21 @@ const Index = () => {
             title="فندق جارة الغيم – Jarat Al Gheim Hotel"
             description="يضم الفندق مقهى ومطلًا في الطابق العلوي."
             englishDescription="Rooftop café with a panoramic view."
-            mapLink="https://maps.app.goo.gl/aV8KzXz4JTAXTBPh6?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%81%D9%86%D8%AF%D9%82%20%D8%AC%D8%A7%D8%B1%D8%A9%20%D8%A7%D9%84%D8%BA%D9%8A%D9%85%20%E2%80%93%20Jarat%20Al%20Gheim%20Hotel%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJJfW_SAwL_RURP4zchhlsRRM"
             icon={<Bed />}
           />
           <PlaceCard
             title="فندق فيفاء الفاخر – Faifa Luxury Hotel"
             description="يضم الفندق مقهى ومطلًا في الطابق العلوي."
             englishDescription="Rooftop café with a scenic view."
-            mapLink="https://maps.app.goo.gl/WQnUcteQvjDkLqUb7?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%81%D9%86%D8%AF%D9%82%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1%20%D8%A7%D9%84%D9%81%D8%A7%D8%AE%D8%B1%20%E2%80%93%20Faifa%20Luxury%20Hotel%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJYzGU3XgL_RUROH_ozRuHUsg"
             icon={<Bed />}
           />
           <PlaceCard
             title="فندق إيوان – Iwan Hotel"
             description="يضم الفندق مقهى ومطلًا في الطابق العلوي."
             englishDescription="Rooftop café with a scenic view."
-            mapLink="https://maps.app.goo.gl/TvqSciP5UrBrPBNS8?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%81%D9%86%D8%AF%D9%82%20%D8%A5%D9%8A%D9%88%D8%A7%D9%86%20%E2%80%93%20Iwan%20Hotel%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJJ9IjBAAN_RURcDbBphS0Gjo"
             icon={<Bed />}
           />
           <PlaceCard
@@ -159,28 +159,28 @@ const Index = () => {
             title="مطل الدفرة – Al-Dafrah Viewpoint"
             description="مطل يتيح مشاهدة المناظر الجبلية في فيفاء."
             englishDescription="A viewpoint overlooking Faifa’s mountain scenery."
-            mapLink="https://maps.app.goo.gl/ex9dGXbr9Vu8gCnc8?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D8%B7%D9%84%20%D8%A7%D9%84%D8%AF%D9%81%D8%B1%D8%A9%20%E2%80%93%20Al-Dafrah%20Viewpoint%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJFXNJ1nML_RURD30ckEfyRrs"
             icon={<Binoculars />}
           />
           <PlaceCard
             title="مطل قرضة – Qarza Viewpoint"
             description="موقع لمشاهدة جبال فيفاء والتقاط الصور."
             englishDescription="A spot for mountain views and photography in Faifa."
-            mapLink="https://maps.app.goo.gl/yibESTRS7VWEYEKz6?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D8%B7%D9%84%20%D9%82%D8%B1%D8%B6%D8%A9%20%E2%80%93%20Qarza%20Viewpoint%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJTzUfMBN1_RURYI0ii4gk1mE"
             icon={<Binoculars />}
           />
           <PlaceCard
             title="المصلى المعلق"
             description="مصلى معروف في فيفاء، يُستخدم لصلاة العيد والمناسبات الدينية."
             englishDescription="Famous hanging mosque for holidays and occasions."
-            mapLink="https://maps.app.goo.gl/kxuvxMzVTKzSKJ7Y9?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D8%A7%D9%84%D9%85%D8%B5%D9%84%D9%89%20%D8%A7%D9%84%D9%85%D8%B9%D9%84%D9%82%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJJzfbcAAL_RURW7wYY9wcr8s"
             icon={<Church />}
           />
           <PlaceCard
             title="مطل العبسية"
             description="مطل مرتفع في فيفاء يتيح مشاهدة الجبال والمناظر المحيطة."
             englishDescription="The highest point in the mountain where one can sit anywhere."
-            mapLink="https://maps.app.goo.gl/7oTLeZDz1Pbap2Tk8?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D8%B7%D9%84%20%D8%A7%D9%84%D8%B9%D8%A8%D8%B3%D9%8A%D8%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ67KW7CUL_RURLrq41W9qDig"
             icon={<Binoculars />}
           />
           <PlaceCard
@@ -209,35 +209,35 @@ const Index = () => {
             title="مقهى جارة الغيم – Jarat Al-Ghaim Café"
             description="مقهى بإطلالة مرتفعة على الجبال."
             englishDescription="Mountaintop view from above."
-            mapLink="https://maps.app.goo.gl/FekVqv8zkzj5Fuk97?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D9%82%D9%87%D9%89%20%D8%AC%D8%A7%D8%B1%D8%A9%20%D8%A7%D9%84%D8%BA%D9%8A%D9%85%20%E2%80%93%20Jarat%20Al-Ghaim%20Caf%C3%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJJfW_SAwL_RURP4zchhlsRRM"
             icon={<Coffee />}
           />
           <PlaceCard
             title="مقهى ومطل إيوان – Iwan Café & Viewpoint"
             description="مقهى مع جلسات مطلة على الطبيعة الجبلية."
             englishDescription="Café with a beautiful scenic view."
-            mapLink="https://maps.app.goo.gl/yWadi31KNE7ykdN86?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D9%82%D9%87%D9%89%20%D9%88%D9%85%D8%B7%D9%84%20%D8%A5%D9%8A%D9%88%D8%A7%D9%86%20%E2%80%93%20Iwan%20Caf%C3%A9%20%26%20Viewpoint%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJJ9IjBAAN_RURcDbBphS0Gjo"
             icon={<Coffee />}
           />
           <PlaceCard
             title="مقهى سكون"
             description="مقهى يوفر جلسات بإطلالة على جبال فيفاء."
             englishDescription="Beautiful and amazing view of the mountains."
-            mapLink="https://maps.app.goo.gl/RA3bdJW8rLZzjTFi9?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D9%82%D9%87%D9%89%20%D8%B3%D9%83%D9%88%D9%86%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJT0ZqXwAL_RURYa283CoExWk"
             icon={<Coffee />}
           />
           <PlaceCard
             title="كافيه تالقة"
             description="مقهى يحمل اسمًا مستوحى من شجرة معمّرة في جبال فيفاء."
             englishDescription="New and beautiful café named after an ancient tree in the mountain."
-            mapLink="https://maps.app.goo.gl/9MfLxBT1AghGifAR8?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%83%D8%A7%D9%81%D9%8A%D9%87%20%D8%AA%D8%A7%D9%84%D9%82%D8%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ0wr7IwAN_RURRnYq0byhnV0"
             icon={<Coffee />}
           />
           <PlaceCard
             title="لب القهوة"
             description="مقهى في فيفاء لتناول القهوة والمشروبات."
             englishDescription="A coffee shop in Faifa serving coffee and drinks."
-            mapLink="https://maps.app.goo.gl/EJ1xKPEnpdgGF9Z3A?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%84%D8%A8%20%D8%A7%D9%84%D9%82%D9%87%D9%88%D8%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJPVihu2gL_RURTL0fmTwCk5s"
             icon={<Coffee />}
           />
           <PlaceCard
