@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const SHARE_URL = "https://faifa.lovable.app";
+const SHARE_URL = "https://wu3x.github.io/faifa-gateway/";
 
 const Footer = () => {
   const [copied, setCopied] = useState(false);
