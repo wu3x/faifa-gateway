@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { supabase } from "@/integrations/supabase/client";
 
-// Stored across sessions so returning visitors on the same browser are not counted again.
-// Clearing browser storage or using another device can still create a new identity.
 const VISITOR_ID_KEY = "faifa-visitor-id-v1";
 const BASELINE = 5452;
+const API_URL = "https://faifa-visitor-counter.a-alfaifi771.workers.dev/api/visitors";
 
 function getVisitorId(): string | null {
   try {
@@ -30,38 +28,41 @@ const VisitorCounter = ({ compact }: VisitorCounterProps) => {
 
   useEffect(() => {
     let cancelled = false;
-    const run = async () => {
-      const visitorId = getVisitorId();
-      if (visitorId) {
-        const { data, error } = await supabase.rpc("register_unique_visitor", {
-          p_visitor_id: visitorId,
-        });
-        if (!error && typeof data === "number") {
-          if (!cancelled) setVisitorCount(Math.max(BASELINE, data));
-          return;
-        }
-        console.warn("Visitor registration unavailable:", error?.message);
-      }
 
-      // Read-only fallback: never increment on refresh or when registration fails.
-      const { data } = await supabase
-        .from("site_analytics")
-        .select("visitor_count")
-        .eq("id", 1)
-        .maybeSingle();
-      if (!cancelled) setVisitorCount(Math.max(BASELINE, data?.visitor_count ?? BASELINE));
+    const updateCount = async () => {
+      const visitorId = getVisitorId();
+      try {
+        // Register this browser once; the Worker/D1 database is responsible for
+        // deduplicating the visitor ID across reloads and repeat requests.
+        if (visitorId) {
+          const registration = await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ visitorId }),
+          });
+          if (registration.ok) {
+            const data: { count?: number } = await registration.json();
+            if (typeof data.count === "number") {
+              if (!cancelled) setVisitorCount(Math.max(BASELINE, data.count));
+              return;
+            }
+          }
+        }
+
+        // Read-only fallback never increments the counter.
+        const response = await fetch(API_URL, { method: "GET", cache: "no-store" });
+        if (!response.ok) throw new Error("Visitor count unavailable");
+        const data: { count?: number } = await response.json();
+        if (!cancelled) setVisitorCount(Math.max(BASELINE, data.count ?? BASELINE));
+      } catch (error) {
+        console.warn("Visitor counter unavailable:", error);
+        if (!cancelled) setVisitorCount(BASELINE);
+      }
     };
-    void run();
-    const channel = supabase
-      .channel("site-analytics")
-      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "site_analytics" }, (payload) => {
-        const next = (payload.new as { visitor_count?: number })?.visitor_count;
-        if (!cancelled && typeof next === "number") setVisitorCount(Math.max(BASELINE, next));
-      })
-      .subscribe();
+
+    void updateCount();
     return () => {
       cancelled = true;
-      void supabase.removeChannel(channel);
     };
   }, []);
 
