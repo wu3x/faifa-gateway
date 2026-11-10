@@ -1,4 +1,5 @@
 import { useState } from "react";
+import DeveloperSection from "./DeveloperSection";
 import { Heart, Share2, Copy, Check, ExternalLink } from "lucide-react";
 import {
   Dialog,
@@ -61,7 +62,10 @@ const Footer = () => {
     <footer className="bg-gradient-hero text-primary-foreground mt-20">
       <div className="container mx-auto px-6 py-12">
         <div className="text-center space-y-8">
-          {/* Share Button */}
+          {/* Compact developer and sharing actions side by side */}
+          <div className="flex flex-row flex-wrap items-center justify-center gap-5 md:gap-12">
+            <DeveloperSection />
+            <div className="flex flex-col items-center justify-center gap-2">
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <button
@@ -117,6 +121,9 @@ const Footer = () => {
               </div>
             </DialogContent>
           </Dialog>
+
+            </div>
+          </div>
 
           {/* Main Title */}
           <div className="max-w-2xl mx-auto">
