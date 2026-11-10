@@ -1,3 +1,4 @@
+import { handleVotes } from "./votes.js";
 import { SOURCES } from "./knowledge/sources.js";
 
 // All search comparisons ignore Arabic diacritics; source text and answers retain original spelling.
@@ -118,7 +119,7 @@ function answer(text,origin,model="reference") {
 }
 const ORIGINS=new Set(["https://wu3x.github.io"]);
 function headers(origin) {
-  return {"Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store","Access-Control-Allow-Origin":ORIGINS.has(origin)?origin:"https://wu3x.github.io","Access-Control-Allow-Methods":"POST, OPTIONS","Access-Control-Allow-Headers":"Content-Type","Vary":"Origin"};
+  return {"Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store","Access-Control-Allow-Origin":ORIGINS.has(origin)?origin:"https://wu3x.github.io","Access-Control-Allow-Methods":"GET, POST, OPTIONS","Access-Control-Allow-Headers":"Content-Type","Vary":"Origin"};
 }
 function policy() {
   return [
@@ -139,6 +140,10 @@ export default {
     if(request.method==="OPTIONS")return new Response(null,{status:204,headers:headers(origin)});
     const path=new URL(request.url).pathname;
     if(path==="/health" && request.method==="GET")return new Response(JSON.stringify({ok:true,service:"faifawi",knowledgeChunks:INDEX.length,glossaryEntries:DEFINITIONS.size}),{status:200,headers:headers(origin)});
+    if(path==="/api/votes") {
+      if(origin && !ORIGINS.has(origin)) return new Response(JSON.stringify({error:"Origin not allowed"}),{status:403,headers:headers(origin)});
+      try { return await handleVotes(request,env,headers(origin)); } catch(e) { return new Response(JSON.stringify({error:"Voting temporarily unavailable"}),{status:503,headers:headers(origin)}); }
+    }
     if(path!=="/api/chat")return new Response(JSON.stringify({error:"Not found"}),{status:404,headers:headers(origin)});
     if(request.method!=="POST")return new Response(JSON.stringify({error:"Method not allowed"}),{status:405,headers:headers(origin)});
     if(origin && !ORIGINS.has(origin))return new Response(JSON.stringify({error:"Origin not allowed"}),{status:403,headers:headers(origin)});
