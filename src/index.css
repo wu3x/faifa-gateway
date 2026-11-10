@@ -226,3 +226,15 @@
   background-color: rgba(0, 0, 0, 0.4);
   z-index: -1;
 }
+
+/* Gentle animated place icons: lightweight and respectful of reduced-motion settings. */
+@keyframes faifa-icon-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@keyframes faifa-tree-sway { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes faifa-coffee-steam { 0% { opacity: 0; transform: translateY(3px) scale(.8); } 35% { opacity: .7; } 100% { opacity: 0; transform: translateY(-11px) scale(1.25); } }
+.faifa-animated-icon { position: relative; flex-shrink: 0; }
+.faifa-icon-gentle > svg { animation: faifa-icon-float 4.5s ease-in-out infinite; }
+.faifa-icon-nature > svg { transform-origin: 50% 90%; animation: faifa-tree-sway 4s ease-in-out infinite; }
+.faifa-icon-coffee > svg { animation: faifa-icon-float 4s ease-in-out infinite; }
+.faifa-icon-coffee::before, .faifa-icon-coffee::after { content: ''; position: absolute; top: 2px; left: 46%; width: 2px; height: 9px; border-radius: 50%; background: currentColor; opacity: 0; pointer-events: none; animation: faifa-coffee-steam 2.8s ease-out infinite; }
+.faifa-icon-coffee::after { left: 59%; animation-delay: 1.2s; }
+@media (prefers-reduced-motion: reduce) { .faifa-animated-icon > svg, .faifa-icon-coffee::before, .faifa-icon-coffee::after { animation: none !important; } }
