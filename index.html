@@ -2,6 +2,13 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      try {
+        if (localStorage.getItem("theme") !== "light") document.documentElement.classList.add("dark");
+      } catch (_) {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>اكتشف فيفاء - الوجهة السياحية المميزة في السعودية</title>
     <meta name="description" content="استمتع بجمال الطبيعة الخلابة وأهم المعالم السياحية في جبل فيفاء - فنادق، منتزهات، كافيهات، ومناظر طبيعية ساحرة" />
