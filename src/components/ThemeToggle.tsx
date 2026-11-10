@@ -11,7 +11,7 @@ const ThemeToggle = ({ compact }: ThemeToggleProps) => {
   const { t } = useLanguage();
   const [isDark, setIsDark] = useState(() => {
     if (typeof window !== "undefined") {
-      return document.documentElement.classList.contains("dark");
+      return localStorage.getItem("faifa-theme-v2") !== "light";
     }
     return true;
   });
@@ -19,15 +19,15 @@ const ThemeToggle = ({ compact }: ThemeToggleProps) => {
   useEffect(() => {
     if (isDark) {
       document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
+      localStorage.setItem("faifa-theme-v2", "dark");
     } else {
       document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
+      localStorage.setItem("faifa-theme-v2", "light");
     }
   }, [isDark]);
 
   useEffect(() => {
-    const saved = localStorage.getItem("theme");
+    const saved = localStorage.getItem("faifa-theme-v2");
     setIsDark(saved !== "light");
   }, []);
 
