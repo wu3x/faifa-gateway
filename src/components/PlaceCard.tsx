@@ -11,8 +11,10 @@ interface PlaceCardProps {
   hasVoted?: boolean;
   onVote?: () => void;
   voteDisabled?: boolean;
+  celebrating?: boolean;
+  onCelebrationEnd?: () => void;
 }
-const PlaceCard = ({ title, description, englishDescription, additionalContent, mapLink, icon, voteCount = 0, hasVoted = false, onVote, voteDisabled = true }: PlaceCardProps) => {
+const PlaceCard = ({ title, description, englishDescription, additionalContent, mapLink, icon, voteCount = 0, hasVoted = false, onVote, voteDisabled = true, celebrating = false, onCelebrationEnd }: PlaceCardProps) => {
   const { lang, t } = useLanguage();
   const splitTitle = (raw: string) => {
     for (const separator of [" – ", " - ", " / "]) {
@@ -36,9 +38,13 @@ const PlaceCard = ({ title, description, englishDescription, additionalContent, 
         <div className="absolute -left-14 -top-14 h-40 w-40 rounded-full bg-primary/[.035] transition-transform duration-700 group-hover:scale-150" aria-hidden="true" />
         <div className="relative mb-6 flex items-start justify-between gap-4">
           <span className={`faifa-animated-icon ${iconMotion} flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary [&_svg]:h-6 [&_svg]:w-6`}>{icon}</span>
-          <button type="button" onClick={onVote} disabled={voteDisabled || hasVoted} title={voteDisabled ? t("التصويت غير متاح مؤقتًا", "Voting temporarily unavailable") : hasVoted ? t("صوتك لهذا المكان", "Your vote") : t("صوّت لهذا المكان", "Vote for this place")} aria-label={t("التصويت للمكان", "Vote for place") + " " + displayTitle} className={"inline-flex items-center gap-1.5 rounded-full border px-3 py-2 text-xs font-bold transition disabled:cursor-default " + (hasVoted ? "border-amber-400/40 bg-amber-400/10 text-amber-500" : "border-border bg-secondary/60 text-muted-foreground hover:border-amber-400 hover:text-amber-500")}>
-            <Star size={16} fill={hasVoted ? "currentColor" : "none"} />
-            <span dir="ltr" className="tabular-nums">{voteCount}</span>
+          <button type="button" onClick={onVote} disabled={voteDisabled || hasVoted} title={hasVoted ? t("صوتك لهذا المكان", "Your vote") : t("امنح المكان نجمة", "Give this place a star")} aria-label={t("امنح المكان نجمة", "Give this place a star") + " " + displayTitle} className={"faifa-vote-button relative inline-flex items-center gap-1.5 rounded-xl border px-2.5 py-2 transition-all disabled:cursor-default " + (hasVoted ? "border-amber-400/60 bg-amber-400/15 text-amber-400" : "border-amber-400/30 bg-amber-400/[.08] text-amber-400 hover:border-amber-400 hover:bg-amber-400/20")}>
+            <span className="relative flex items-center justify-center">
+              <Star className={"faifa-vote-star h-[19px] w-[19px] " + (celebrating ? "faifa-vote-burst" : "")} fill={hasVoted ? "currentColor" : "none"} onAnimationEnd={onCelebrationEnd} />
+              {celebrating && <Star aria-hidden="true" className="faifa-vote-fly absolute h-6 w-6 text-amber-300" fill="currentColor" />}
+            </span>
+            <span dir="ltr" className="text-xs font-extrabold tabular-nums">{voteCount}</span>
+            <span className="max-w-[75px] text-[9px] font-medium leading-tight text-foreground/75">{hasVoted ? t("تم التصويت", "Voted") : t("امنح المكان نجمة", "Give a star")}</span>
           </button>
         </div>
         <h3 className="relative text-xl font-bold leading-relaxed text-foreground md:text-[1.35rem]">{displayTitle}</h3>
