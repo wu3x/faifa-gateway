@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="dark">
   <head>
     <meta charset="UTF-8" />
     <script>
       try {
-        if (localStorage.getItem("theme") !== "light") document.documentElement.classList.add("dark");
+        if (localStorage.getItem("faifa-theme-v2") === "light") document.documentElement.classList.remove("dark");
       } catch (_) {
         document.documentElement.classList.add("dark");
       }
