@@ -68,7 +68,7 @@ const Index = () => {
                 <span>للحجز والتواصل عبر الأنستقرام</span>
               </a>
             }
-            mapLink="https://maps.app.goo.gl/ZgDkhJv2dHvs69oQ8?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D8%A8%D9%8A%D8%AA%20%D8%B3%D9%87%D9%84%D8%A7%D9%86%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJBf7W054L_RURB0jVNOcdRU8"
             icon={<Home />}
           />
           <PlaceCard
@@ -132,27 +132,27 @@ const Index = () => {
             title="منتزه وإطلالة الخطم – Al-Khatm Park & Viewpoint"
             description="منتزه عائلي يتيح الاستمتاع بإطلالات على جبال فيفاء."
             englishDescription="Family-friendly park with great views."
-            mapLink="https://maps.app.goo.gl/Cdfrj4YBB88aH2yf9?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D9%86%D8%AA%D8%B2%D9%87%20%D9%88%D8%A5%D8%B7%D9%84%D8%A7%D9%84%D8%A9%20%D8%A7%D9%84%D8%AE%D8%B7%D9%85%20%E2%80%93%20Al-Khatm%20Park%20%26%20Viewpoint%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ0S-FYgAL_RURDFfl15IKUBs"
             icon={<Mountain />}
           />
           <PlaceCard
             title="سوق النفيعة الشعبي"
             description="سوق شعبي يتيح التعرف على المنتجات المحلية وأجواء التسوق في فيفاء."
-            mapLink="https://maps.app.goo.gl/TzAGVeryF34ooRbh7?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D8%B3%D9%88%D9%82%20%D8%A7%D9%84%D9%86%D9%81%D9%8A%D8%B9%D8%A9%20%D8%A7%D9%84%D8%B4%D8%B9%D8%A8%D9%8A%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ2S9lTgAL_RURBexSPhTtbWM"
             icon={<Trees />}
           />
           <PlaceCard
             title="منتجع الباخرة – Al-Bakhira Resort"
             description="منتجع في فيفاء للاستراحة والاستمتاع بالأجواء الجبلية."
             englishDescription="A resort for relaxation amid Faifa’s mountain scenery."
-            mapLink="https://maps.app.goo.gl/4No4mWgXs3vVz7CD7?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D9%86%D8%AA%D8%AC%D8%B9%20%D8%A7%D9%84%D8%A8%D8%A7%D8%AE%D8%B1%D8%A9%20%E2%80%93%20Al-Bakhira%20Resort%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJWcyJndQN_RURHpyLNhDeO1Y"
             icon={<Tent />}
           />
           <PlaceCard
             title="ممشى البن الخولاني – Khawlani Coffee Trail"
             description="ممشى سياحي مرتبط بتراث زراعة البن الخولاني."
             englishDescription="Coffee heritage walking trail."
-            mapLink="https://maps.app.goo.gl/EkhwSPbHFqKNcyvs7?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D9%85%D8%B4%D9%89%20%D8%A7%D9%84%D8%A8%D9%86%20%D8%A7%D9%84%D8%AE%D9%88%D9%84%D8%A7%D9%86%D9%8A%20%E2%80%93%20Khawlani%20Coffee%20Trail%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJifw28oYL_RURLDMNgNGl3VE"
             icon={<UtensilsCrossed />}
           />
           <PlaceCard
@@ -202,7 +202,7 @@ const Index = () => {
             title="مقهى جارة القمر – Jarat Al-Qamar Café"
             description="إطلالة مميزة على جبال فيفاء."
             englishDescription="Unique view of Faifa mountains."
-            mapLink="https://maps.app.goo.gl/Cjh7oPM5aX2QsdUR6?g_st=ipc"
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D9%82%D9%87%D9%89%20%D8%AC%D8%A7%D8%B1%D8%A9%20%D8%A7%D9%84%D9%82%D9%85%D8%B1%20%E2%80%93%20Jarat%20Al-Qamar%20Caf%C3%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJr1A1u4IL_RURuzkyGgZ9gXQ"
             icon={<Coffee />}
           />
           <PlaceCard
