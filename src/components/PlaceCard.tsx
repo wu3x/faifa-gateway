@@ -1,4 +1,4 @@
-import { MapPin, MessageCircle } from "lucide-react";
+import { MapPin, MessageCircle, Star } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 interface PlaceCardProps {
   title: string;
@@ -7,8 +7,12 @@ interface PlaceCardProps {
   additionalContent?: React.ReactNode;
   mapLink: string;
   icon: React.ReactNode;
+  voteCount?: number;
+  hasVoted?: boolean;
+  onVote?: () => void;
+  voteDisabled?: boolean;
 }
-const PlaceCard = ({ title, description, englishDescription, additionalContent, mapLink, icon }: PlaceCardProps) => {
+const PlaceCard = ({ title, description, englishDescription, additionalContent, mapLink, icon, voteCount = 0, hasVoted = false, onVote, voteDisabled = true }: PlaceCardProps) => {
   const { lang, t } = useLanguage();
   const splitTitle = (raw: string) => {
     for (const separator of [" – ", " - ", " / "]) {
@@ -32,6 +36,10 @@ const PlaceCard = ({ title, description, englishDescription, additionalContent, 
         <div className="absolute -left-14 -top-14 h-40 w-40 rounded-full bg-primary/[.035] transition-transform duration-700 group-hover:scale-150" aria-hidden="true" />
         <div className="relative mb-6 flex items-start justify-between gap-4">
           <span className={`faifa-animated-icon ${iconMotion} flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary [&_svg]:h-6 [&_svg]:w-6`}>{icon}</span>
+          <button type="button" onClick={onVote} disabled={voteDisabled || hasVoted} title={voteDisabled ? t("التصويت غير متاح مؤقتًا", "Voting temporarily unavailable") : hasVoted ? t("صوتك لهذا المكان", "Your vote") : t("صوّت لهذا المكان", "Vote for this place")} aria-label={t("التصويت للمكان", "Vote for place") + " " + displayTitle} className={"inline-flex items-center gap-1.5 rounded-full border px-3 py-2 text-xs font-bold transition disabled:cursor-default " + (hasVoted ? "border-amber-400/40 bg-amber-400/10 text-amber-500" : "border-border bg-secondary/60 text-muted-foreground hover:border-amber-400 hover:text-amber-500")}>
+            <Star size={16} fill={hasVoted ? "currentColor" : "none"} />
+            <span dir="ltr" className="tabular-nums">{voteCount}</span>
+          </button>
         </div>
         <h3 className="relative text-xl font-bold leading-relaxed text-foreground md:text-[1.35rem]">{displayTitle}</h3>
         {primaryDesc && <p className="relative mt-2 line-clamp-3 text-sm leading-7 text-muted-foreground">{primaryDesc}</p>}
