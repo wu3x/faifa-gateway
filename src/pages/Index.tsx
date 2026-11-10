@@ -16,7 +16,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 const Index = () => {
   const { lang, t } = useLanguage();
   const path = typeof window !== "undefined" ? window.location.pathname.replace(/\/+$/, "") || "/" : "/";
-  const isRootPath = path === "/";
+  const isRootPath = path === "/" || path === "/faifa-gateway";
 
   return (
     <ChatOpenProvider>
