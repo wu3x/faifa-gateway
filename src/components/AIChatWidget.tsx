@@ -63,7 +63,7 @@ const renderMessageContent = (content: string) => {
 const AIChatWidget = ({ fullHeight = false }: AIChatWidgetProps) => {
   const [isExpanded, setIsExpanded] = useState(fullHeight);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: 'يااا هلااا\n\nأنا "فيفاوي" مساعدك الذكي، وموجود هنا عشان أخدمك:\n\n• أدلك على الأماكن والمطلات في الجبل 📍\n\n• أسولف معك بلهجتنا الفيفية 🗣️\n\n• أعطيك علوم الطقس في فيفاء أول بأول 🌦️' }
+    { role: 'assistant', content: 'أهلا كيف اساعدك؟' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
