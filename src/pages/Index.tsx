@@ -7,8 +7,6 @@ import Footer from "@/components/Footer";
 import CompactControlBar from "@/components/CompactControlBar";
 import InteractiveMap from "@/components/InteractiveMap";
 import BackToTop from "@/components/BackToTop";
-import ChatModal from "@/components/ChatModal";
-import { ChatOpenProvider } from "@/contexts/ChatOpenContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 
@@ -18,7 +16,7 @@ const Index = () => {
   const isRootPath = path === "/" || path === "/faifa-gateway";
 
   return (
-    <ChatOpenProvider>
+    <>
       <div className="min-h-screen bg-background" dir={lang === "ar" ? "rtl" : "ltr"}>
         {isRootPath && <Header />}
         <Navigation />
@@ -285,9 +283,8 @@ const Index = () => {
 
       <Footer />
       <BackToTop />
-      <ChatModal />
     </div>
-    </ChatOpenProvider>
+    </>
   );
 };
 
