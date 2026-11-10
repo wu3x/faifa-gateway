@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Search, Send, Bot, User, X, Sparkles, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { supabase } from '@/integrations/supabase/client';
+const CHAT_ENDPOINT = 'https://faifa-gateway.a-alfaifi771.workers.dev/api/chat';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -98,63 +98,29 @@ const AIChatWidget = ({ fullHeight = false }: AIChatWidgetProps) => {
     setInput('');
     setIsLoading(true);
 
-    const busyMessage = 'فيفاوي مشغول قليلاً الآن، فضلاً انتظر دقيقة وأعد السؤال.';
-
-    const maxAttempts = 3;
-    const baseDelayMs = 900;
-
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 35000);
     try {
-      for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-        const { data, error } = await supabase.functions.invoke('chat', {
-          body: { messages: [...messages, userMessage] },
-        });
-
-        // If the backend surfaces a rate-limit or connection issue, show the required message.
-        if (error) {
-          console.error('Chat invoke error:', error);
-          throw error;
-        }
-
-        if (data?.error === 'RATE_LIMIT') {
-          if (attempt < maxAttempts) {
-            setIsRetrying(true);
-            const jitter = Math.floor(Math.random() * 250);
-            const delay = baseDelayMs * Math.pow(2, attempt - 1) + jitter;
-            console.warn(`Rate limited; retrying in ${delay}ms (attempt ${attempt}/${maxAttempts})`);
-            await new Promise((r) => setTimeout(r, delay));
-            continue;
-          }
-
-          // Retries exhausted in UI: show the required final busy message.
-          setIsRetrying(false);
-          setMessages((prev) => [...prev, { role: 'assistant', content: busyMessage }]);
-          return;
-        }
-
-        setIsRetrying(false);
-        const assistantMessage: Message = {
-          role: 'assistant',
-          content: data?.message || 'عذراً، حدث خطأ ما.',
-        };
-        setMessages((prev) => [...prev, assistantMessage]);
-        return;
+      const conversation = [...messages.filter((m, i) => i > 0), userMessage].slice(-10);
+      const response = await fetch(CHAT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: conversation }),
+        signal: controller.signal,
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || typeof data.message !== 'string' || !data.message.trim()) {
+        throw new Error(data.error || 'Chat unavailable');
       }
-
-      // Should never happen, but keep UX consistent.
-      setIsRetrying(false);
-      setMessages((prev) => [...prev, { role: 'assistant', content: busyMessage }]);
-    } catch (error: any) {
-      console.error('Error sending message:', error);
-
-      // Required UX: show this exact message for 429 rate limit OR any connection error.
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: 'assistant',
-          content: busyMessage,
-        },
-      ]);
+      setMessages(prev => [...prev, { role: 'assistant', content: data.message.trim() }]);
+    } catch (error) {
+      console.error('Faifawi chat request failed:', error);
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: 'اعذرني، الاتصال تعثّر شوي. جرّب ترسل سؤالك مرة ثانية بعد قليل 🌿',
+      }]);
     } finally {
+      window.clearTimeout(timeout);
       setIsRetrying(false);
       setIsLoading(false);
       isRequestInFlight.current = false;
