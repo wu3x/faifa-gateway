@@ -66,9 +66,9 @@ const Footer = () => {
         <DialogContent dir="rtl" className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2"><LockKeyhole className="h-5 w-5" /> لوحة إدارة فيفاء</DialogTitle>
-            <DialogDescription className="pt-2 text-right">واجهة الإدارة جاهزة للتجربة. تسجيل الدخول والحفظ يتطلبان تفعيل خدمة CMS في Cloudflare أولًا؛ لا تدخل كلمة مرور حقيقية قبل تفعيلها.</DialogDescription>
+            <DialogDescription className="pt-2 text-right">لوحة الإدارة متصلة بخدمة CMS. افتحها وسجّل الدخول بكلمة المرور التي أعددتها في Cloudflare.</DialogDescription>
           </DialogHeader>
-          <a href="/faifa-gateway/admin" className="rounded-lg bg-emerald-700 px-4 py-3 text-center text-sm font-semibold text-white">فتح لوحة الإدارة</a>
+          <a href="/faifa-gateway/#/admin" className="rounded-lg bg-emerald-700 px-4 py-3 text-center text-sm font-semibold text-white">فتح لوحة الإدارة</a>
           <Button type="button" variant="outline" onClick={() => setAdminOpen(false)}>إغلاق</Button>
         </DialogContent>
       </Dialog>
