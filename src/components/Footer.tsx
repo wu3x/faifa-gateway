@@ -138,7 +138,7 @@ const Footer = () => {
           {/* Copyright */}
           <div className="border-t border-white/20 pt-8 space-y-3">
             <p className="text-primary-foreground/80">
-              {t("© 2024 اكتشف فيفاء - جميع الحقوق محفوظة", "© 2024 Discover Faifa - All rights reserved")}
+              {t("© " + new Date().getFullYear() + " اكتشف فيفاء - جميع الحقوق محفوظة", "© " + new Date().getFullYear() + " Discover Faifa - All rights reserved")}
             </p>
           </div>
         </div>
