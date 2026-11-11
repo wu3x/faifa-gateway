@@ -68,17 +68,15 @@ const Footer = () => {
       <div className="container mx-auto px-6 py-12">
         <div className="text-center space-y-8">
           {/* Compact developer and sharing actions side by side */}
-          <div className="flex flex-row flex-wrap items-center justify-center gap-5 md:gap-12">
-            <DeveloperSection />
-            <div className="flex flex-col items-center justify-center gap-2">
+          <DeveloperSection>
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <button
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/20 text-primary-foreground text-sm font-medium transition-all duration-300 hover:scale-105 active:scale-95"
+                className="inline-flex min-h-10 w-full items-center justify-center gap-1 sm:gap-2 rounded-full border border-purple-100 bg-white px-1.5 sm:px-4 py-2 text-[11px] sm:text-sm font-medium text-purple-900 shadow-sm transition-all duration-300 hover:scale-105 hover:border-purple-200 active:scale-95"
                 aria-label={t("مشاركة الموقع", "Share the website")}
               >
-                <Share2 className="w-4 h-4" />
-                <span>{t("شارك الموقع", "Share website")}</span>
+                <Share2 className="w-4 h-4 shrink-0" />
+                <span className="whitespace-nowrap">{t("شارك الموقع", "Share website")}</span>
               </button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md" dir={lang === "ar" ? "rtl" : "ltr"}>
@@ -126,9 +124,7 @@ const Footer = () => {
               </div>
             </DialogContent>
           </Dialog>
-
-            </div>
-          </div>
+          </DeveloperSection>
 
           {/* Main Title */}
           <div className="max-w-2xl mx-auto">
