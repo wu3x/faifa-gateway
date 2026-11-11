@@ -1,0 +1,376 @@
+{
+  "settings": {
+    "siteTitle": "فيفاء",
+    "heroTitle": "فيفاء",
+    "heroSubtitle": "حكاية جبلٍ فوق الغيم",
+    "heroDescription": "هنا تتعانق المدرجات الخضراء مع الضباب، وتتحول كل إطلالة إلى ذكرى. خذ وقتك، واستكشف فيفاء على مهل.",
+    "heroImage": "",
+    "accentColor": "#237c58"
+  },
+  "sections": [
+    {
+      "id": "hotels",
+      "title": "الفنادق",
+      "englishTitle": "Hotels",
+      "visible": true,
+      "sortOrder": 0
+    },
+    {
+      "id": "parks",
+      "title": "المنتزهات",
+      "englishTitle": "Parks & Resorts",
+      "visible": true,
+      "sortOrder": 1
+    },
+    {
+      "id": "cafes",
+      "title": "الكافيهات",
+      "englishTitle": "Cafés",
+      "visible": true,
+      "sortOrder": 2
+    }
+  ],
+  "places": [
+    {
+      "id": "hotels-01",
+      "categoryId": "hotels",
+      "title": "فندق جارة الغيم – Jarat Al Gheim Hotel",
+      "description": "يضم الفندق مقهى ومطلًا في الطابق العلوي.",
+      "englishDescription": "Rooftop café with a panoramic view.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=%D9%81%D9%86%D8%AF%D9%82%20%D8%AC%D8%A7%D8%B1%D8%A9%20%D8%A7%D9%84%D8%BA%D9%8A%D9%85%20%E2%80%93%20Jarat%20Al%20Gheim%20Hotel%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJJfW_SAwL_RURP4zchhlsRRM",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 0
+    },
+    {
+      "id": "hotels-02",
+      "categoryId": "hotels",
+      "title": "فندق فيفاء الفاخر – Faifa Luxury Hotel",
+      "description": "يضم الفندق مقهى ومطلًا في الطابق العلوي.",
+      "englishDescription": "Rooftop café with a scenic view.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=%D9%81%D9%86%D8%AF%D9%82%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1%20%D8%A7%D9%84%D9%81%D8%A7%D8%AE%D8%B1%20%E2%80%93%20Faifa%20Luxury%20Hotel%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJYzGU3XgL_RUROH_ozRuHUsg",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 1
+    },
+    {
+      "id": "hotels-03",
+      "categoryId": "hotels",
+      "title": "فندق إيوان – Iwan Hotel",
+      "description": "يضم الفندق مقهى ومطلًا في الطابق العلوي.",
+      "englishDescription": "Rooftop café with a scenic view.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=%D9%81%D9%86%D8%AF%D9%82%20%D8%A5%D9%8A%D9%88%D8%A7%D9%86%20%E2%80%93%20Iwan%20Hotel%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJJ9IjBAAN_RURcDbBphS0Gjo",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 2
+    },
+    {
+      "id": "hotels-04",
+      "categoryId": "hotels",
+      "title": "بيت سهلان",
+      "description": "بيت تراثي أُعيد تأهيله بلمسات عصرية تحافظ على الهوية الفيفية الأصيلة.",
+      "englishDescription": "An old house renovated with a modern touch and authentic Faifa identity.",
+      "mapLink": "",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 3
+    },
+    {
+      "id": "hotels-05",
+      "categoryId": "hotels",
+      "title": "أكواخ الندى",
+      "description": "أكواخ للإقامة في فيفاء، توفر تجربة مبيت وسط الطبيعة الجبلية.",
+      "englishDescription": "Cabin accommodation amid Faifa's mountain scenery.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=Al%20Nada%20Cabins%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJBRZxYwAL_RUR2dSSKpb-7tU",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 4
+    },
+    {
+      "id": "hotels-06",
+      "categoryId": "hotels",
+      "title": "شاليه فيفا – Viva Cottage",
+      "description": "شاليه للإقامة والاستراحة في أجواء فيفاء الجبلية.",
+      "englishDescription": "A private cottage for stays and relaxation in Faifa.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=Viva%20Cottage%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJVVP4m3UN_RURJr6GKR8LRnc",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 5
+    },
+    {
+      "id": "hotels-07",
+      "categoryId": "hotels",
+      "title": "سكني",
+      "description": "وحدات سكنية للإقامة على شارع السربة في فيفاء.",
+      "englishDescription": "Accommodation units on Al-Sarbah Street in Faifa.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=Sakani%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ9ejhLM8L_RUReFAuNZ7IDqc",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 6
+    },
+    {
+      "id": "hotels-08",
+      "categoryId": "hotels",
+      "title": "الوادي الأخضر للغرف والشقق",
+      "description": "غرف وشقق للإقامة على طريق الملك عبدالله بن عبدالعزيز في فيفاء.",
+      "englishDescription": "Rooms and apartments on King Abdullah bin Abdulaziz Road.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=Alwadi%20Alakhdar%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ0VukEwAN_RURSRxQ5qK0u3I",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 7
+    },
+    {
+      "id": "hotels-09",
+      "categoryId": "hotels",
+      "title": "الدثنة للشقق المفروشة",
+      "description": "شقق مفروشة للإقامة في منطقة غمان بفيفاء.",
+      "englishDescription": "Furnished apartments in the Ghumman area of Faifa.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=Al%20Dathnah%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJVY1bGZsL_RURb6IxmnImSOw",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 8
+    },
+    {
+      "id": "hotels-10",
+      "categoryId": "hotels",
+      "title": "السحاب فيو",
+      "description": "منشأة إقامة في فيفاء مدرجة ضمن خيارات المبيت على الخرائط.",
+      "englishDescription": "An accommodation option listed in Faifa.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=Al%20Sahab%20View%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJe213Y7gL_RURJpXe1zJbocE",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 9
+    },
+    {
+      "id": "hotels-11",
+      "categoryId": "hotels",
+      "title": "فيفاء للوحدات السكنية",
+      "description": "وحدات سكنية مفروشة تناسب الباحثين عن إقامة في فيفاء.",
+      "englishDescription": "Furnished accommodation units in Faifa.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=Fayfa%20Residential%20Units%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ8Qt9GH8L_RUR4tqnQurpXKA",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 10
+    },
+    {
+      "id": "parks-01",
+      "categoryId": "parks",
+      "title": "منتزه وإطلالة الخطم – Al-Khatm Park & Viewpoint",
+      "description": "منتزه عائلي يتيح الاستمتاع بإطلالات على جبال فيفاء.",
+      "englishDescription": "Family-friendly park with great views.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=%D9%85%D9%86%D8%AA%D8%B2%D9%87%20%D9%88%D8%A5%D8%B7%D9%84%D8%A7%D9%84%D8%A9%20%D8%A7%D9%84%D8%AE%D8%B7%D9%85%20%E2%80%93%20Al-Khatm%20Park%20%26%20Viewpoint%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ0S-FYgAL_RURDFfl15IKUBs",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 0
+    },
+    {
+      "id": "parks-02",
+      "categoryId": "parks",
+      "title": "سوق النفيعة الشعبي",
+      "description": "سوق شعبي يتيح التعرف على المنتجات المحلية وأجواء التسوق في فيفاء.",
+      "englishDescription": "",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=%D8%B3%D9%88%D9%82%20%D8%A7%D9%84%D9%86%D9%81%D9%8A%D8%B9%D8%A9%20%D8%A7%D9%84%D8%B4%D8%B9%D8%A8%D9%8A%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ2S9lTgAL_RURBexSPhTtbWM",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 1
+    },
+    {
+      "id": "parks-03",
+      "categoryId": "parks",
+      "title": "منتجع الباخرة – Al-Bakhira Resort",
+      "description": "منتجع في فيفاء للاستراحة والاستمتاع بالأجواء الجبلية.",
+      "englishDescription": "A resort for relaxation amid Faifa’s mountain scenery.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=%D9%85%D9%86%D8%AA%D8%AC%D8%B9%20%D8%A7%D9%84%D8%A8%D8%A7%D8%AE%D8%B1%D8%A9%20%E2%80%93%20Al-Bakhira%20Resort%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJWcyJndQN_RURHpyLNhDeO1Y",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 2
+    },
+    {
+      "id": "parks-04",
+      "categoryId": "parks",
+      "title": "ممشى البن الخولاني – Khawlani Coffee Trail",
+      "description": "ممشى سياحي مرتبط بتراث زراعة البن الخولاني.",
+      "englishDescription": "Coffee heritage walking trail.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=%D9%85%D9%85%D8%B4%D9%89%20%D8%A7%D9%84%D8%A8%D9%86%20%D8%A7%D9%84%D8%AE%D9%88%D9%84%D8%A7%D9%86%D9%8A%20%E2%80%93%20Khawlani%20Coffee%20Trail%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJifw28oYL_RURLDMNgNGl3VE",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 3
+    },
+    {
+      "id": "parks-05",
+      "categoryId": "parks",
+      "title": "مطل الدفرة – Al-Dafrah Viewpoint",
+      "description": "مطل يتيح مشاهدة المناظر الجبلية في فيفاء.",
+      "englishDescription": "A viewpoint overlooking Faifa’s mountain scenery.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=%D9%85%D8%B7%D9%84%20%D8%A7%D9%84%D8%AF%D9%81%D8%B1%D8%A9%20%E2%80%93%20Al-Dafrah%20Viewpoint%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJFXNJ1nML_RURD30ckEfyRrs",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 4
+    },
+    {
+      "id": "parks-06",
+      "categoryId": "parks",
+      "title": "مطل قرضة – Qarza Viewpoint",
+      "description": "موقع لمشاهدة جبال فيفاء والتقاط الصور.",
+      "englishDescription": "A spot for mountain views and photography in Faifa.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=%D9%85%D8%B7%D9%84%20%D9%82%D8%B1%D8%B6%D8%A9%20%E2%80%93%20Qarza%20Viewpoint%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJTzUfMBN1_RURYI0ii4gk1mE",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 5
+    },
+    {
+      "id": "parks-07",
+      "categoryId": "parks",
+      "title": "المصلى المعلق",
+      "description": "مصلى معروف في فيفاء، يُستخدم لصلاة العيد والمناسبات الدينية.",
+      "englishDescription": "Famous hanging mosque for holidays and occasions.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=%D8%A7%D9%84%D9%85%D8%B5%D9%84%D9%89%20%D8%A7%D9%84%D9%85%D8%B9%D9%84%D9%82%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJJzfbcAAL_RURW7wYY9wcr8s",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 6
+    },
+    {
+      "id": "parks-08",
+      "categoryId": "parks",
+      "title": "مطل العبسية",
+      "description": "مطل مرتفع في فيفاء يتيح مشاهدة الجبال والمناظر المحيطة.",
+      "englishDescription": "The highest point in the mountain where one can sit anywhere.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=%D9%85%D8%B7%D9%84%20%D8%A7%D9%84%D8%B9%D8%A8%D8%B3%D9%8A%D8%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ67KW7CUL_RURLrq41W9qDig",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 7
+    },
+    {
+      "id": "parks-09",
+      "categoryId": "parks",
+      "title": "إطلالة فيفا",
+      "description": "مطل على طريق الأمير نايف يتيح مشاهدة المناظر الجبلية والتقاط الصور.",
+      "englishDescription": "A viewpoint on Prince Nayef Road overlooking the mountains.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=Itlalat%20Fayfa%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJX85pNwAL_RURobW0_6Zxh7I",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 8
+    },
+    {
+      "id": "cafes-01",
+      "categoryId": "cafes",
+      "title": "مقهى جارة القمر – Jarat Al-Qamar Café",
+      "description": "إطلالة مميزة على جبال فيفاء.",
+      "englishDescription": "Unique view of Faifa mountains.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=%D9%85%D9%82%D9%87%D9%89%20%D8%AC%D8%A7%D8%B1%D8%A9%20%D8%A7%D9%84%D9%82%D9%85%D8%B1%20%E2%80%93%20Jarat%20Al-Qamar%20Caf%C3%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJr1A1u4IL_RURuzkyGgZ9gXQ",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 0
+    },
+    {
+      "id": "cafes-02",
+      "categoryId": "cafes",
+      "title": "مقهى جارة الغيم – Jarat Al-Ghaim Café",
+      "description": "مقهى بإطلالة مرتفعة على الجبال.",
+      "englishDescription": "Mountaintop view from above.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=%D9%85%D9%82%D9%87%D9%89%20%D8%AC%D8%A7%D8%B1%D8%A9%20%D8%A7%D9%84%D8%BA%D9%8A%D9%85%20%E2%80%93%20Jarat%20Al-Ghaim%20Caf%C3%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJJfW_SAwL_RURP4zchhlsRRM",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 1
+    },
+    {
+      "id": "cafes-03",
+      "categoryId": "cafes",
+      "title": "مقهى ومطل إيوان – Iwan Café & Viewpoint",
+      "description": "مقهى مع جلسات مطلة على الطبيعة الجبلية.",
+      "englishDescription": "Café with a beautiful scenic view.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=%D9%85%D9%82%D9%87%D9%89%20%D9%88%D9%85%D8%B7%D9%84%20%D8%A5%D9%8A%D9%88%D8%A7%D9%86%20%E2%80%93%20Iwan%20Caf%C3%A9%20%26%20Viewpoint%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJJ9IjBAAN_RURcDbBphS0Gjo",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 2
+    },
+    {
+      "id": "cafes-04",
+      "categoryId": "cafes",
+      "title": "مقهى سكون",
+      "description": "مقهى يوفر جلسات بإطلالة على جبال فيفاء.",
+      "englishDescription": "Beautiful and amazing view of the mountains.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=%D9%85%D9%82%D9%87%D9%89%20%D8%B3%D9%83%D9%88%D9%86%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJT0ZqXwAL_RURYa283CoExWk",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 3
+    },
+    {
+      "id": "cafes-05",
+      "categoryId": "cafes",
+      "title": "كافيه تالقة",
+      "description": "مقهى يحمل اسمًا مستوحى من شجرة معمّرة في جبال فيفاء.",
+      "englishDescription": "New and beautiful café named after an ancient tree in the mountain.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=%D9%83%D8%A7%D9%81%D9%8A%D9%87%20%D8%AA%D8%A7%D9%84%D9%82%D8%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ0wr7IwAN_RURRnYq0byhnV0",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 4
+    },
+    {
+      "id": "cafes-06",
+      "categoryId": "cafes",
+      "title": "لب القهوة",
+      "description": "مقهى في فيفاء لتناول القهوة والمشروبات.",
+      "englishDescription": "A coffee shop in Faifa serving coffee and drinks.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=%D9%84%D8%A8%20%D8%A7%D9%84%D9%82%D9%87%D9%88%D8%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJPVihu2gL_RURTL0fmTwCk5s",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 5
+    },
+    {
+      "id": "cafes-07",
+      "categoryId": "cafes",
+      "title": "غيمة – Cloud",
+      "description": "مقهى على طريق طلعة فيفاء باتجاه بلغازي، مناسب للتوقف وتناول القهوة.",
+      "englishDescription": "A café along the road to Faifa near Balgazi.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=Ghima%20Cloud%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJFX0E2xUN_RURNVdN1tkP49w",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 6
+    },
+    {
+      "id": "cafes-08",
+      "categoryId": "cafes",
+      "title": "مقهى البرنسيسة",
+      "description": "مقهى للقهوة والحلويات على الشارع العام في الجوه.",
+      "englishDescription": "A coffee and dessert café on the main road in Al-Jawwah.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=Princessa%20Cafe%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJJajrZKML_RURgTzv0n4ADA8",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 7
+    },
+    {
+      "id": "cafes-09",
+      "categoryId": "cafes",
+      "title": "مقهى روز بسنت النسائي",
+      "description": "مقهى مخصص للنساء في فيفاء، مع جلسات مطلة على الطبيعة الجبلية.",
+      "englishDescription": "A women-only café with mountain-view seating.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=Rose%20Basnat%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJcwE9kSwL_RURDeVHUtSGO6o",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 8
+    },
+    {
+      "id": "cafes-10",
+      "categoryId": "cafes",
+      "title": "ديوانية واسع الخاطر",
+      "description": "ديوانية وجلسات في محيط منتزه الخطم بفيفاء.",
+      "englishDescription": "A gathering spot near Al-Khatm Park in Faifa.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=Wasee%20Alkhater%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJd2QoJQAL_RURET82j0TiqP0",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 9
+    },
+    {
+      "id": "cafes-11",
+      "categoryId": "cafes",
+      "title": "أُلفة",
+      "description": "مقهى في فيفاء لتناول القهوة والاستراحة.",
+      "englishDescription": "A café for coffee and a short break in Faifa.",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=Olfa%20Cafe%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJyXO1DQAL_RURUDrR1e0FWNg",
+      "imageUrl": "",
+      "visible": true,
+      "sortOrder": 10
+    }
+  ]
+}
