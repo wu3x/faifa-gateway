@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Check, Eye, LayoutGrid, LogOut, Palette, Plus, Save, Settings, Trash2 } from "lucide-react";
-import { VOTES_API } from "@/lib/votes";
+
 
 type Place = { id: string; categoryId: string; title: string; description: string; englishDescription: string; mapLink: string; imageUrl: string; visible: boolean; sortOrder: number };
 type Section = { id: string; title: string; englishTitle: string; visible: boolean; sortOrder: number };
 type SiteContent = { settings: Record<string, string>; sections: Section[]; places: Place[] };
 const empty: SiteContent = { settings: { siteTitle: "فيفاء", heroTitle: "اكتشف فيفاء", heroDescription: "", heroImage: "", accentColor: "#237c58" }, sections: [], places: [] };
-const API = VOTES_API.replace(/\/$/, "") + "/cms";
+const API = "https://faifa-admin.a-alfaifi771.workers.dev/cms";
 const field = "w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 outline-none focus:border-emerald-500";
 const labels: Record<string,string> = {siteTitle:"اسم الموقع",heroTitle:"عنوان الواجهة",heroDescription:"شرح الواجهة",heroImage:"رابط صورة الخلفية",accentColor:"اللون الأساسي"};
 
@@ -20,6 +20,7 @@ export default function Admin() {
   const [message,setMessage] = useState("");
   const [loaded,setLoaded] = useState(false);
   const [dirty,setDirty] = useState(false);
+  const [preview,setPreview] = useState(false);
 
   async function request(path: string, options: RequestInit = {}, credential = token) {
     const response = await fetch(API + path, { ...options, headers: { "Content-Type": "application/json", Authorization: "Bearer " + credential, ...(options.headers || {}) } });
@@ -78,6 +79,14 @@ export default function Admin() {
           {([{id:"content",name:"الأماكن",icon:LayoutGrid},{id:"sections",name:"الأقسام",icon:Plus},{id:"design",name:"التصميم",icon:Palette},{id:"settings",name:"الإعدادات",icon:Settings}] as const).map(item=><button key={item.id} onClick={()=>setTab(item.id)} className={"flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold "+(tab===item.id?"bg-emerald-700 text-white":"border bg-white")}><item.icon size={16}/>{item.name}</button>)}
           <button onClick={logout} className="mr-auto flex items-center gap-2 rounded-xl border bg-white px-4 py-2.5 text-sm"><LogOut size={16}/> خروج</button>
         </div>
+        {preview && <section className="mb-5 overflow-hidden rounded-2xl border bg-white shadow-sm">
+          <div className="flex items-center justify-between border-b p-4"><h2 className="font-bold">معاينة قبل الحفظ</h2><button className="rounded-lg border px-3 py-2" onClick={()=>setPreview(false)}>إغلاق</button></div>
+          <div className="bg-slate-900 p-10 text-center text-white" style={{backgroundImage:data.settings.heroImage ? 'linear-gradient(#0008,#0008),url('+encodeURI(data.settings.heroImage)+')' : undefined,backgroundSize:"cover",backgroundPosition:"center"}}>
+            <h2 className="text-3xl font-bold">{data.settings.heroTitle||data.settings.siteTitle}</h2><p className="mt-3">{data.settings.heroDescription}</p>
+          </div>
+          <div className="space-y-6 p-5">{data.sections.filter(s=>s.visible).map(section=><div key={section.id}><h3 className="mb-3 text-xl font-bold">{section.title}</h3><div className="grid gap-3 sm:grid-cols-2">{data.places.filter(p=>p.visible&&p.categoryId===section.id).map(place=><article key={place.id} className="rounded-xl border p-4"><h4 className="font-bold">{place.title}</h4><p className="text-sm">{place.description}</p></article>)}</div></div>)}</div>
+          <p className="border-t p-3 text-xs text-slate-500">معاينة تقريبية للمحتوى، وليست مطابقة لكل تصميم الموقع الحالي.</p>
+        </section>}
         <section className="rounded-2xl border bg-white p-5 shadow-sm">
           {tab==="content"&&<><div className="mb-4 flex items-center justify-between gap-3"><h2 className="text-lg font-bold">إدارة الأماكن</h2><button onClick={()=>{const id=crypto.randomUUID();update({...data,places:[...data.places,{id,categoryId:data.sections[0]?.id||"",title:"مكان جديد",description:"",englishDescription:"",mapLink:"",imageUrl:"",visible:false,sortOrder:data.places.length}]});setSelected(data.places.length)}} className="flex items-center gap-2 rounded-xl bg-emerald-700 px-4 py-2 text-sm text-white"><Plus size={16}/> مكان جديد</button></div>
             <div className="grid gap-4 md:grid-cols-[240px_1fr]"><div className="max-h-[540px] space-y-2 overflow-auto">{data.places.map((p,i)=><button key={p.id} onClick={()=>setSelected(i)} className={"w-full rounded-xl border p-3 text-right text-sm "+(selected===i?"border-emerald-600 bg-emerald-50":"bg-white")}><span className="block font-semibold">{p.title}</span><span className="text-xs text-slate-500">{data.sections.find(s=>s.id===p.categoryId)?.title||"غير مصنف"} · {p.visible?"ظاهر":"مخفي"}</span></button>)}</div>
@@ -91,7 +100,7 @@ export default function Admin() {
           {tab==="design"&&<><h2 className="mb-4 text-lg font-bold">الهوية البصرية والواجهة</h2><div className="grid gap-4 md:grid-cols-2">{Object.entries(labels).map(([key,label])=><label key={key} className="block text-sm font-medium">{label}<input className={"mt-1 "+field} type={key==="accentColor"?"color":"text"} value={data.settings[key]||""} onChange={e=>setting(key,e.target.value)}/></label>)}</div>{data.settings.heroImage&&<img src={data.settings.heroImage} alt="معاينة الخلفية" className="mt-5 h-44 w-full rounded-xl object-cover"/>}</>}
           {tab==="settings"&&<><h2 className="mb-3 text-lg font-bold">إعدادات الموقع</h2><p className="mb-4 text-sm text-slate-500">إعدادات إضافية قابلة للتوسع، بدون تعديل كود الواجهة لاحقًا.</p>{[["contactUrl","رابط التواصل"],["instagramUrl","إنستغرام"],["footerText","نص التذييل"],["announcement","شريط الإعلان"]].map(([key,label])=><label key={key} className="mb-3 block text-sm font-medium">{label}<input className={"mt-1 "+field} value={data.settings[key]||""} onChange={e=>setting(key,e.target.value)}/></label>)}</>}
         </section>
-        <div className="sticky bottom-3 mt-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border bg-white/95 p-4 shadow-lg backdrop-blur"><div className="text-sm">{dirty?"لديك تغييرات غير محفوظة":"لا توجد تغييرات غير محفوظة"}{message&&<p role="status" className="mt-1 text-xs text-slate-600">{message}</p>}</div><div className="flex gap-2"><button disabled={busy||!dirty} onClick={()=>save(false)} className="flex items-center gap-2 rounded-xl border px-4 py-2 text-sm disabled:opacity-50"><Save size={16}/> حفظ المسودة</button><button disabled={busy||!dirty} onClick={()=>save(true)} className="flex items-center gap-2 rounded-xl bg-emerald-700 px-4 py-2 text-sm text-white disabled:opacity-50"><Check size={16}/> اعتماد ونشر</button></div></div>
+        <div className="sticky bottom-3 mt-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border bg-white/95 p-4 shadow-lg backdrop-blur"><div className="text-sm">{dirty?"لديك تغييرات غير محفوظة":"لا توجد تغييرات غير محفوظة"}{message&&<p role="status" className="mt-1 text-xs text-slate-600">{message}</p>}</div><div className="flex flex-wrap gap-2"><button onClick={()=>setPreview(!preview)} className="flex items-center gap-2 rounded-xl border px-4 py-2 text-sm"><Eye size={16}/> معاينة</button><button disabled={busy||!dirty} onClick={()=>save(false)} className="flex items-center gap-2 rounded-xl border px-4 py-2 text-sm disabled:opacity-50"><Save size={16}/> حفظ المسودة</button><button disabled={busy||!dirty} onClick={()=>save(true)} className="flex items-center gap-2 rounded-xl bg-emerald-700 px-4 py-2 text-sm text-white disabled:opacity-50"><Check size={16}/> اعتماد ونشر</button></div></div>
       </>}
     </div>
   </div>;
