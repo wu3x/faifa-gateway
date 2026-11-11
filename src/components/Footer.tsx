@@ -20,6 +20,32 @@ const Footer = () => {
   const [copied, setCopied] = useState(false);
   const [open, setOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
+  const [adminPassword, setAdminPassword] = useState("");
+  const [adminBusy, setAdminBusy] = useState(false);
+  const [adminError, setAdminError] = useState("");
+
+  const loginAdmin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setAdminBusy(true);
+    setAdminError("");
+    try {
+      const response = await fetch("https://faifa-admin.a-alfaifi771.workers.dev/cms/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: adminPassword }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || !result.token) throw new Error(result.error || result.message || "تعذر تسجيل الدخول");
+      sessionStorage.setItem("faifa-admin-token", result.token);
+      setAdminPassword("");
+      setAdminOpen(false);
+      window.location.href = "/faifa-gateway/#/admin";
+    } catch (error) {
+      setAdminError(error instanceof Error ? error.message : "تعذر الاتصال بخدمة الإدارة");
+    } finally {
+      setAdminBusy(false);
+    }
+  };
   const { toast } = useToast();
   const { lang, t } = useLanguage();
   const SHARE_TITLE = t("اكتشف فيفاء", "Discover Faifa");
@@ -62,13 +88,18 @@ const Footer = () => {
   return (
     <footer className="relative bg-gradient-hero dark:bg-none dark:bg-[#101820] text-primary-foreground mt-20">
       <button type="button" aria-label="إدارة الموقع" title="إدارة الموقع" onClick={() => setAdminOpen(true)} className="absolute bottom-3 left-3 z-10 h-3 w-3 rounded-full bg-red-600 hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white" />
-      <Dialog open={adminOpen} onOpenChange={setAdminOpen}>
+      <Dialog open={adminOpen} onOpenChange={(next) => { setAdminOpen(next); if (!next) { setAdminPassword(""); setAdminError(""); } }}>
         <DialogContent dir="rtl" className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2"><LockKeyhole className="h-5 w-5" /> لوحة إدارة فيفاء</DialogTitle>
-            <DialogDescription className="pt-2 text-right">لوحة الإدارة متصلة بخدمة CMS. افتحها وسجّل الدخول بكلمة المرور التي أعددتها في Cloudflare.</DialogDescription>
+            <DialogDescription className="pt-2 text-right">أدخل كلمة المرور الخاصة بإدارة الموقع.</DialogDescription>
           </DialogHeader>
-          <a href="/faifa-gateway/#/admin" className="rounded-lg bg-emerald-700 px-4 py-3 text-center text-sm font-semibold text-white">فتح لوحة الإدارة</a>
+          <form onSubmit={loginAdmin} className="space-y-3">
+            <label htmlFor="faifa-admin-password" className="block text-sm font-medium">كلمة المرور</label>
+            <Input id="faifa-admin-password" type="password" autoComplete="current-password" required value={adminPassword} onChange={(event) => setAdminPassword(event.target.value)} placeholder="أدخل كلمة المرور" />
+            {adminError && <p role="alert" className="text-sm text-red-600">{adminError}</p>}
+            <Button type="submit" disabled={adminBusy} className="w-full bg-emerald-700 text-white hover:bg-emerald-800">{adminBusy ? "جارٍ التحقق..." : "دخول لوحة الإدارة"}</Button>
+          </form>
           <Button type="button" variant="outline" onClick={() => setAdminOpen(false)}>إغلاق</Button>
         </DialogContent>
       </Dialog>
