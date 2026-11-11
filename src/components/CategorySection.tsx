@@ -16,67 +16,62 @@ import { useLanguage } from "@/contexts/LanguageContext";
 const CategorySection = ({ id, title, icon, children }: CategorySectionProps) => {
   const { lang, t } = useLanguage();
   const detail = categoryDetails[id];
-  // Until D1 is deployed, votes persist on this device and remain clearly local.
-  const storageKey = "faifa-local-vote-" + id;
-  const readLocalChoice = () => {
-    try { return localStorage.getItem(storageKey) || null; } catch { return null; }
-  };
-  const [choice, setChoice] = useState<string | null>(readLocalChoice);
-  const [remote, setRemote] = useState(false);
-  const [remoteCounts, setRemoteCounts] = useState<Record<string, number>>({});
+  // The server is the sole source of truth. Never count a vote only in this browser.
+  const [choice, setChoice] = useState<string | null>(null);
+  const [remoteCounts, setRemoteCounts] = useState<Record<string, number>>(STARTER_VOTES[id] || {});
   const [busy, setBusy] = useState(false);
   const [celebrating, setCelebrating] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
+  const [voteError, setVoteError] = useState(false);
   useEffect(() => {
     let active = true;
-    fetch(VOTES_API + "?category=" + encodeURIComponent(id))
+    setReady(false);
+    fetch(VOTES_API + "?category=" + encodeURIComponent(id), { cache: "no-store" })
       .then(async r => { if (!r.ok) throw new Error("Unavailable"); return r.json(); })
       .then(data => {
         if (!active) return;
-        setRemoteCounts(data.counts || {});
-        setRemote(true);
+        if (!data.counts || typeof data.counts !== "object") throw new Error("Invalid counts");
+        setRemoteCounts(data.counts);
         try { setChoice(localStorage.getItem("faifa-choice-" + id)); } catch {}
+        setVoteError(false);
         setReady(true);
       })
-      .catch(() => { if (active) { setRemote(false); setReady(true); } });
+      .catch(() => { if (active) { setVoteError(true); setReady(false); } });
     return () => { active = false; };
   }, [id]);
-  const counts = remote ? remoteCounts : Object.fromEntries(
-    Object.entries(STARTER_VOTES[id] || {}).map(([key, value]) => [key, value + (choice === key ? 1 : 0)])
-  );
+  const counts = remoteCounts;
   const vote = async (placeId: string) => {
     if (busy || !ready || choice === placeId) return;
-    if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate?.([35, 25, 65]);
-    setCelebrating(placeId);
-    if (!remote) {
-      try { localStorage.setItem(storageKey, placeId); } catch {}
-      setChoice(placeId);
-      return;
-    }
     const voterId = getVoterId();
-    if (!voterId) return;
+    if (!voterId) { setVoteError(true); return; }
     setBusy(true);
-    const previous = choice;
-    const previousCounts = remoteCounts;
-    setChoice(placeId);
-    setRemoteCounts(current => ({
-      ...current,
-      ...(previous ? { [previous]: Math.max(0, (current[previous] ?? STARTER_VOTES[id]?.[previous] ?? 0) - 1) } : {}),
-      [placeId]: (current[placeId] ?? STARTER_VOTES[id]?.[placeId] ?? 0) + 1
-    }));
+    setVoteError(false);
     try {
       const response = await fetch(VOTES_API, {
-        method: "POST", headers: { "Content-Type": "application/json" },
+        method: "POST", cache: "no-store",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ category: id, placeId, voterId })
       });
       if (!response.ok) throw new Error("Vote failed");
       const data = await response.json();
-      setRemoteCounts(data.counts || {});
+      if (data.choice !== placeId || !data.counts || typeof data.counts !== "object") {
+        throw new Error("Invalid vote confirmation");
+      }
+      setRemoteCounts(data.counts);
+      setChoice(placeId);
       try { localStorage.setItem("faifa-choice-" + id, placeId); } catch {}
+      setCelebrating(placeId);
+      if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate?.([35, 25, 65]);
     } catch {
-      setChoice(previous);
-      setRemoteCounts(previousCounts);
-      setRemote(false);
+      setVoteError(true);
+      // Do not pretend a failed vote succeeded; the next refresh retrieves server totals.
+      try {
+        const response = await fetch(VOTES_API + "?category=" + encodeURIComponent(id), { cache: "no-store" });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.counts) setRemoteCounts(data.counts);
+        }
+      } catch {}
     } finally { setBusy(false); }
   };
   const cards = Children.toArray(children).filter(isValidElement).map((child, index) => {
@@ -94,6 +89,7 @@ const CategorySection = ({ id, title, icon, children }: CategorySectionProps) =>
         </div>
         
       </div>
+      {voteError && <p role="alert" className="mb-4 text-sm text-destructive">{t("تعذر الاتصال بحفظ النجوم. لم يتم تأكيد التصويت، حاول تحديث الصفحة.", "Could not confirm your vote. Please refresh and try again.")}</p>}
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">{cards.map(({child,key}) => cloneElement(child as React.ReactElement<any>, { key, voteCount: counts[key] || 0, hasVoted: choice === key, onVote: () => vote(key), voteDisabled: busy || !ready, celebrating: celebrating === key, onCelebrationEnd: () => setCelebrating(null) }))}</div>
     </section>
   );
