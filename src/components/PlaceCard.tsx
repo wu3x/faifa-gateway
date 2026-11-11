@@ -44,7 +44,7 @@ const PlaceCard = ({ title, description, englishDescription, additionalContent, 
               {celebrating && <Star aria-hidden="true" className="faifa-vote-fly absolute h-6 w-6 text-amber-300" fill="currentColor" />}
             </span>
             <span dir="ltr" className="text-xs font-extrabold tabular-nums">{voteCount}</span>
-            <span className="max-w-[75px] text-[9px] font-medium leading-tight text-foreground/75">{hasVoted ? t("تم التصويت", "Voted") : t("امنح المكان نجمة", "Give a star")}</span>
+            <span className="max-w-[75px] text-[9px] font-medium leading-tight text-foreground/75">{hasVoted ? t("لقد منحت المكان نجمة", "You gave this place a star") : t("امنح المكان نجمة", "Give a star")}</span>
           </button>
         </div>
         <h3 className="relative text-xl font-bold leading-relaxed text-foreground md:text-[1.35rem]">{displayTitle}</h3>
