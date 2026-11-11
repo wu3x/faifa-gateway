@@ -22,7 +22,6 @@ const CategorySection = ({ id, title, icon, children }: CategorySectionProps) =>
   const [busy, setBusy] = useState(false);
   const [celebrating, setCelebrating] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
-  const [voteError, setVoteError] = useState(false);
   useEffect(() => {
     let active = true;
     setReady(false);
@@ -33,19 +32,17 @@ const CategorySection = ({ id, title, icon, children }: CategorySectionProps) =>
         if (!data.counts || typeof data.counts !== "object") throw new Error("Invalid counts");
         setRemoteCounts(data.counts);
         try { setChoice(localStorage.getItem("faifa-choice-" + id)); } catch {}
-        setVoteError(false);
         setReady(true);
       })
-      .catch(() => { if (active) { setVoteError(true); setReady(false); } });
+      .catch(() => { if (active) { setReady(false); } });
     return () => { active = false; };
   }, [id]);
   const counts = remoteCounts;
   const vote = async (placeId: string) => {
     if (busy || !ready || choice === placeId) return;
     const voterId = getVoterId();
-    if (!voterId) { setVoteError(true); return; }
+    if (!voterId) return;
     setBusy(true);
-    setVoteError(false);
     try {
       const response = await fetch(VOTES_API, {
         method: "POST", cache: "no-store",
@@ -63,7 +60,6 @@ const CategorySection = ({ id, title, icon, children }: CategorySectionProps) =>
       setCelebrating(placeId);
       if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate?.([35, 25, 65]);
     } catch {
-      setVoteError(true);
       // Do not pretend a failed vote succeeded; the next refresh retrieves server totals.
       try {
         const response = await fetch(VOTES_API + "?category=" + encodeURIComponent(id), { cache: "no-store" });
@@ -89,7 +85,6 @@ const CategorySection = ({ id, title, icon, children }: CategorySectionProps) =>
         </div>
         
       </div>
-      {voteError && <p role="alert" className="mb-4 text-sm text-destructive">{t("تعذر الاتصال بحفظ النجوم. لم يتم تأكيد التصويت، حاول تحديث الصفحة.", "Could not confirm your vote. Please refresh and try again.")}</p>}
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">{cards.map(({child,key}) => cloneElement(child as React.ReactElement<any>, { key, voteCount: counts[key] || 0, hasVoted: choice === key, onVote: () => vote(key), voteDisabled: busy || !ready, celebrating: celebrating === key, onCelebrationEnd: () => setCelebrating(null) }))}</div>
     </section>
   );
