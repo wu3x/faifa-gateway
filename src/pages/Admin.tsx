@@ -1,3 +1,4 @@
+import originalSiteContent from "@/data/originalSiteContent.json";
 import { useEffect, useState } from "react";
 import { ArrowRight, Check, Eye, LayoutGrid, LogOut, Palette, Plus, Save, Settings, Trash2 } from "lucide-react";
 
@@ -52,6 +53,13 @@ export default function Admin() {
   function setting(key: string,value: string) { update({...data,settings:{...data.settings,[key]:value}}); }
   function changePlace(index: number, patch: Partial<Place>) { update({...data,places:data.places.map((p,i)=>i===index?{...p,...patch}:p)}); }
   function changeSection(index: number, patch: Partial<Section>) { update({...data,sections:data.sections.map((p,i)=>i===index?{...p,...patch}:p)}); }
+  function importOriginal() {
+    if (data.places.length || data.sections.length) { setMessage("الاستيراد متاح فقط عندما تكون قاعدة المحتوى فارغة، حفاظًا على بياناتك."); return; }
+    if (!window.confirm("استيراد الأماكن الـ31 والأقسام الثلاثة الأصلية إلى مسودة الإدارة؟ لن يتغير الموقع المنشور قبل ضغط اعتماد ونشر.")) return;
+    update(JSON.parse(JSON.stringify(originalSiteContent)) as SiteContent);
+    setSelected(0);
+    setMessage("تم تجهيز 31 مكانًا من الموقع الأصلي في المسودة. راجعها ثم احفظها.");
+  }
   async function save(publish: boolean) {
     setBusy(true); setMessage("");
     try {
@@ -72,6 +80,7 @@ export default function Admin() {
         <button disabled={busy} className="mt-4 w-full rounded-xl bg-emerald-700 px-4 py-3 font-bold text-white disabled:opacity-50">دخول آمن</button>
         {message&&<p role="alert" className="mt-4 text-sm text-red-700">{message}</p>}
       </form> : !loaded ? <div className="rounded-2xl border bg-white p-6"><p>{busy?"جارٍ تحميل بيانات الإدارة...":message || "تعذر تحميل لوحة الإدارة"}</p><div className="mt-4 flex gap-2"><button className="rounded-lg border px-4 py-2" onClick={()=>load()}>إعادة المحاولة</button><button className="rounded-lg border px-4 py-2" onClick={logout}>خروج</button></div></div> : <>
+        {data.places.length===0 && data.sections.length===0 && <div className="mb-5 rounded-2xl border border-amber-300 bg-amber-50 p-5"><h2 className="font-bold">ربط الموقع الحالي بلوحة الإدارة</h2><p className="mt-2 text-sm">قاعدة المحتوى فارغة، لكن الموقع الأصلي يحتوي 31 مكانًا موزعة على 3 أقسام. انسخها إلى مسودة الإدارة بدون حذف أو تعديل الموقع الحالي أو أصوات الزوار.</p><button onClick={importOriginal} className="mt-3 rounded-xl bg-emerald-700 px-4 py-2.5 font-bold text-white">استيراد الأماكن الـ31 من الموقع الحالي</button></div>}
         <div className="mb-5 grid grid-cols-2 gap-3 md:grid-cols-3">
           {[["الأماكن",data.places.length],["الأقسام",data.sections.length],["الأماكن الظاهرة",data.places.filter(p=>p.visible).length]].map(([label,value])=><div key={label} className="rounded-2xl border bg-white p-5"><div className="text-3xl font-bold">{value}</div><div className="mt-1 text-sm text-slate-500">{label}</div></div>)}
         </div>
