@@ -1,6 +1,6 @@
 import { useState } from "react";
 import DeveloperSection from "./DeveloperSection";
-import { Share2, Copy, Check, ExternalLink } from "lucide-react";
+import { Share2, Copy, Check, ExternalLink, LockKeyhole } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -19,6 +19,7 @@ const SHARE_URL = "https://wu3x.github.io/faifa-gateway/";
 const Footer = () => {
   const [copied, setCopied] = useState(false);
   const [open, setOpen] = useState(false);
+  const [adminOpen, setAdminOpen] = useState(false);
   const { toast } = useToast();
   const { lang, t } = useLanguage();
   const SHARE_TITLE = t("اكتشف فيفاء", "Discover Faifa");
@@ -59,7 +60,17 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gradient-hero dark:bg-none dark:bg-[#101820] text-primary-foreground mt-20">
+    <footer className="relative bg-gradient-hero dark:bg-none dark:bg-[#101820] text-primary-foreground mt-20">
+      <button type="button" aria-label="إدارة الموقع" title="إدارة الموقع" onClick={() => setAdminOpen(true)} className="absolute bottom-3 left-3 z-10 h-3 w-3 rounded-full bg-red-600 hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white" />
+      <Dialog open={adminOpen} onOpenChange={setAdminOpen}>
+        <DialogContent dir="rtl" className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2"><LockKeyhole className="h-5 w-5" /> لوحة إدارة فيفاء</DialogTitle>
+            <DialogDescription className="pt-2 text-right">مدخل الإدارة جاهز. سيتم تفعيل تسجيل الدخول الآمن ولوحة التحكم بعد ربط خدمة الإدارة بقاعدة البيانات. لا تدخل كلمة مرور هنا حاليًا.</DialogDescription>
+          </DialogHeader>
+          <Button type="button" onClick={() => setAdminOpen(false)}>إغلاق</Button>
+        </DialogContent>
+      </Dialog>
       <div className="container mx-auto px-6 py-12">
         <div className="text-center space-y-8">
           {/* Compact developer and sharing actions side by side */}
