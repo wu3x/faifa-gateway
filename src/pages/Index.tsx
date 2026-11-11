@@ -5,7 +5,6 @@ import CategorySection from "@/components/CategorySection";
 import PlaceCard from "@/components/PlaceCard";
 import Footer from "@/components/Footer";
 import CompactControlBar from "@/components/CompactControlBar";
-import InteractiveMap from "@/components/InteractiveMap";
 import BackToTop from "@/components/BackToTop";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -275,11 +274,6 @@ const Index = () => {
           />
         </CategorySection>
       </main>
-
-      {/* Interactive Map Section */}
-      <div className="container mx-auto px-6">
-        <InteractiveMap />
-      </div>
 
       <Footer />
       <BackToTop />
