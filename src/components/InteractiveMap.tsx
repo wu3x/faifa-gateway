@@ -1,444 +1,110 @@
-import { useState, useCallback, useEffect, useRef } from "react";
-import { MapPin, Navigation, X, Map } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { MapPin, Navigation, Map, LocateFixed } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-declare global {
-  interface Window {
-    google: any;
-    initMap: () => void;
-  }
-}
-
-interface Location {
-  id: string;
-  name: string;
-  nameEn: string;
-  type: "hotel" | "park" | "cafe";
-  lat: number;
-  lng: number;
-  mapLink: string;
-}
-
-// Faifa locations with coordinates extracted from the place names
-const locations: Location[] = [
-  // Hotels
-  {
-    id: "jarat-al-gheim",
-    name: "فندق جارة الغيم",
-    nameEn: "Jarat Al Gheim Hotel",
-    type: "hotel",
-    lat: 17.2565,
-    lng: 43.1145,
-    mapLink: "https://maps.app.goo.gl/aV8KzXz4JTAXTBPh6"
-  },
-  {
-    id: "faifa-luxury",
-    name: "فندق فيفاء الفاخر",
-    nameEn: "Faifa Luxury Hotel",
-    type: "hotel",
-    lat: 17.2580,
-    lng: 43.1130,
-    mapLink: "https://maps.app.goo.gl/WQnUcteQvjDkLqUb7"
-  },
-  {
-    id: "iwan-hotel",
-    name: "فندق إيوان",
-    nameEn: "Iwan Hotel",
-    type: "hotel",
-    lat: 17.2555,
-    lng: 43.1160,
-    mapLink: "https://maps.app.goo.gl/TvqSciP5UrBrPBNS8"
-  },
-  {
-    id: "beit-sahlan",
-    name: "بيت سهلان",
-    nameEn: "Beit Sahlan",
-    type: "hotel",
-    lat: 17.2548,
-    lng: 43.1175,
-    mapLink: "https://maps.app.goo.gl/ZgDkhJv2dHvs69oQ8"
-  },
-  // Parks & Viewpoints
-  {
-    id: "al-khatm",
-    name: "منتزه وإطلالة الخطم",
-    nameEn: "Al-Khatm Park & Viewpoint",
-    type: "park",
-    lat: 17.2610,
-    lng: 43.1085,
-    mapLink: "https://maps.app.goo.gl/Cdfrj4YBB88aH2yf9"
-  },
-  {
-    id: "souq-alnafiah",
-    name: "سوق النفيعة الشعبي",
-    nameEn: "Al-Nafi'ah Traditional Market",
-    type: "park",
-    lat: 17.2590,
-    lng: 43.1120,
-    mapLink: "https://maps.app.goo.gl/TzAGVeryF34ooRbh7"
-  },
-  {
-    id: "al-bakhira",
-    name: "منتجع الباخرة",
-    nameEn: "Al-Bakhira Resort",
-    type: "park",
-    lat: 17.2520,
-    lng: 43.1200,
-    mapLink: "https://maps.app.goo.gl/4No4mWgXs3vVz7CD7"
-  },
-  {
-    id: "khawlani-trail",
-    name: "ممشى البن الخولاني",
-    nameEn: "Khawlani Coffee Trail",
-    type: "park",
-    lat: 17.2575,
-    lng: 43.1095,
-    mapLink: "https://maps.app.goo.gl/EkhwSPbHFqKNcyvs7"
-  },
-  {
-    id: "al-dafrah",
-    name: "مطل الدفرة",
-    nameEn: "Al-Dafrah Viewpoint",
-    type: "park",
-    lat: 17.2630,
-    lng: 43.1050,
-    mapLink: "https://maps.app.goo.gl/ex9dGXbr9Vu8gCnc8"
-  },
-  {
-    id: "qarza",
-    name: "مطل قرضة",
-    nameEn: "Qarza Viewpoint",
-    type: "park",
-    lat: 17.2540,
-    lng: 43.1210,
-    mapLink: "https://maps.app.goo.gl/yibESTRS7VWEYEKz6"
-  },
-  {
-    id: "hanging-mosque",
-    name: "المصلى المعلق",
-    nameEn: "The Hanging Mosque",
-    type: "park",
-    lat: 17.2560,
-    lng: 43.1140,
-    mapLink: "https://maps.app.goo.gl/kxuvxMzVTKzSKJ7Y9"
-  },
-  {
-    id: "al-absiyah",
-    name: "مطل العبسية",
-    nameEn: "Al-Absiyah Viewpoint",
-    type: "park",
-    lat: 17.2650,
-    lng: 43.1030,
-    mapLink: "https://maps.app.goo.gl/7oTLeZDz1Pbap2Tk8"
-  },
-  // Cafes
-  {
-    id: "jarat-alqamar",
-    name: "مقهى جارة القمر",
-    nameEn: "Jarat Al-Qamar Café",
-    type: "cafe",
-    lat: 17.2572,
-    lng: 43.1152,
-    mapLink: "https://maps.app.goo.gl/Cjh7oPM5aX2QsdUR6"
-  },
-  {
-    id: "jarat-alghaim-cafe",
-    name: "مقهى جارة الغيم",
-    nameEn: "Jarat Al-Ghaim Café",
-    type: "cafe",
-    lat: 17.2567,
-    lng: 43.1148,
-    mapLink: "https://maps.app.goo.gl/FekVqv8zkzj5Fuk97"
-  },
-  {
-    id: "iwan-cafe",
-    name: "مقهى ومطل إيوان",
-    nameEn: "Iwan Café & Viewpoint",
-    type: "cafe",
-    lat: 17.2558,
-    lng: 43.1158,
-    mapLink: "https://maps.app.goo.gl/yWadi31KNE7ykdN86"
-  },
-  {
-    id: "sukoon",
-    name: "مقهى سكون",
-    nameEn: "Sukoon Café",
-    type: "cafe",
-    lat: 17.2583,
-    lng: 43.1135,
-    mapLink: "https://maps.app.goo.gl/RA3bdJW8rLZzjTFi9"
-  },
-  {
-    id: "taliqa",
-    name: "كافية تالقة",
-    nameEn: "Taliqa Café",
-    type: "cafe",
-    lat: 17.2545,
-    lng: 43.1168,
-    mapLink: "https://maps.app.goo.gl/9MfLxBT1AghGifAR8"
-  },
-  {
-    id: "lub-alqahwa",
-    name: "لب القهوة",
-    nameEn: "Lub Al-Qahwa Café",
-    type: "cafe",
-    lat: 17.2552,
-    lng: 43.1172,
-    mapLink: "https://maps.app.goo.gl/EJ1xKPEnpdgGF9Z3A"
-  }
-];
-
-const typeColors = {
-  hotel: { bg: "bg-blue-500", text: "text-blue-500", border: "border-blue-500" },
-  park: { bg: "bg-green-500", text: "text-green-500", border: "border-green-500" },
-  cafe: { bg: "bg-amber-500", text: "text-amber-500", border: "border-amber-500" }
+type Kind = "hotel" | "park" | "cafe";
+type Place = { name: string; en: string; kind: Kind; lat: number; lng: number; search: string };
+const places: Place[] = [
+  ["فندق جارة الغيم","Jarat Al Gheim Hotel","hotel",17.2565,43.1145],
+  ["فندق فيفاء الفاخر","Faifa Luxury Hotel","hotel",17.2580,43.1130],
+  ["فندق إيوان","Iwan Hotel","hotel",17.2555,43.1160],
+  ["بيت سهلان","Beit Sahlan","hotel",17.2548,43.1175],
+  ["منتزه وإطلالة الخطم","Al-Khatm Park","park",17.2610,43.1085],
+  ["سوق النفيعة الشعبي","Al-Nafiah Market","park",17.2590,43.1120],
+  ["منتجع الباخرة","Al-Bakhira Resort","park",17.2520,43.1200],
+  ["ممشى البن الخولاني","Khawlani Coffee Trail","park",17.2575,43.1095],
+  ["مطل الدفرة","Al-Dafrah Viewpoint","park",17.2630,43.1050],
+  ["مطل قرضة","Qarza Viewpoint","park",17.2540,43.1210],
+  ["المصلى المعلق","Hanging Mosque","park",17.2560,43.1140],
+  ["مطل العبسية","Al-Absiyah Viewpoint","park",17.2650,43.1030],
+  ["مقهى جارة القمر","Jarat Al-Qamar Cafe","cafe",17.2572,43.1152],
+  ["مقهى جارة الغيم","Jarat Al-Ghaim Cafe","cafe",17.2567,43.1148],
+  ["مقهى ومطل إيوان","Iwan Cafe","cafe",17.2558,43.1158],
+  ["مقهى سكون","Sukoon Cafe","cafe",17.2583,43.1135],
+  ["كافيه تالقة","Taliqa Cafe","cafe",17.2545,43.1168],
+  ["لب القهوة","Lub Al-Qahwa","cafe",17.2552,43.1172]
+].map(([name,en,kind,lat,lng]) => ({name: String(name),en: String(en),kind: kind as Kind,lat: Number(lat),lng: Number(lng),search: String(name) + " فيفاء"}));
+const missing = {
+  hotel: ["أكواخ الندى","شاليه فيفا – Viva Cottage","سكني","الوادي الأخضر للغرف والشقق","الدثنة للشقق المفروشة","السحاب فيو","فيفاء للوحدات السكنية"],
+  park: ["إطلالة فيفا"],
+  cafe: ["غيمة – Cloud","مقهى البرنسيسة","مقهى روز بسنت النسائي","ديوانية واسع الخاطر","أُلفة"]
 };
-
-const typeLabels = {
-  hotel: { ar: "فندق", en: "Hotel" },
-  park: { ar: "منتزه", en: "Park" },
-  cafe: { ar: "مقهى", en: "Cafe" }
-};
-
-const InteractiveMap = () => {
-  const { lang, t } = useLanguage();
-  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
-  const [filter, setFilter] = useState<"all" | "hotel" | "park" | "cafe">("all");
-  const [mapLoaded, setMapLoaded] = useState(false);
-  const mapRef = useRef<HTMLDivElement>(null);
-  const googleMapRef = useRef<any>(null);
-  const markersRef = useRef<any[]>([]);
-
-  const center = { lat: 17.2580, lng: 43.1130 };
-
-  const filteredLocations = filter === "all" 
-    ? locations 
-    : locations.filter(loc => loc.type === filter);
-
-  const handleMarkerClick = useCallback((location: Location) => {
-    setSelectedLocation(location);
-  }, []);
-
-  const handleOpenInMaps = useCallback((mapLink: string) => {
-    window.open(mapLink, "_blank", "noopener,noreferrer");
-  }, []);
-
-  const markerColors = {
-    hotel: "#3b82f6",
-    park: "#22c55e", 
-    cafe: "#f59e0b"
+const colors: Record<Kind,string> = {hotel:"#2563eb",park:"#16a34a",cafe:"#d97706"};
+const labels: Record<Kind,[string,string]> = {hotel:["الفنادق","Hotels"],park:["المنتزهات والمعالم","Parks"],cafe:["الكافيهات","Cafes"]};
+const MAPLIBRE = "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js";
+const MAPLIBRE_CSS = "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css";
+declare global { interface Window { maplibregl?: any } }
+function loadMapLibre(): Promise<any> {
+  if (window.maplibregl) return Promise.resolve(window.maplibregl);
+  if (!document.querySelector('link[data-faifa-map]')) {
+    const link = document.createElement("link"); link.rel="stylesheet";link.href=MAPLIBRE_CSS;link.dataset.faifaMap="yes";document.head.appendChild(link);
+  }
+  return new Promise((resolve,reject)=>{
+    const old = document.querySelector<HTMLScriptElement>('script[data-faifa-map]');
+    if (old) {old.addEventListener("load",()=>resolve(window.maplibregl),{once:true});old.addEventListener("error",reject,{once:true});return;}
+    const script=document.createElement("script");script.src=MAPLIBRE;script.async=true;script.dataset.faifaMap="yes";
+    script.onload=()=>window.maplibregl?resolve(window.maplibregl):reject(new Error("MapLibre unavailable"));
+    script.onerror=()=>reject(new Error("MapLibre failed to load"));document.head.appendChild(script);
+  });
+}
+export default function InteractiveMap() {
+  const {lang,t}=useLanguage();
+  const [filter,setFilter]=useState<Kind|"all">("all");
+  const [selected,setSelected]=useState<Place|null>(null);
+  const [error,setError]=useState(false);
+  const [ready,setReady]=useState(false);
+  const container=useRef<HTMLDivElement>(null);
+  const map=useRef<any>(null);
+  const markers=useRef<any[]>([]);
+  const visible=useMemo(()=>filter==="all"?places:places.filter(p=>p.kind===filter),[filter]);
+  useEffect(()=>{
+    let cancelled=false;
+    loadMapLibre().then(lib=>{
+      if(cancelled||!container.current)return;
+      const instance=new lib.Map({container:container.current,style:"https://tiles.openfreemap.org/styles/liberty",center:[43.113,17.258],zoom:12.5,minZoom:9,maxZoom:18,attributionControl:true});
+      map.current=instance;
+      instance.addControl(new lib.NavigationControl({showCompass:false}),"top-left");
+      instance.on("load",()=>{if(!cancelled)setReady(true);});
+      instance.on("error",(event:any)=>{if(event?.error?.message?.includes("style")&&!cancelled)setError(true);});
+    }).catch(()=>{if(!cancelled)setError(true);});
+    return ()=>{cancelled=true;markers.current.forEach(m=>m.remove());markers.current=[];map.current?.remove();map.current=null;};
+  },[]);
+  useEffect(()=>{
+    if(!ready||!map.current||!window.maplibregl)return;
+    markers.current.forEach(m=>m.remove());markers.current=[];
+    visible.forEach(place=>{
+      const el=document.createElement("button");el.type="button";el.title=place.name;
+      el.setAttribute("aria-label",place.name);
+      el.style.cssText=`width:32px;height:32px;border-radius:50%;border:3px solid white;background:${colors[place.kind]};color:white;box-shadow:0 2px 9px #0006;cursor:pointer;display:grid;place-items:center;font-size:17px`;
+      el.textContent=place.kind==="hotel"?"⌂":place.kind==="cafe"?"☕":"●";
+      el.addEventListener("click",()=>{setSelected(place);map.current?.flyTo({center:[place.lng,place.lat],zoom:Math.max(map.current.getZoom(),14),essential:true});});
+      const marker=new window.maplibregl.Marker({element:el}).setLngLat([place.lng,place.lat]).addTo(map.current);
+      markers.current.push(marker);
+    });
+  },[ready,visible]);
+  const locate=()=>{
+    if(!navigator.geolocation)return;
+    navigator.geolocation.getCurrentPosition(({coords})=>map.current?.flyTo({center:[coords.longitude,coords.latitude],zoom:15,essential:true}),()=>alert(t("تعذر تحديد موقعك، تأكد من السماح للموقع.","Could not access your location.")),{enableHighAccuracy:true,timeout:12000});
   };
-
-  // Load Google Maps script
-  useEffect(() => {
-    if (window.google?.maps) {
-      setMapLoaded(true);
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&libraries=marker&callback=initMap`;
-
-    script.async = true;
-    script.defer = true;
-
-    window.initMap = () => {
-      setMapLoaded(true);
-    };
-
-    document.head.appendChild(script);
-
-    return () => {
-      delete window.initMap;
-    };
-  }, []);
-
-  // Initialize map once loaded
-  useEffect(() => {
-    if (!mapLoaded || !mapRef.current || googleMapRef.current) return;
-
-    googleMapRef.current = new window.google.maps.Map(mapRef.current, {
-      center,
-      zoom: 14,
-      mapId: "faifa-map",
-      disableDefaultUI: false,
-      zoomControl: true,
-      mapTypeControl: true,
-      streetViewControl: false,
-      fullscreenControl: true,
-    });
-  }, [mapLoaded]);
-
-  // Update markers when filter changes
-  useEffect(() => {
-    if (!mapLoaded || !googleMapRef.current) return;
-
-    // Clear existing markers
-    markersRef.current.forEach((marker) => {
-      marker.map = null;
-    });
-    markersRef.current = [];
-
-    // Create new markers
-    filteredLocations.forEach((location) => {
-      const pinElement = document.createElement("div");
-      const inner = document.createElement("div");
-      Object.assign(inner.style, {
-        backgroundColor: markerColors[location.type],
-        width: "32px",
-        height: "32px",
-        borderRadius: "50%",
-        border: "3px solid white",
-        boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        cursor: "pointer",
-        transition: "transform 0.2s",
-      });
-      const svgNS = "http://www.w3.org/2000/svg";
-      const svg = document.createElementNS(svgNS, "svg");
-      svg.setAttribute("width", "16");
-      svg.setAttribute("height", "16");
-      svg.setAttribute("viewBox", "0 0 24 24");
-      svg.setAttribute("fill", "none");
-      svg.setAttribute("stroke", "white");
-      svg.setAttribute("stroke-width", "2");
-      const path = document.createElementNS(svgNS, "path");
-      path.setAttribute("d", "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z");
-      const circle = document.createElementNS(svgNS, "circle");
-      circle.setAttribute("cx", "12");
-      circle.setAttribute("cy", "10");
-      circle.setAttribute("r", "3");
-      svg.appendChild(path);
-      svg.appendChild(circle);
-      inner.appendChild(svg);
-      pinElement.appendChild(inner);
-
-      pinElement.addEventListener("mouseenter", () => {
-        inner.style.transform = "scale(1.2)";
-      });
-      pinElement.addEventListener("mouseleave", () => {
-        inner.style.transform = "";
-      });
-
-      const marker = new window.google.maps.marker.AdvancedMarkerElement({
-        map: googleMapRef.current!,
-        position: { lat: location.lat, lng: location.lng },
-        title: location.name,
-        content: pinElement,
-      });
-
-      marker.addListener("click", () => {
-        handleMarkerClick(location);
-      });
-
-      markersRef.current.push(marker);
-    });
-  }, [mapLoaded, filteredLocations, handleMarkerClick]);
-
-  return (
-    <section id="interactive-map" className="py-12 scroll-mt-20">
-      <div className="text-center mb-8">
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <Map className="w-8 h-8 text-primary" />
-          <h2 className="text-3xl md:text-4xl font-bold text-primary">
-            {t("خريطة المعالم", "Landmarks Map")}
-          </h2>
-        </div>
-        <p className="text-muted-foreground max-w-2xl mx-auto">
-          {t("اكتشف جميع المعالم السياحية في فيفاء على الخريطة التفاعلية", "Discover all Faifa's tourist landmarks on the interactive map")}
-        </p>
-      </div>
-
-      {/* Filter Buttons */}
-      <div className="flex flex-wrap justify-center gap-3 mb-6">
-        <Button
-          variant={filter === "all" ? "default" : "outline"}
-          onClick={() => setFilter("all")}
-          className="rounded-full"
-        >
-          {t("الكل", "All")}
-        </Button>
-        <Button
-          variant={filter === "hotel" ? "default" : "outline"}
-          onClick={() => setFilter("hotel")}
-          className={`rounded-full ${filter === "hotel" ? "" : "hover:border-blue-500 hover:text-blue-500"}`}
-        >
-          🏨 {t("الفنادق", "Hotels")}
-        </Button>
-        <Button
-          variant={filter === "park" ? "default" : "outline"}
-          onClick={() => setFilter("park")}
-          className={`rounded-full ${filter === "park" ? "" : "hover:border-green-500 hover:text-green-500"}`}
-        >
-          🌳 {t("المنتزهات", "Parks")}
-        </Button>
-        <Button
-          variant={filter === "cafe" ? "default" : "outline"}
-          onClick={() => setFilter("cafe")}
-          className={`rounded-full ${filter === "cafe" ? "" : "hover:border-amber-500 hover:text-amber-500"}`}
-        >
-          ☕ {t("الكافيهات", "Cafés")}
-        </Button>
-      </div>
-
-      {/* Map Container */}
-      <Card className="overflow-hidden shadow-lg border-2 border-primary/20">
-        <CardContent className="p-0 relative">
-          <div className="relative w-full h-[400px] md:h-[500px]">
-            {!mapLoaded && (
-              <div className="absolute inset-0 flex items-center justify-center bg-muted/50">
-                <div className="text-center">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
-                  <p className="text-sm text-muted-foreground">{t("جاري تحميل الخريطة...", "Loading map...")}</p>
-                </div>
-              </div>
-            )}
-            <div ref={mapRef} className="w-full h-full" />
-          </div>
-        </CardContent>
-      </Card>
-      
-      {/* Selected Location Popup */}
-      {selectedLocation && (
-        <div className="mt-4 p-4 bg-card rounded-lg shadow-soft border border-border animate-in fade-in slide-in-from-bottom-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-full ${typeColors[selectedLocation.type].bg} flex items-center justify-center text-white`}>
-                <MapPin size={20} />
-              </div>
-              <div>
-                <h4 className="font-bold text-foreground">{lang === "en" ? selectedLocation.nameEn : selectedLocation.name}</h4>
-                <p className="text-sm text-muted-foreground">{lang === "en" ? selectedLocation.name : selectedLocation.nameEn}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button
-                size="sm"
-                className="bg-primary hover:bg-secondary"
-                onClick={() => handleOpenInMaps(selectedLocation.mapLink)}
-              >
-                <Navigation className="w-4 h-4 ml-2" />
-                {t("افتح في خرائط قوقل", "Open in Google Maps")}
-              </Button>
-              <Button
-                size="sm"
-                variant="ghost"
-                onClick={() => setSelectedLocation(null)}
-              >
-                <X size={16} />
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
-
-    </section>
-  );
-};
-
-export default InteractiveMap;
+  return <section id="interactive-map" className="scroll-mt-24 py-10 md:py-14">
+    <div className="mb-6 text-center"><h2 className="flex items-center justify-center gap-2 text-2xl font-bold text-primary md:text-4xl"><Map className="h-7 w-7"/>{t("خريطة فيفاء التفاعلية","Interactive Faifa Map")}</h2>
+    <p className="mt-3 text-sm text-muted-foreground">{t("استكشف الطرق والمعالم والمقاهي والإقامة على الخريطة","Explore roads, landmarks, cafes and stays")}</p></div>
+    <div className="mb-4 flex flex-wrap justify-center gap-2">
+      {(["all","hotel","park","cafe"] as const).map(k=><button key={k} onClick={()=>{setFilter(k);setSelected(null);}} aria-pressed={filter===k} className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${filter===k?"bg-primary text-primary-foreground border-primary":"bg-card hover:bg-muted"}`}>{k==="all"?t("الكل","All"):labels[k][lang==="ar"?0:1]}</button>)}
+    </div>
+    <div className="relative overflow-hidden rounded-2xl border border-border shadow-lg">
+      <div ref={container} className="h-[360px] w-full sm:h-[440px] lg:h-[540px]" aria-label={t("خريطة فيفاء","Faifa map")}/>
+      {!ready&&!error&&<div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-muted text-sm">{t("جاري تحميل الخريطة...","Loading map...")}</div>}
+      {error&&<div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-muted p-6 text-center"><p>{t("تعذر تحميل الخريطة الآن. جرّب تحديث الصفحة.","Map could not load. Please refresh.")}</p><button className="rounded-lg bg-primary px-4 py-2 text-primary-foreground" onClick={()=>window.location.reload()}>{t("إعادة المحاولة","Retry")}</button></div>}
+      {ready&&<button onClick={locate} title={t("موقعي الحالي","My location")} className="absolute bottom-10 right-3 z-10 rounded-lg bg-white p-3 text-slate-800 shadow-md" aria-label={t("موقعي الحالي","My location")}><LocateFixed size={20}/></button>}
+    </div>
+    {selected&&<div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card p-4">
+      <div className="flex items-center gap-2"><MapPin size={22} style={{color:colors[selected.kind]}}/><div><strong className="block">{lang==="ar"?selected.name:selected.en}</strong><span className="text-xs text-muted-foreground">{t("الموقع على الخريطة تقريبي حتى التحقق من الإحداثيات","Approximate pin pending coordinate verification")}</span></div></div>
+      <a className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm text-primary-foreground" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selected.search)}`} target="_blank" rel="noopener noreferrer"><Navigation size={16}/>{t("فتح في خرائط Google","Open in Google Maps")}</a>
+    </div>}
+    <p className="mt-3 text-xs leading-6 text-muted-foreground">{t("تنبيه: علامات الأماكن الحالية تقريبية ولم تُتحقق إحداثياتها بعد؛ لا تعتمد عليها للوصول. استخدم زر خرائط Google للتأكد. الأماكن التي لا نملك إحداثيات لها لم نضع لها علامات عشوائية.","Note: Existing pins are approximate and not verified. Do not use them for navigation. Unlocated places are not pinned.")}</p>
+    <details className="mt-4 rounded-xl border bg-card p-4"><summary className="cursor-pointer font-semibold">{t("أماكن نحتاج إحداثياتها الدقيقة (13)","Places awaiting verified coordinates (13)")}</summary>
+      <div className="mt-3 space-y-3">{(["hotel","park","cafe"] as Kind[]).map(k=><div key={k}><h4 className="mb-1 font-semibold">{labels[k][lang==="ar"?0:1]}</h4><div className="flex flex-wrap gap-2">{missing[k].map(name=><span key={name} className="rounded-md bg-muted px-2 py-1 text-xs">{name}</span>)}</div></div>)}</div>
+    </details>
+  </section>;
+}
