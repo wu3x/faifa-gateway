@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { useState } from "react";
 import { Instagram, Copy, Check } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -14,7 +15,7 @@ import developerAvatar from "@/assets/developer-avatar.png";
 
 const IBAN = "SA5878000000001019616618";
 
-const DeveloperSection = () => {
+const DeveloperSection = ({ children }: { children?: ReactNode }) => {
   const { t } = useLanguage();
   const [copied, setCopied] = useState(false);
   const [open, setOpen] = useState(false);
@@ -40,46 +41,46 @@ const DeveloperSection = () => {
   };
 
   return (
-    <section className="flex flex-col items-center gap-4" id="developer">
+    <section className="flex w-full items-end justify-center gap-2 sm:gap-4" id="developer">
       {/* Developer */}
-      <div className="flex flex-col items-center gap-1.5">
-        <p className="text-[11px] text-muted-foreground tracking-wide">
+      <div className="order-2 flex min-w-0 flex-1 flex-col items-center gap-1.5">
+        <p className="text-[10px] sm:text-[11px] text-muted-foreground tracking-wide whitespace-nowrap">
           {t('مطور الموقع "روح"', 'Website Developer "Rouh"')}
         </p>
         <a
           href="https://www.instagram.com/wu3x?igsh=MTJpMDJsaTV2d3pvOQ%3D%3D&utm_source=qr"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-white rounded-full border border-purple-100 hover:border-purple-200 hover:scale-105 transition-all duration-300 shadow-sm"
+          className="inline-flex min-h-10 w-full items-center justify-center gap-1 sm:gap-2 px-1.5 sm:px-4 py-2 bg-white dark:bg-white rounded-full border border-purple-100 hover:border-purple-200 hover:scale-105 transition-all duration-300 shadow-sm"
           aria-label={t("زيارة حساب المطور على إنستقرام", "Visit the developer's Instagram")}
         >
           <img
             src={developerAvatar}
             alt={t("روح", "Rouh")}
-            className="w-5 h-5 rounded-full object-cover border border-purple-100"
+            className="hidden sm:block w-5 h-5 rounded-full object-cover border border-purple-100"
           />
-          <Instagram className="w-5 h-5 text-purple-900" />
-          <span className="text-sm font-medium text-purple-900">wu3x</span>
+          <Instagram className="w-4 h-4 sm:w-5 sm:h-5 text-purple-900" />
+          <span className="text-[11px] sm:text-sm font-medium text-purple-900 whitespace-nowrap">wu3x</span>
         </a>
       </div>
 
       {/* Support */}
-      <div className="flex flex-col items-center gap-1.5">
+      <div className="order-1 flex min-w-0 flex-1 flex-col items-center gap-1.5">
         <p className="text-[11px] text-muted-foreground tracking-wide">
           {t("للمساهمة بتطوير الموقع", "Support the development of this site")}
         </p>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <button
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-white rounded-full border border-purple-100 hover:border-purple-200 hover:scale-105 transition-all duration-300 shadow-sm"
+              className="inline-flex min-h-10 w-full items-center justify-center gap-1 sm:gap-2 px-1.5 sm:px-4 py-2 bg-white dark:bg-white rounded-full border border-purple-100 hover:border-purple-200 hover:scale-105 transition-all duration-300 shadow-sm"
               aria-label={t("دعم عبر stc pay", "Support via stc pay")}
             >
               <img
                 src={stcPayLogo}
                 alt="stc pay"
-                className="h-5 w-auto object-contain"
+                className="h-4 sm:h-5 w-auto max-w-[38px] sm:max-w-none object-contain"
               />
-              <span className="text-sm font-medium text-purple-900">
+              <span className="text-[11px] sm:text-sm font-medium text-purple-900 whitespace-nowrap">
                 {t("دعم عبر stc pay", "Support via stc pay")}
               </span>
             </button>
@@ -133,6 +134,7 @@ const DeveloperSection = () => {
           </DialogContent>
         </Dialog>
       </div>
+      {children && <div className="order-3 flex min-w-0 flex-1 flex-col items-center gap-1.5"><span aria-hidden="true" className="text-[10px] sm:text-[11px] opacity-0 select-none">مشاركة الموقع</span>{children}</div>}
     </section>
   );
 };
