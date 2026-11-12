@@ -10,6 +10,7 @@ interface CategorySectionProps {
 const categoryDetails: Record<string, { ar: string; en: string; number: string }> = {
   hotels: { ar: "أماكن للإقامة بين السحاب، من الفنادق إلى البيوت ذات الروح الجبلية.", en: "Stay among the clouds, from hotels to mountain homes.", number: "01" },
   parks: { ar: "مشاهد طبيعية ومسارات ومطلات تستحق أن تتوقف عندها.", en: "Landscapes, trails and viewpoints worth slowing down for.", number: "02" },
+  "photo-spots": { ar: "زوايا جبلية ومعالم مميزة لعشاق التصوير والاستكشاف.", en: "Scenic mountain spots and hidden landmarks for photography.", number: "04" },
   cafes: { ar: "قهوة بمذاق مختلف، وإطلالات تجعل الجلسة جزءًا من الرحلة.", en: "Coffee with a view, where the moment is part of the journey.", number: "03" },
 };
 import { useLanguage } from "@/contexts/LanguageContext";
