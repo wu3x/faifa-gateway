@@ -1,4 +1,4 @@
-import { Hotel, Trees, Coffee, Bed, Mountain, Binoculars, UtensilsCrossed, Tent, Home, Church, Instagram, Camera } from "lucide-react";
+import { Hotel, Trees, Coffee, Bed, Mountain, Binoculars, UtensilsCrossed, Tent, Home, Instagram, Camera } from "lucide-react";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import CategorySection from "@/components/CategorySection";
@@ -7,6 +7,14 @@ import Footer from "@/components/Footer";
 import CompactControlBar from "@/components/CompactControlBar";
 import BackToTop from "@/components/BackToTop";
 import { useLanguage } from "@/contexts/LanguageContext";
+
+
+const MosqueIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M3 21h18M5 21v-8h14v8M8 13V9.5L12 6l4 3.5V13M12 6V3M10 3h4" />
+    <path d="M10 21v-4a2 2 0 0 1 4 0v4M2 21V9h3v12M2 9V6h3v3M3.5 6V3M19 21V9h3v12M19 9V6h3v3M20.5 6V3" />
+  </svg>
+);
 
 
 const Index = () => {
@@ -316,7 +324,7 @@ const Index = () => {
             description="مصلى معروف في فيفاء، يُستخدم لصلاة العيد والمناسبات الدينية."
             englishDescription="Famous hanging mosque for holidays and occasions."
             mapLink="https://www.google.com/maps/search/?api=1&query=%D8%A7%D9%84%D9%85%D8%B5%D9%84%D9%89%20%D8%A7%D9%84%D9%85%D8%B9%D9%84%D9%82%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJJzfbcAAL_RURW7wYY9wcr8s"
-            icon={<Church />}
+            icon={<MosqueIcon />}
           />
           <PlaceCard
             title="مطل اللعثة"
