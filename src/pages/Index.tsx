@@ -1,4 +1,4 @@
-import { Hotel, Trees, Coffee, Bed, Mountain, Binoculars, UtensilsCrossed, Tent, Home, Church, Instagram } from "lucide-react";
+import { Hotel, Trees, Coffee, Bed, Mountain, Binoculars, UtensilsCrossed, Tent, Home, Church, Instagram, Camera } from "lucide-react";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import CategorySection from "@/components/CategorySection";
@@ -167,25 +167,18 @@ const Index = () => {
             icon={<Binoculars />}
           />
           <PlaceCard
-            title="المصلى المعلق"
-            description="مصلى معروف في فيفاء، يُستخدم لصلاة العيد والمناسبات الدينية."
-            englishDescription="Famous hanging mosque for holidays and occasions."
-            mapLink="https://www.google.com/maps/search/?api=1&query=%D8%A7%D9%84%D9%85%D8%B5%D9%84%D9%89%20%D8%A7%D9%84%D9%85%D8%B9%D9%84%D9%82%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJJzfbcAAL_RURW7wYY9wcr8s"
-            icon={<Church />}
-          />
-          <PlaceCard
-            title="مطل العبسية"
-            description="مطل مرتفع في فيفاء يتيح مشاهدة الجبال والمناظر المحيطة."
-            englishDescription="The highest point in the mountain where one can sit anywhere."
-            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D8%B7%D9%84%20%D8%A7%D9%84%D8%B9%D8%A8%D8%B3%D9%8A%D8%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ67KW7CUL_RURLrq41W9qDig"
-            icon={<Binoculars />}
-          />
-          <PlaceCard
             title="إطلالة فيفا"
             description="مطل على طريق الأمير نايف يتيح مشاهدة المناظر الجبلية والتقاط الصور."
             englishDescription="A viewpoint on Prince Nayef Road overlooking the mountains."
             mapLink="https://www.google.com/maps/search/?api=1&query=Itlalat%20Fayfa%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJX85pNwAL_RURobW0_6Zxh7I"
             icon={<Binoculars />}
+          />
+          <PlaceCard
+            title="مزرعة المقبلات العليا للبن السعودي"
+            description="مزرعة بن سعودية في فيفاء، تتميز بالمدرجات الزراعية والأجواء الريفية."
+            englishDescription="A Saudi coffee farm in Faifa with scenic agricultural terraces."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D8%B2%D8%B1%D8%B9%D8%A9%20%D8%A7%D9%84%D9%85%D9%82%D8%A8%D9%84%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B9%D9%84%D9%8A%D8%A7%20%D9%84%D9%84%D8%A8%D9%86%20%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJNf7lasEL_RURY5dd-I8umNk"
+            icon={<Trees />}
           />
         </CategorySection>
 
@@ -271,6 +264,38 @@ const Index = () => {
             englishDescription="A café for coffee and a short break in Faifa."
             mapLink="https://www.google.com/maps/search/?api=1&query=Olfa%20Cafe%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJyXO1DQAL_RURUDrR1e0FWNg"
             icon={<Coffee />}
+          />
+        </CategorySection>
+
+        {/* Scenic photo spots */}
+        <CategorySection id="photo-spots" title={t("أماكن سرية للتصوير", "Hidden Photo Spots")} icon={<Camera />}>
+          <PlaceCard
+            title="مطل العبسية"
+            description="مطل مرتفع في فيفاء يتيح مشاهدة الجبال والمناظر المحيطة."
+            englishDescription="The highest point in the mountain where one can sit anywhere."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D8%B7%D9%84%20%D8%A7%D9%84%D8%B9%D8%A8%D8%B3%D9%8A%D8%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ67KW7CUL_RURLrq41W9qDig"
+            icon={<Binoculars />}
+          />
+          <PlaceCard
+            title="المصلى المعلق"
+            description="مصلى معروف في فيفاء، يُستخدم لصلاة العيد والمناسبات الدينية."
+            englishDescription="Famous hanging mosque for holidays and occasions."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D8%A7%D9%84%D9%85%D8%B5%D9%84%D9%89%20%D8%A7%D9%84%D9%85%D8%B9%D9%84%D9%82%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJJzfbcAAL_RURW7wYY9wcr8s"
+            icon={<Church />}
+          />
+          <PlaceCard
+            title="مطل اللعثة"
+            description="إطلالة من مرتفعات اللعثة على جبال فيفاء والسهول المحيطة. موقع النقطة الدقيقة على الخرائط غير مؤكد."
+            englishDescription="Scenic views from Al-Laathah highlands; exact map pin is not verified."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D8%B7%D9%84%20%D8%A7%D9%84%D9%84%D8%B9%D8%AB%D8%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1"
+            icon={<Binoculars />}
+          />
+          <PlaceCard
+            title="كهف فيفاء الأثري"
+            description="كهف طبيعي في قرية الضحي بجبل الحكمي، وجهة لمحبي استكشاف المعالم الجبلية."
+            englishDescription="A natural cave near Al-Duha village on Jabal Al-Hakami."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%83%D9%87%D9%81%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1%20%D8%A7%D9%84%D8%A3%D8%AB%D8%B1%D9%8A%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJaU3jMQAN_RURhKMaJ1wzJM4"
+            icon={<Mountain />}
           />
         </CategorySection>
       </main>
