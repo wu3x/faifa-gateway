@@ -51,7 +51,7 @@ const DeveloperSection = ({ children }: { children?: ReactNode }) => {
           href="https://www.instagram.com/wu3x?igsh=MTJpMDJsaTV2d3pvOQ%3D%3D&utm_source=qr"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex min-h-10 w-full items-center justify-center gap-1 sm:gap-2 px-1.5 sm:px-4 py-2 bg-white dark:bg-white rounded-full border border-purple-100 hover:border-purple-200 hover:scale-105 transition-all duration-300 shadow-sm"
+          className="inline-flex min-h-10 w-full min-w-0 items-center justify-center gap-1 sm:gap-2 px-1 sm:px-4 py-2 bg-white dark:bg-white rounded-full border border-purple-100 hover:border-purple-200 hover:scale-105 transition-all duration-300 shadow-sm"
           aria-label={t("زيارة حساب المطور على إنستقرام", "Visit the developer's Instagram")}
         >
           <img
@@ -60,7 +60,7 @@ const DeveloperSection = ({ children }: { children?: ReactNode }) => {
             className="hidden sm:block w-5 h-5 rounded-full object-cover border border-purple-100"
           />
           <Instagram className="w-4 h-4 sm:w-5 sm:h-5 text-purple-900" />
-          <span className="text-[11px] sm:text-sm font-medium text-purple-900 whitespace-nowrap">wu3x</span>
+          <span className="text-[10px] sm:text-sm font-medium text-purple-900 whitespace-nowrap">wu3x</span>
         </a>
       </div>
 
@@ -78,10 +78,10 @@ const DeveloperSection = ({ children }: { children?: ReactNode }) => {
               <img
                 src={stcPayLogo}
                 alt="stc pay"
-                className="h-4 sm:h-5 w-auto max-w-[38px] sm:max-w-none object-contain"
+                className="h-4 sm:h-5 w-auto max-w-[38px] sm:max-w-none shrink-0 object-contain"
               />
               <span className="text-[11px] sm:text-sm font-medium text-purple-900 whitespace-nowrap">
-                {t("دعم عبر stc pay", "Support via stc pay")}
+                <span className="sm:hidden">{t("دعم", "Support")}</span><span className="hidden sm:inline">{t("دعم عبر stc pay", "Support via stc pay")}</span>
               </span>
             </button>
           </DialogTrigger>
