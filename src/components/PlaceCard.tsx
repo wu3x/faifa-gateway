@@ -17,6 +17,14 @@ interface PlaceCardProps {
   onCelebrationEnd?: () => void;
 }
 const ENGLISH_PLACE_NAMES: Record<string, string> = {
+  "قلعة العطفه": "Al-Atfah Fort",
+  "كوخ الضباب": "Fog Cabin",
+  "مزرعة لوح المشتر": "Lawh Al-Mushtar Farm",
+  "متحف فيفاء": "Faifa Heritage Museum",
+  "القهبه": "Al-Qahbah Hiking Area",
+  "ممشى الخطم": "Al-Khatm Hiking Trail",
+  "قمة ناجدن": "Najdan Peak",
+  "الخوشين": "Al-Khushayn",
   "فندق جارة الغيم – Jarat Al Gheim Hotel": "Jarat Al-Ghaim Hotel",
   "فندق فيفاء الفاخر – Faifa Luxury Hotel": "Faifa Luxury Hotel",
   "فندق إيوان – Iwan Hotel": "Iwan Hotel",
