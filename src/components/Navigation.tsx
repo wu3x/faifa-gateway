@@ -1,4 +1,4 @@
-import { Hotel, Trees, Coffee } from "lucide-react";
+import { Hotel, Trees, Coffee, Camera } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -27,13 +27,13 @@ const Navigation = () => {
       // Allow smooth scrolling to bring the category navigation into view.
       timers.current.push(setTimeout(() => {
         setShowGuideText(true);
-        [0, 1, 2].forEach((index) => {
+        [0, 1, 2, 3].forEach((index) => {
           timers.current.push(setTimeout(() => setGlowIndex(index), index * 650));
         });
         timers.current.push(setTimeout(() => {
           setGlowIndex(-1);
           setShowGuideText(false);
-        }, 2150));
+        }, 2800));
       }, 650));
     };
     window.addEventListener("faifa-start-journey", startJourneyGuide);
@@ -46,7 +46,7 @@ const Navigation = () => {
   useEffect(() => {
     const updateActive = () => {
       let active: string | null = null;
-      for (const id of ["hotels", "parks", "cafes"]) {
+      for (const id of ["hotels", "parks", "cafes", "photo-spots"]) {
         const el = document.getElementById(id);
         if (el && el.getBoundingClientRect().top <= 160) active = id;
       }
@@ -80,13 +80,19 @@ const Navigation = () => {
       label: t("الكافيهات", "Cafés"),
       icon: Coffee,
       ariaLabel: t("الانتقال إلى قسم الكافيهات", "Go to Cafés section")
+    },
+    {
+      id: "photo-spots",
+      label: t("أماكن التصوير", "Photo Spots"),
+      icon: Camera,
+      ariaLabel: t("الانتقال إلى أماكن التصوير", "Go to photo spots")
     }
   ];
 
   return (
     <nav id="category-navigation" className={`sticky top-0 z-50 border-b border-white/10 bg-[#102e28]/95 text-white backdrop-blur-xl transition-all duration-500 ${isScrolled ? 'shadow-lg shadow-primary/10 border-b border-primary/20' : 'shadow-lg'}`}>
       <div className="container mx-auto px-4 md:px-6">
-        <ul className="flex justify-center items-center flex-nowrap gap-2 md:gap-6 py-3 overflow-x-auto">
+        <ul className="flex justify-center items-center flex-nowrap gap-1 md:gap-5 py-3 overflow-x-auto">
           {navItems.map((item, index) => {
             const IconComponent = item.icon;
             const isGlowing = glowIndex === index;
@@ -95,7 +101,7 @@ const Navigation = () => {
               <li key={item.id} className="flex-shrink-0">
                 <button
                   onClick={() => scrollToSection(item.id)}
-                  className={`flex items-center gap-2 px-3 py-2 md:px-5 md:py-2.5 rounded-full transition-all duration-300 hover:bg-white/15 hover:text-white text-sm md:text-base whitespace-nowrap ${isActive ? 'bg-white/20 text-white font-bold' : 'font-medium text-white/80'} ${isGlowing ? 'animate-nav-pulse ring-2 ring-primary/50' : ''}`}
+                  className={`flex items-center gap-1.5 px-2 py-2 md:px-5 md:py-2.5 rounded-full transition-all duration-300 hover:bg-white/15 hover:text-white text-xs sm:text-sm md:text-base whitespace-nowrap ${isActive ? 'bg-white/20 text-white font-bold' : 'font-medium text-white/80'} ${isGlowing ? 'animate-nav-pulse ring-2 ring-primary/50' : ''}`}
                   aria-label={item.ariaLabel}
                 >
                   <IconComponent className={`w-4 h-4 md:w-5 md:h-5 transition-transform duration-500 ${isGlowing ? 'animate-icon-bounce' : ''}`} />
