@@ -180,6 +180,13 @@ const Index = () => {
             mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D8%B2%D8%B1%D8%B9%D8%A9%20%D8%A7%D9%84%D9%85%D9%82%D8%A8%D9%84%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B9%D9%84%D9%8A%D8%A7%20%D9%84%D9%84%D8%A8%D9%86%20%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJNf7lasEL_RURY5dd-I8umNk"
             icon={<Trees />}
           />
+          <PlaceCard
+            title="حديقة البلدية"
+            description="حديقة وممشى في منطقة الجوة بفيفاء، مناسبة للتنزه والمشي."
+            englishDescription="A municipal garden and walking area in Al-Jawwah, Faifa."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D8%AD%D8%AF%D9%8A%D9%82%D8%A9%20%D8%A7%D9%84%D8%A8%D9%84%D8%AF%D9%8A%D8%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ-Y4cNooJ_RURb9Tf8oqNrbw"
+            icon={<Trees />}
+          />
         </CategorySection>
 
         {/* Cafes Section */}
