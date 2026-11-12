@@ -39,14 +39,16 @@ const PlaceCard = ({ compact = false, title, description, englishDescription, ad
         <div className="absolute -left-14 -top-14 h-40 w-40 rounded-full bg-primary/[.035] transition-transform duration-700 group-hover:scale-150" aria-hidden="true" />
         <div className="relative mb-3 flex items-start justify-between gap-1.5 sm:mb-5 sm:gap-3">
           <span className={`faifa-animated-icon ${iconMotion} flex h-9 w-9 shrink-0 items-center justify-center rounded-xl sm:h-12 sm:w-12 bg-primary/10 text-primary [&_svg]:h-5 [&_svg]:w-5 sm:[&_svg]:h-6 sm:[&_svg]:w-6`}>{icon}</span>
+          <div className="flex shrink-0 flex-col items-center gap-1">
           <button type="button" onClick={onVote} disabled={voteDisabled || hasVoted} title={hasVoted ? t("صوتك لهذا المكان", "Your vote") : t("امنح المكان نجمة", "Give this place a star")} aria-label={t("امنح المكان نجمة", "Give this place a star") + " " + displayTitle} className={"faifa-vote-button relative inline-flex items-center gap-1.5 rounded-xl border px-2.5 py-2 transition-all disabled:cursor-default " + (hasVoted ? "border-amber-400/60 bg-amber-400/15 text-amber-400" : "border-amber-400/30 bg-amber-400/[.08] text-amber-400 hover:border-amber-400 hover:bg-amber-400/20")}>
             <span className="relative flex items-center justify-center">
               <Star className={"faifa-vote-star h-[19px] w-[19px] " + (celebrating ? "faifa-vote-burst" : "")} fill={hasVoted ? "currentColor" : "none"} onAnimationEnd={onCelebrationEnd} />
               {celebrating && <Star aria-hidden="true" className="faifa-vote-fly absolute h-6 w-6 text-amber-300" fill="currentColor" />}
             </span>
             <span dir="ltr" className="text-xs font-extrabold tabular-nums">{voteCount}</span>
-            <span className="hidden max-w-[75px] text-[9px] font-medium leading-tight text-foreground/75 sm:inline">{hasVoted ? t("لقد منحت المكان نجمة", "You gave this place a star") : t("امنح المكان نجمة", "Give a star")}</span>
           </button>
+          <span className="text-center text-[8px] leading-tight tracking-tight text-muted-foreground sm:text-[10px]">{hasVoted ? t("منحت المكان نجمة", "Star given") : t("امنح المكان نجمة", "Give a star")}</span>
+          </div>
         </div>
         <h3 className="relative text-sm font-bold leading-snug text-foreground sm:text-lg md:text-xl">{displayTitle}</h3>
         {primaryDesc && <p className="relative mt-2 line-clamp-2 text-[11px] leading-5 text-muted-foreground sm:text-sm sm:leading-6">{primaryDesc}</p>}
