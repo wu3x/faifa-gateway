@@ -2,12 +2,11 @@ import { Hotel, Trees, Coffee } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const Navigation = () => {
+const Navigation = ({ selectedCategory, onSelectCategory }: { selectedCategory: string; onSelectCategory: (id: string) => void }) => {
   const { t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [glowIndex, setGlowIndex] = useState(-1);
   const [showGuideText, setShowGuideText] = useState(false);
-  const [activeSection, setActiveSection] = useState<string | null>(null);
 
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
@@ -43,33 +42,12 @@ const Navigation = () => {
     };
   }, []);
 
-  // Track active section based on scroll position
-  useEffect(() => {
-    const sectionIds = ["hotels", "parks", "cafes"];
-    const handleScroll = () => {
-      let current: string | null = null;
-      for (const id of sectionIds) {
-        const el = document.getElementById(id);
-        if (el && window.scrollY >= el.offsetTop - 120) {
-          current = id;
-        }
-      }
-      setActiveSection(current);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.offsetTop - offset;
-      window.scrollTo({
-        top: elementPosition,
-        behavior: 'smooth'
-      });
-    }
+  const scrollToSection = (id: string) => {
+    onSelectCategory(id);
+    requestAnimationFrame(() => {
+      const el = document.getElementById("discover");
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 90, behavior: "smooth" });
+    });
   };
 
   const navItems = [
@@ -100,7 +78,7 @@ const Navigation = () => {
           {navItems.map((item, index) => {
             const IconComponent = item.icon;
             const isGlowing = glowIndex === index;
-            const isActive = activeSection === item.id;
+            const isActive = selectedCategory === item.id;
             return (
               <li key={item.id} className="flex-shrink-0">
                 <button
