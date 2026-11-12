@@ -9,7 +9,7 @@ const Header = () => {
   const { t } = useLanguage();
   const [showVisitorNote, setShowVisitorNote] = useState(true);
   useEffect(() => {
-    const timer = window.setTimeout(() => setShowVisitorNote(false), 15000);
+    const timer = window.setTimeout(() => setShowVisitorNote(false), 10000);
     return () => window.clearTimeout(timer);
   }, []);
   const startJourney = () => {
