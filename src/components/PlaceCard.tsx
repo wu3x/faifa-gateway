@@ -7,6 +7,7 @@ interface PlaceCardProps {
   englishDescription?: string;
   additionalContent?: React.ReactNode;
   mapLink: string;
+  hideReviews?: boolean;
   icon: React.ReactNode;
   voteCount?: number;
   hasVoted?: boolean;
@@ -15,7 +16,7 @@ interface PlaceCardProps {
   celebrating?: boolean;
   onCelebrationEnd?: () => void;
 }
-const PlaceCard = ({ compact = false, title, description, englishDescription, additionalContent, mapLink, icon, voteCount = 0, hasVoted = false, onVote, voteDisabled = true, celebrating = false, onCelebrationEnd }: PlaceCardProps) => {
+const PlaceCard = ({ compact = false, title, description, englishDescription, additionalContent, mapLink, hideReviews = false, icon, voteCount = 0, hasVoted = false, onVote, voteDisabled = true, celebrating = false, onCelebrationEnd }: PlaceCardProps) => {
   const { lang, t } = useLanguage();
   const splitTitle = (raw: string) => {
     for (const separator of [" – ", " - ", " / "]) {
@@ -54,7 +55,7 @@ const PlaceCard = ({ compact = false, title, description, englishDescription, ad
         {primaryDesc && <p className="relative mt-2 line-clamp-2 text-[11px] leading-5 text-muted-foreground sm:text-sm sm:leading-6">{primaryDesc}</p>}
         {additionalContent && <div className="relative mt-4 text-sm" onClick={e => e.stopPropagation()}>{additionalContent}</div>}
         <div className="relative mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-border/70 pt-3 sm:pt-5">
-          <a href={reviewsLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[10px] font-bold text-primary transition hover:gap-2 sm:gap-2 sm:text-sm" aria-label={t("آراء الزوار", "Visitor reviews") + " " + displayTitle}><MessageCircle size={17} />{t("آراء الزوار", "Visitor reviews")}</a>
+          {!hideReviews && <a href={reviewsLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[10px] font-bold text-primary transition hover:gap-2 sm:gap-2 sm:text-sm" aria-label={t("آراء الزوار", "Visitor reviews") + " " + displayTitle}><MessageCircle size={17} />{t("آراء الزوار", "Visitor reviews")}</a>}
           <a href={mapLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-1.5 text-[10px] font-medium text-foreground transition hover:border-primary hover:text-primary sm:gap-1.5 sm:px-3 sm:py-2 sm:text-xs" aria-label={t("عرض الموقع على الخريطة", "View on map") + " " + displayTitle}><MapPin size={15} />{t("الموقع", "Location")}</a>
         </div>
       </article>
