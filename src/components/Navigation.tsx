@@ -83,9 +83,9 @@ const Navigation = () => {
     },
     {
       id: "photo-spots",
-      label: t("أماكن التصوير", "Photo Spots"),
+      label: t("أماكن سرية للتصوير", "Hidden Photo Spots"),
       icon: Camera,
-      ariaLabel: t("الانتقال إلى أماكن التصوير", "Go to photo spots")
+      ariaLabel: t("الانتقال إلى الأماكن السرية للتصوير", "Go to hidden photo spots")
     }
   ];
 
@@ -101,11 +101,11 @@ const Navigation = () => {
               <li key={item.id} className="flex-shrink-0">
                 <button
                   onClick={() => scrollToSection(item.id)}
-                  className={`flex items-center gap-1.5 px-2 py-2 md:px-5 md:py-2.5 rounded-full transition-all duration-300 hover:bg-white/15 hover:text-white text-xs sm:text-sm md:text-base whitespace-nowrap ${isActive ? 'bg-white/20 text-white font-bold' : 'font-medium text-white/80'} ${isGlowing ? 'animate-nav-pulse ring-2 ring-primary/50' : ''}`}
+                  className={`flex items-center gap-1.5 px-2 py-2 md:px-5 md:py-2.5 rounded-full transition-all duration-300 hover:bg-white/15 hover:text-white text-[11px] sm:text-sm md:text-base whitespace-nowrap ${isActive ? 'bg-white/20 text-white font-bold' : 'font-medium text-white/80'} ${isGlowing ? 'animate-nav-pulse ring-2 ring-primary/50' : ''}`}
                   aria-label={item.ariaLabel}
                 >
                   <IconComponent className={`w-4 h-4 md:w-5 md:h-5 transition-transform duration-500 ${isGlowing ? 'animate-icon-bounce' : ''}`} />
-                  <span>{item.label}</span>
+                  <span className={item.id === "photo-spots" ? "text-[10px] sm:text-xs md:text-sm" : ""}>{item.label}</span>
                 </button>
               </li>
             );
