@@ -91,8 +91,8 @@ const CategorySection = ({ id, title, icon, children }: CategorySectionProps) =>
           <span aria-hidden="true" className="mt-0.5 shrink-0 text-lg">⚠️</span>
           <p className="text-xs leading-6 text-muted-foreground sm:text-sm">
             {t(
-              "تنبيه مهم: بعض مواقع التصوير تقع في مناطق جبلية وعرة، وقد تكون الطرق المؤدية لها ضيقة أو خطرة، خصوصًا لغير العارفين بالمنطقة. تأكد من حالة الطريق والطقس قبل الانطلاق، وتجنب الزيارة وقت الأمطار والضباب، ولا تذهب وحدك إلى الأماكن غير المألوفة.",
-              "Important: Some photo spots are in rugged mountain areas with narrow or hazardous access roads, especially for visitors unfamiliar with the region. Check road and weather conditions, avoid rain and fog, and do not visit unfamiliar remote spots alone."
+              "مواقع التصوير هذه تقع في مناطق جبلية وعرة، وقد تكون الطرق المؤدية لها ضيقة أو خطرة، خصوصًا لغير سكان المنطقة. تأكد من حالة الطريق والطقس قبل الذهاب، وتجنب الزيارة وقت الأمطار والضباب",
+              "These photography spots are in rugged mountainous areas, and the roads leading to them may be narrow or dangerous, especially for people who do not live in the area. Check road and weather conditions before going, and avoid visiting during rain or fog."
             )}
           </p>
         </div>
