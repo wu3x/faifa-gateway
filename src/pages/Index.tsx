@@ -353,6 +353,22 @@ const Index = () => {
             mapLink="https://www.google.com/maps/search/?api=1&query=%D9%88%D8%A7%D8%AF%D9%8A%20%D8%A7%D9%84%D8%B7%D8%B1%D8%A7%D8%B1%D8%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJUSVCadQN_RURQZdfj0c5GrE"
             icon={<Mountain />}
           />
+          <PlaceCard
+            title="البقعة – نيد الدارة"
+            description="موقع جبلي للتصوير في فيفاء؛ يُنصح بالتأكد من الطريق والطقس قبل الزيارة."
+            englishDescription="A mountain photography spot in Faifa; check the road and weather before visiting."
+            mapLink="https://maps.app.goo.gl/oSE6NfuTp1QT2L7U8?g_st=ic"
+            hideReviews
+            icon={<Mountain />}
+          />
+          <PlaceCard
+            title="حلقن"
+            description="موقع جبلي للتصوير في فيفاء؛ يُنصح بالتأكد من الطريق والطقس قبل الزيارة."
+            englishDescription="A mountain photography spot in Faifa; check the road and weather before visiting."
+            mapLink="https://maps.app.goo.gl/n9nNVJWVaHDvarUM8?g_st=ic"
+            hideReviews
+            icon={<Binoculars />}
+          />
         </CategorySection>
       </main>
 
