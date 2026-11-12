@@ -34,7 +34,7 @@ const Header = () => {
             {t("فيفاء", "FAIFA")}
             <span className="mt-2 block text-[clamp(1.45rem,3.8vw,3.3rem)] font-medium leading-[1.4] text-[#e4e9c7]">{t("حكاية جبلٍ فوق الغيم", "A mountain above the clouds")}</span>
           </h1>
-          <p className="mt-3 max-w-xl text-sm leading-6 text-white/85 md:text-xl md:leading-10">{t("هنا تتعانق المدرجات الخضراء مع الضباب، وتتحول كل إطلالة إلى ذكرى. خذ وقتك، واستكشف فيفاء على مهل.", "Where green terraces meet the mist and every viewpoint becomes a memory. Take your time and discover Faifa.")}</p>
+          
           <div className="mt-5 flex flex-wrap items-center gap-2 md:mt-9 md:gap-3">
             <button onClick={startJourney} className="group inline-flex items-center gap-2 rounded-full bg-[#e8edcf] px-5 py-3 text-xs md:gap-3 md:px-7 md:py-4 md:text-sm font-bold text-[#183b32] shadow-xl transition hover:-translate-y-1 hover:bg-white">
               {t("ابدأ الرحلة", "Start exploring")} <ArrowDownLeft className="transition group-hover:translate-y-1" size={18} />
