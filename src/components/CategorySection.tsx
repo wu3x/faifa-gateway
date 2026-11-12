@@ -85,7 +85,7 @@ const CategorySection = ({ id, title, icon, children }: CategorySectionProps) =>
         </div>
         
       </div>
-      <div className="mb-4 text-xs text-muted-foreground">{cards.length} {t("أماكن", "places")}</div>
+      <div className="mb-4 text-xs text-muted-foreground">{cards.length} {lang === "ar" ? (cards.length === 1 ? "مكان" : cards.length === 2 ? "مكانان" : cards.length >= 3 && cards.length <= 10 ? "أماكن" : "مكانًا") : (cards.length === 1 ? "place" : "places")}</div>
       <div className="grid grid-cols-2 gap-2.5 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
         {cards.map(({child,key}) => <div key={key} className="min-w-0 [&>article]:h-full">{cloneElement(child as React.ReactElement<any>, { compact: true, voteCount: counts[key] || 0, hasVoted: choice === key, onVote: () => vote(key), voteDisabled: busy || !ready, celebrating: celebrating === key, onCelebrationEnd: () => setCelebrating(null) })}</div>)}
       </div>
