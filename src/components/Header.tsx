@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import heroImage from "@/assets/faifa-hero-new.jpg";
 import WeatherWidget from "./WeatherWidget";
 import LanguageToggle from "./LanguageToggle";
@@ -6,6 +7,11 @@ import { ArrowDownLeft } from "lucide-react";
 
 const Header = () => {
   const { t } = useLanguage();
+  const [showVisitorNote, setShowVisitorNote] = useState(true);
+  useEffect(() => {
+    const timer = window.setTimeout(() => setShowVisitorNote(false), 15000);
+    return () => window.clearTimeout(timer);
+  }, []);
   const startJourney = () => {
     const nav = document.getElementById("category-navigation");
     if (!nav) return;
@@ -33,6 +39,11 @@ const Header = () => {
             <button onClick={startJourney} className="group inline-flex items-center gap-2 rounded-full bg-[#e8edcf] px-5 py-3 text-xs md:gap-3 md:px-7 md:py-4 md:text-sm font-bold text-[#183b32] shadow-xl transition hover:-translate-y-1 hover:bg-white">
               {t("ابدأ الرحلة", "Start exploring")} <ArrowDownLeft className="transition group-hover:translate-y-1" size={18} />
             </button>
+          </div>
+          <div className="mt-8 flex min-h-12 items-center justify-center md:mt-12" aria-live="polite">
+            <p className={`max-w-xl text-center text-sm font-medium leading-7 tracking-wide text-[#e8edcf]/95 drop-shadow-lg transition-all duration-700 md:text-base ${showVisitorNote ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-2 opacity-0"}`}>
+              {t("هذا الموقع موجه لزوار من خارج المنطقة", "This website is intended for visitors from outside the region")}
+            </p>
           </div>
         </div>
       </div>
