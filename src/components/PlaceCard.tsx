@@ -16,6 +16,53 @@ interface PlaceCardProps {
   celebrating?: boolean;
   onCelebrationEnd?: () => void;
 }
+const ENGLISH_PLACE_NAMES: Record<string, string> = {
+  "فندق جارة الغيم – Jarat Al Gheim Hotel": "Jarat Al-Ghaim Hotel",
+  "فندق فيفاء الفاخر – Faifa Luxury Hotel": "Faifa Luxury Hotel",
+  "فندق إيوان – Iwan Hotel": "Iwan Hotel",
+  "بيت سهلان": "Sahlan House",
+  "أكواخ الندى": "Al-Nada Cabins",
+  "شاليه فيفا – Viva Cottage": "Viva Cottage",
+  "سكني": "Sakani Accommodation",
+  "الوادي الأخضر للغرف والشقق": "Green Valley Rooms & Apartments",
+  "الدثنة للشقق المفروشة": "Al-Dathnah Furnished Apartments",
+  "السحاب فيو": "Sahab View",
+  "فيفاء للوحدات السكنية": "Faifa Residential Suites",
+  "مطل الحبيل": "Al-Hubail Viewpoint Stay",
+  "شاليه اللعثة": "Al-La'athah Chalet",
+  "منتزه وإطلالة الخطم – Al-Khatm Park & Viewpoint": "Al-Khatm Park & Viewpoint",
+  "سوق النفيعة الشعبي": "Al-Nufay'ah Traditional Market",
+  "منتجع الباخرة – Al-Bakhira Resort": "Al-Bakhira Resort",
+  "ممشى البن الخولاني – Khawlani Coffee Trail": "Khawlani Coffee Trail",
+  "مطل الدفرة – Al-Dafrah Viewpoint": "Al-Dafrah Viewpoint",
+  "مطل قرضة – Qarza Viewpoint": "Qardah Viewpoint",
+  "إطلالة فيفا": "Faifa Scenic Viewpoint",
+  "مزرعة المقبلات العليا للبن السعودي": "Al-Muqbilat Al-Ulya Coffee Farm",
+  "حديقة البلدية": "Municipal Garden",
+  "منتزه مطل بردان": "Bardan Viewpoint Park",
+  "مقهى جارة القمر – Jarat Al-Qamar Café": "Jarat Al-Qamar Café",
+  "مقهى جارة الغيم – Jarat Al-Ghaim Café": "Jarat Al-Ghaim Café",
+  "مقهى ومطل إيوان – Iwan Café & Viewpoint": "Iwan Café & Viewpoint",
+  "مقهى سكون": "Sukoon Café",
+  "كافيه تالقة": "Taliqah Café",
+  "لب القهوة": "Lubb Al-Qahwa Café",
+  "غيمة – Cloud": "Ghaimah Café",
+  "مقهى البرنسيسة": "Princessa Café",
+  "مقهى روز بسنت النسائي": "Rose Basnat Women's Café",
+  "ديوانية واسع الخاطر": "Wasee Al-Khater Lounge",
+  "أُلفة": "Ulfah Café",
+  "مطعم ومقهى ريف وكيف": "Reef & Kaif Restaurant and Café",
+  "مطل العبسية": "Al-Abasiyah Viewpoint",
+  "المصلى المعلق": "Hanging Eid Prayer Ground",
+  "مطل اللعثة": "Al-La'athah Viewpoint",
+  "كهف فيفاء الأثري": "Historic Faifa Cave",
+  "المطل الزجاجي المعلق": "Suspended Glass Viewpoint",
+  "المطل الشهير بفيفاء": "Faifa's Famous Viewpoint",
+  "وادي الطرارة": "Al-Tararah Valley",
+  "البقعة – نيد الدارة": "Al-Buq'ah – Nid Al-Darah",
+  "حلقن": "Halqan"
+};
+
 const PlaceCard = ({ compact = false, title, description, englishDescription, additionalContent, mapLink, hideReviews = false, icon, voteCount = 0, hasVoted = false, onVote, voteDisabled = true, celebrating = false, onCelebrationEnd }: PlaceCardProps) => {
   const { lang, t } = useLanguage();
   const splitTitle = (raw: string) => {
@@ -33,7 +80,7 @@ const PlaceCard = ({ compact = false, title, description, englishDescription, ad
     : mapLink;
   const iconMotion = /مقهى|كافيه|القهوة|ديوانية|أُلفة|غيمة|Coffee|Café|Cafe/i.test(title) ? "faifa-icon-coffee" : /منتزه|سوق|ممشى|مطل|إطلالة|Park|Trail|Viewpoint/i.test(title) ? "faifa-icon-nature" : "faifa-icon-gentle";
   const parts = splitTitle(title);
-  const displayTitle = lang === "en" ? parts.en : parts.ar;
+  const displayTitle = lang === "en" ? (ENGLISH_PLACE_NAMES[title] || parts.en) : parts.ar;
   const primaryDesc = lang === "en" ? (englishDescription || description) : description;
   return (
       <article className={`group relative flex min-h-[210px] flex-col overflow-hidden rounded-[1.2rem] border border-border/70 bg-card p-3 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-lg sm:p-5 ${compact ? "sm:min-h-[235px]" : "md:p-7"}`}>
