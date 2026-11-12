@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const SHARE_URL = "https://wu3x.github.io/faifa-gateway/";
+const SHARE_URL = "https://tinyurl.com/faifa1";
 
 const Footer = () => {
   const [copied, setCopied] = useState(false);
