@@ -59,10 +59,10 @@ const Index = () => {
                 href="https://www.instagram.com/bieatsahlan" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg"
+                className="inline-flex max-w-full items-center justify-center gap-1.5 rounded-xl border border-fuchsia-400/25 bg-fuchsia-500/10 px-2.5 py-2 text-[10px] font-medium leading-snug text-fuchsia-300 transition-colors hover:border-fuchsia-400/50 hover:bg-fuchsia-500/20 sm:px-3 sm:text-xs"
               >
-                <Instagram size={16} />
-                <span>للحجز والتواصل عبر الأنستقرام</span>
+                <Instagram size={14} className="shrink-0" />
+                <span>للحجز عبر إنستقرام</span>
               </a>
             }
             mapLink="https://www.google.com/maps/search/?api=1&query=%D8%A8%D9%8A%D8%AA%20%D8%B3%D9%87%D9%84%D8%A7%D9%86%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJBf7W054L_RURB0jVNOcdRU8"
