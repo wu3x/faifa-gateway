@@ -208,13 +208,6 @@ const Index = () => {
             mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D9%86%D8%AA%D8%B2%D9%87%20%D9%85%D8%B7%D9%84%20%D8%A8%D8%B1%D8%AF%D8%A7%D9%86%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ6x4UCQAL_RURUA4JBKo2cGI"
             icon={<Binoculars />}
           />
-          <PlaceCard
-            title="مزرعة فيفاء لإنتاج البن"
-            description="مزرعة لإنتاج البن السعودي في مدرجات فيفاء الزراعية، مستقلة في الدليل عن ممشى البن."
-            englishDescription="A Saudi coffee farm on Faifa's agricultural terraces."
-            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D8%B2%D8%B1%D8%B9%D8%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1%20%D9%84%D8%A5%D9%86%D8%AA%D8%A7%D8%AC%20%D8%A7%D9%84%D8%A8%D9%86%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ04nG6qkL_RURwR7QzNpxvKM"
-            icon={<Trees />}
-          />
         </CategorySection>
 
         {/* Cafes Section */}
