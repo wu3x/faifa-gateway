@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Hotel, Trees, Coffee, Bed, Mountain, Binoculars, UtensilsCrossed, Tent, Home, Church, Instagram } from "lucide-react";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
@@ -12,7 +11,6 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const Index = () => {
   const { lang, t } = useLanguage();
-  const [selectedCategory, setSelectedCategory] = useState("hotels");
   const path = typeof window !== "undefined" ? window.location.pathname.replace(/\/+$/, "") || "/" : "/";
   const isRootPath = path === "/" || path === "/faifa-gateway";
 
@@ -20,13 +18,13 @@ const Index = () => {
     <>
       <div className="min-h-screen bg-background" dir={lang === "ar" ? "rtl" : "ltr"}>
         {isRootPath && <Header />}
-        <Navigation selectedCategory={selectedCategory} onSelectCategory={setSelectedCategory} />
+        <Navigation />
         <CompactControlBar />
 
         <main id="discover" className="container mx-auto px-4 md:px-8 py-4 space-y-4">
 
         {/* Hotels Section */}
-        {selectedCategory === "hotels" && <CategorySection
+        <CategorySection
           id="hotels"
           title={t("الفنادق", "Hotels")}
           icon={<Hotel />}
@@ -119,10 +117,10 @@ const Index = () => {
             mapLink="https://www.google.com/maps/search/?api=1&query=Fayfa%20Residential%20Units%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ8Qt9GH8L_RUR4tqnQurpXKA"
             icon={<Bed />}
           />
-        </CategorySection>}
+        </CategorySection>
 
         {/* Parks Section */}
-        {selectedCategory === "parks" && <CategorySection
+        <CategorySection
           id="parks"
           title={t("المنتزهات", "Parks & Resorts")}
           icon={<Trees />}
@@ -189,10 +187,10 @@ const Index = () => {
             mapLink="https://www.google.com/maps/search/?api=1&query=Itlalat%20Fayfa%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJX85pNwAL_RURobW0_6Zxh7I"
             icon={<Binoculars />}
           />
-        </CategorySection>}
+        </CategorySection>
 
         {/* Cafes Section */}
-        {selectedCategory === "cafes" && <CategorySection
+        <CategorySection
           id="cafes"
           title={t("الكافيهات", "Cafés")}
           icon={<Coffee />}
@@ -274,7 +272,7 @@ const Index = () => {
             mapLink="https://www.google.com/maps/search/?api=1&query=Olfa%20Cafe%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJyXO1DQAL_RURUDrR1e0FWNg"
             icon={<Coffee />}
           />
-        </CategorySection>}
+        </CategorySection>
       </main>
 
       <Footer />
