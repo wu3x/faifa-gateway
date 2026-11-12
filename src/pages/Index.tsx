@@ -216,6 +216,48 @@ const Index = () => {
             mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D9%86%D8%AA%D8%B2%D9%87%20%D9%85%D8%B7%D9%84%20%D8%A8%D8%B1%D8%AF%D8%A7%D9%86%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ6x4UCQAL_RURUA4JBKo2cGI"
             icon={<Binoculars />}
           />
+          <PlaceCard
+            title="قلعة العطفه"
+            description="قلعة تاريخية في فيفاء، وجهة لمشاهدة العمارة المحلية والتقاط الصور."
+            englishDescription="A historic fort in Faifa showcasing local mountain architecture."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%82%D9%84%D8%B9%D8%A9%20%D8%A7%D9%84%D8%B9%D8%B7%D9%81%D9%87%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJsyxwfQAL_RURFJQhPlKMcWg"
+            icon={<Mountain />}
+          />
+          <PlaceCard
+            title="كوخ الضباب"
+            description="كوخ وسط أجواء فيفاء الجبلية؛ يُنصح بالتأكد من إمكانية الزيارة قبل الذهاب."
+            englishDescription="A mountain cabin in Faifa; check visitor access before setting out."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%83%D9%88%D8%AE%20%D8%A7%D9%84%D8%B6%D8%A8%D8%A7%D8%A8%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJOwKZp_UN_RUR2zCupYoBY5c"
+            icon={<Home />}
+          />
+          <PlaceCard
+            title="مزرعة لوح المشتر"
+            description="مزرعة في جبال فيفاء، مناسبة لمشاهدة المشهد الزراعي الريفي."
+            englishDescription="A farm in the mountains of Faifa with rural scenery."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D8%B2%D8%B1%D8%B9%D8%A9%20%D9%84%D9%88%D8%AD%20%D8%A7%D9%84%D9%85%D8%B4%D8%AA%D8%B1%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJoQqE13YN_RURkU_4wbVgKig"
+            icon={<Trees />}
+          />
+          <PlaceCard
+            title="متحف فيفاء"
+            description="متحف محلي للتعرف على تراث فيفاء وثقافتها."
+            englishDescription="A local museum highlighting Faifa's heritage and culture."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D8%AA%D8%AD%D9%81%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ78H3-pML_RURrbupKQVPG7c"
+            icon={<Home />}
+          />
+          <PlaceCard
+            title="القهبه"
+            description="لمحبي الهايكنق فقط؛ منطقة جبلية تتطلب الاستعداد الجيد ومعرفة المسار."
+            englishDescription="For experienced hikers only; rugged mountain terrain requires preparation and route knowledge."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D8%A7%D9%84%D9%82%D9%87%D8%A8%D9%87%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ-1bmJcMN_RURg8hUckIEoa0"
+            icon={<Mountain />}
+          />
+          <PlaceCard
+            title="ممشى الخطم"
+            description="لمحبي الهايكنق؛ مسار مشي جبلي في منطقة الخطم، وقد تختلف صعوبته حسب الطقس."
+            englishDescription="For hiking enthusiasts; a mountain walking trail in Al-Khatm. Conditions vary with the weather."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D9%85%D8%B4%D9%89%20%D8%A7%D9%84%D8%AE%D8%B7%D9%85%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ-d8XSwAL_RURMAZzEEWWO7Y"
+            icon={<Trees />}
+          />
         </CategorySection>
 
         {/* Cafes Section */}
@@ -376,6 +418,20 @@ const Index = () => {
             mapLink="https://maps.app.goo.gl/n9nNVJWVaHDvarUM8?g_st=ic"
             hideReviews
             icon={<Binoculars />}
+          />
+          <PlaceCard
+            title="قمة ناجدن"
+            description="قمة جبلية للتصوير والاستمتاع بالإطلالات؛ تأكد من سلامة الطريق قبل الزيارة."
+            englishDescription="A mountain summit for photography and panoramic views; check road conditions."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%82%D9%85%D8%A9%20%D9%86%D8%A7%D8%AC%D8%AF%D9%86%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJK50kUvoL_RURH9cLRV36P7k"
+            icon={<Mountain />}
+          />
+          <PlaceCard
+            title="الخوشين"
+            description="منطقة جبلية وعرة ذات طبيعة كثيفة، مناسبة لمحبي تصوير الطبيعة مع مراعاة السلامة."
+            englishDescription="A rugged mountain area with dense vegetation for nature photography; take safety precautions."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D8%A7%D9%84%D8%AE%D9%88%D8%B4%D9%8A%D9%86%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJYVvg4_YL_RURXxK9w_-WveA"
+            icon={<Trees />}
           />
         </CategorySection>
       </main>
