@@ -1,4 +1,5 @@
-import { Children, cloneElement, isValidElement, useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Children, cloneElement, isValidElement, useEffect, useRef, useState } from "react";
 import { STARTER_VOTES } from "@/lib/starterVotes";
 import { VOTES_API, getVoterId } from "@/lib/votes";
 interface CategorySectionProps {
@@ -15,6 +16,13 @@ const categoryDetails: Record<string, { ar: string; en: string; number: string }
 import { useLanguage } from "@/contexts/LanguageContext";
 const CategorySection = ({ id, title, icon, children }: CategorySectionProps) => {
   const { lang, t } = useLanguage();
+  const trackRef = useRef<HTMLDivElement>(null);
+  const slideBy = (direction: number) => {
+    const el = trackRef.current;
+    const card = el?.firstElementChild as HTMLElement | null;
+    if (!el || !card) return;
+    el.scrollBy({ left: direction * (card.getBoundingClientRect().width + 20) * (lang === "ar" ? -1 : 1), behavior: "smooth" });
+  };
   const detail = categoryDetails[id];
   // The server is the sole source of truth. Never count a vote only in this browser.
   const [choice, setChoice] = useState<string | null>(null);
@@ -76,7 +84,7 @@ const CategorySection = ({ id, title, icon, children }: CategorySectionProps) =>
   }).sort((a, b) => (counts[b.key] || 0) - (counts[a.key] || 0) || a.index - b.index);
 
   return (
-    <section id={id} className="scroll-mt-28 py-10 md:py-16">
+    <section id={id} className="scroll-mt-28 py-6 md:py-12">
       <div className="mb-8 flex flex-col gap-5 border-b border-border/70 pb-7 md:mb-10 md:flex-row md:items-end md:justify-between">
         <div>
           <div className="mb-4 flex items-center gap-3 text-primary"><span className="text-xs font-bold tracking-[.2em]">{detail?.number}</span><span className="h-px w-10 bg-primary/40" /><span className="text-xs font-medium">{t("دليل فيفاء", "FAIFA GUIDE")}</span></div>
@@ -85,7 +93,16 @@ const CategorySection = ({ id, title, icon, children }: CategorySectionProps) =>
         </div>
         
       </div>
-      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">{cards.map(({child,key}) => cloneElement(child as React.ReactElement<any>, { key, voteCount: counts[key] || 0, hasVoted: choice === key, onVote: () => vote(key), voteDisabled: busy || !ready, celebrating: celebrating === key, onCelebrationEnd: () => setCelebrating(null) }))}</div>
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <span className="text-xs text-muted-foreground">{t("اسحب لاستكشاف الأماكن", "Swipe to explore places")} · {cards.length}</span>
+        <div className="flex items-center gap-2">
+          <button type="button" onClick={() => slideBy(-1)} aria-label={t("السابق", "Previous")} className="rounded-full border border-border bg-card p-2.5 text-foreground hover:text-primary"><ChevronRight size={19}/></button>
+          <button type="button" onClick={() => slideBy(1)} aria-label={t("التالي", "Next")} className="rounded-full border border-border bg-card p-2.5 text-foreground hover:text-primary"><ChevronLeft size={19}/></button>
+        </div>
+      </div>
+      <div ref={trackRef} className="flex snap-x snap-mandatory gap-5 overflow-x-auto overscroll-x-contain pb-6 pt-1 [scrollbar-width:thin]" style={{WebkitOverflowScrolling:"touch"}}>
+        {cards.map(({child,key}) => <div key={key} className="w-[min(86vw,360px)] shrink-0 snap-start md:w-[calc((100%-40px)/3)] [&>article]:h-full">{cloneElement(child as React.ReactElement<any>, { voteCount: counts[key] || 0, hasVoted: choice === key, onVote: () => vote(key), voteDisabled: busy || !ready, celebrating: celebrating === key, onCelebrationEnd: () => setCelebrating(null) })}</div>)}
+      </div>
     </section>
   );
 };
