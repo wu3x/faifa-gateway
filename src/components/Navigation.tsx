@@ -2,11 +2,12 @@ import { Hotel, Trees, Coffee } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const Navigation = ({ selectedCategory, onSelectCategory }: { selectedCategory: string; onSelectCategory: (id: string) => void }) => {
+const Navigation = () => {
   const { t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [glowIndex, setGlowIndex] = useState(-1);
   const [showGuideText, setShowGuideText] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
 
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
@@ -42,12 +43,23 @@ const Navigation = ({ selectedCategory, onSelectCategory }: { selectedCategory: 
     };
   }, []);
 
+  useEffect(() => {
+    const updateActive = () => {
+      let active: string | null = null;
+      for (const id of ["hotels", "parks", "cafes"]) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= 160) active = id;
+      }
+      setActiveSection(active);
+    };
+    window.addEventListener("scroll", updateActive, { passive: true });
+    updateActive();
+    return () => window.removeEventListener("scroll", updateActive);
+  }, []);
+
   const scrollToSection = (id: string) => {
-    onSelectCategory(id);
-    requestAnimationFrame(() => {
-      const el = document.getElementById("discover");
-      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 90, behavior: "smooth" });
-    });
+    const el = document.getElementById(id);
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 90, behavior: "smooth" });
   };
 
   const navItems = [
@@ -78,7 +90,7 @@ const Navigation = ({ selectedCategory, onSelectCategory }: { selectedCategory: 
           {navItems.map((item, index) => {
             const IconComponent = item.icon;
             const isGlowing = glowIndex === index;
-            const isActive = selectedCategory === item.id;
+            const isActive = activeSection === item.id;
             return (
               <li key={item.id} className="flex-shrink-0">
                 <button
