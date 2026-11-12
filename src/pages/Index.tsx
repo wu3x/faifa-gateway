@@ -117,6 +117,20 @@ const Index = () => {
             mapLink="https://www.google.com/maps/search/?api=1&query=Fayfa%20Residential%20Units%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ8Qt9GH8L_RUR4tqnQurpXKA"
             icon={<Bed />}
           />
+          <PlaceCard
+            title="مطل الحبيل"
+            description="وحدات إقامة بإطلالة جبلية في فيفاء، مناسبة للاستراحة والمبيت."
+            englishDescription="Mountain-view holiday accommodation in Faifa."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D8%B7%D9%84%20%D8%A7%D9%84%D8%AD%D8%A8%D9%8A%D9%84%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJZUjfbAAN_RURZzrZ5oQnsKw"
+            icon={<Home />}
+          />
+          <PlaceCard
+            title="شاليه اللعثة"
+            description="شاليه للإقامة وسط جبال فيفاء بإطلالة طبيعية وأجواء هادئة."
+            englishDescription="A peaceful mountain-view chalet for a stay in Faifa."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D8%B4%D8%A7%D9%84%D9%8A%D9%87%20%D8%A7%D9%84%D9%84%D8%B9%D8%AB%D8%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJjfCPSAAN_RURTJDqRYZO_EI"
+            icon={<Home />}
+          />
         </CategorySection>
 
         {/* Parks Section */}
@@ -185,6 +199,20 @@ const Index = () => {
             description="حديقة وممشى في منطقة الجوة بفيفاء، مناسبة للتنزه والمشي."
             englishDescription="A municipal garden and walking area in Al-Jawwah, Faifa."
             mapLink="https://www.google.com/maps/search/?api=1&query=%D8%AD%D8%AF%D9%8A%D9%82%D8%A9%20%D8%A7%D9%84%D8%A8%D9%84%D8%AF%D9%8A%D8%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ-Y4cNooJ_RURb9Tf8oqNrbw"
+            icon={<Trees />}
+          />
+          <PlaceCard
+            title="منتزه مطل بردان"
+            description="مطل ومنتزه جبلي في بردان للاستمتاع بالمشاهد الطبيعية."
+            englishDescription="A mountain viewpoint and park in Bardan."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D9%86%D8%AA%D8%B2%D9%87%20%D9%85%D8%B7%D9%84%20%D8%A8%D8%B1%D8%AF%D8%A7%D9%86%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ6x4UCQAL_RURUA4JBKo2cGI"
+            icon={<Binoculars />}
+          />
+          <PlaceCard
+            title="مزرعة فيفاء لإنتاج البن"
+            description="مزرعة لإنتاج البن السعودي في مدرجات فيفاء الزراعية، مستقلة في الدليل عن ممشى البن."
+            englishDescription="A Saudi coffee farm on Faifa's agricultural terraces."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D8%B2%D8%B1%D8%B9%D8%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1%20%D9%84%D8%A5%D9%86%D8%AA%D8%A7%D8%AC%20%D8%A7%D9%84%D8%A8%D9%86%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ04nG6qkL_RURwR7QzNpxvKM"
             icon={<Trees />}
           />
         </CategorySection>
@@ -272,6 +300,13 @@ const Index = () => {
             mapLink="https://www.google.com/maps/search/?api=1&query=Olfa%20Cafe%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJyXO1DQAL_RURUDrR1e0FWNg"
             icon={<Coffee />}
           />
+          <PlaceCard
+            title="مطعم ومقهى ريف وكيف"
+            description="مطعم ومقهى بجلسات وإطلالات جبلية في فيفاء."
+            englishDescription="A restaurant and café with mountain-view seating in Faifa."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%85%D8%B7%D8%B9%D9%85%20%D9%88%D9%85%D9%82%D9%87%D9%89%20%D8%B1%D9%8A%D9%81%20%D9%88%D9%83%D9%8A%D9%81%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJ40mu0xwL_RUR83PtQku4SJo"
+            icon={<Coffee />}
+          />
         </CategorySection>
 
         {/* Scenic photo spots */}
@@ -302,6 +337,27 @@ const Index = () => {
             description="كهف طبيعي في قرية الضحي بجبل الحكمي، وجهة لمحبي استكشاف المعالم الجبلية."
             englishDescription="A natural cave near Al-Duha village on Jabal Al-Hakami."
             mapLink="https://www.google.com/maps/search/?api=1&query=%D9%83%D9%87%D9%81%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1%20%D8%A7%D9%84%D8%A3%D8%AB%D8%B1%D9%8A%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJaU3jMQAN_RURhKMaJ1wzJM4"
+            icon={<Mountain />}
+          />
+          <PlaceCard
+            title="المطل الزجاجي المعلق"
+            description="إطلالة زجاجية معلقة للتصوير ومشاهدة جبال فيفاء. يُنصح بالتنسيق قبل الزيارة."
+            englishDescription="A glass viewing platform for mountain photos; contact ahead before visiting."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D8%A7%D9%84%D9%85%D8%B7%D9%84%20%D8%A7%D9%84%D8%B2%D8%AC%D8%A7%D8%AC%D9%8A%20%D8%A7%D9%84%D9%85%D8%B9%D9%84%D9%82%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJr5DTdgAL_RURpVPQaHKkURk"
+            icon={<Binoculars />}
+          />
+          <PlaceCard
+            title="المطل الشهير بفيفاء"
+            description="نقطة إطلالة جبلية طبيعية للتصوير ومشاهدة المدرجات والقمم."
+            englishDescription="A natural mountain viewpoint overlooking Faifa's terraces and peaks."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D8%A7%D9%84%D9%85%D8%B7%D9%84%20%D8%A7%D9%84%D8%B4%D9%87%D9%8A%D8%B1%20%D8%A8%D9%81%D9%8A%D9%81%D8%A7%D8%A1%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJEYQ_xmIL_RURb3ekTzw0f5Q"
+            icon={<Binoculars />}
+          />
+          <PlaceCard
+            title="وادي الطرارة"
+            description="وادٍ طبيعي وشلالات موسمية؛ تجنب مجرى الوادي أثناء الأمطار والسيول."
+            englishDescription="A scenic valley with seasonal waterfalls; avoid the watercourse during rain and floods."
+            mapLink="https://www.google.com/maps/search/?api=1&query=%D9%88%D8%A7%D8%AF%D9%8A%20%D8%A7%D9%84%D8%B7%D8%B1%D8%A7%D8%B1%D8%A9%20%D9%81%D9%8A%D9%81%D8%A7%D8%A1&query_place_id=ChIJUSVCadQN_RURQZdfj0c5GrE"
             icon={<Mountain />}
           />
         </CategorySection>
