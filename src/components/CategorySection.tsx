@@ -86,6 +86,17 @@ const CategorySection = ({ id, title, icon, children }: CategorySectionProps) =>
         </div>
         
       </div>
+      {id === "photo-spots" && (
+        <div role="note" className="mb-6 flex items-start gap-3 rounded-xl border border-amber-500/25 bg-amber-500/5 px-4 py-3 text-start">
+          <span aria-hidden="true" className="mt-0.5 shrink-0 text-lg">⚠️</span>
+          <p className="text-xs leading-6 text-muted-foreground sm:text-sm">
+            {t(
+              "تنبيه مهم: بعض مواقع التصوير تقع في مناطق جبلية وعرة، وقد تكون الطرق المؤدية لها ضيقة أو خطرة، خصوصًا لغير العارفين بالمنطقة. تأكد من حالة الطريق والطقس قبل الانطلاق، وتجنب الزيارة وقت الأمطار والضباب، ولا تذهب وحدك إلى الأماكن غير المألوفة.",
+              "Important: Some photo spots are in rugged mountain areas with narrow or hazardous access roads, especially for visitors unfamiliar with the region. Check road and weather conditions, avoid rain and fog, and do not visit unfamiliar remote spots alone."
+            )}
+          </p>
+        </div>
+      )}
       <div className="mb-4 text-xs text-muted-foreground">{cards.length} {lang === "ar" ? (cards.length === 1 ? "مكان" : cards.length === 2 ? "مكانان" : cards.length >= 3 && cards.length <= 10 ? "أماكن" : "مكانًا") : (cards.length === 1 ? "place" : "places")}</div>
       <div className="grid grid-cols-2 gap-2.5 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
         {cards.map(({child,key}) => <div key={key} className="min-w-0 [&>article]:h-full">{cloneElement(child as React.ReactElement<any>, { compact: true, voteCount: counts[key] || 0, hasVoted: choice === key, onVote: () => vote(key), voteDisabled: busy || !ready, celebrating: celebrating === key, onCelebrationEnd: () => setCelebrating(null) })}</div>)}
