@@ -51,6 +51,8 @@ export default function InteractiveMap() {
   const container=useRef<HTMLDivElement>(null);
   const map=useRef<any>(null);
   const markers=useRef<any[]>([]);
+  const userMarker=useRef<any>(null);
+  const userAccuracy=useRef<any>(null);
   // Read the rendered cards: the map never maintains a second list of destinations.
   // The legacy coordinate lookup is approximate; do not manufacture pins for other cards.
   const [places, setPlaces] = useState<Place[]>([]);
@@ -73,13 +75,13 @@ export default function InteractiveMap() {
     let cancelled=false;
     loadMapLibre().then(lib=>{
       if(cancelled||!container.current)return;
-      const instance=new lib.Map({container:container.current,style:"https://tiles.openfreemap.org/styles/liberty",center:[43.113,17.258],zoom:12.5,minZoom:9,maxZoom:18,attributionControl:true});
+      const instance=new lib.Map({container:container.current,style:{version:8,sources:{"osm-raster":{type:"raster",tiles:["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],tileSize:256,attribution:"© OpenStreetMap contributors"}},layers:[{id:"osm-raster",type:"raster",source:"osm-raster"}]},center:[43.113,17.258],zoom:12.5,minZoom:9,maxZoom:18,attributionControl:true});
       map.current=instance;
       instance.addControl(new lib.NavigationControl({showCompass:false}),"top-left");
       instance.on("load",()=>{if(!cancelled)setReady(true);});
       instance.on("error",(event:any)=>{if(event?.error?.message?.includes("style")&&!cancelled)setError(true);});
     }).catch(()=>{if(!cancelled)setError(true);});
-    return ()=>{cancelled=true;markers.current.forEach(m=>m.remove());markers.current=[];map.current?.remove();map.current=null;};
+    return ()=>{cancelled=true;markers.current.forEach(m=>m.remove());markers.current=[];userMarker.current?.remove();userAccuracy.current?.remove();map.current?.remove();map.current=null;};
   },[]);
   useEffect(()=>{
     if(!ready||!map.current||!window.maplibregl)return;
@@ -95,8 +97,21 @@ export default function InteractiveMap() {
     });
   },[ready,visible]);
   const locate=()=>{
-    if(!navigator.geolocation)return;
-    navigator.geolocation.getCurrentPosition(({coords})=>map.current?.flyTo({center:[coords.longitude,coords.latitude],zoom:15,essential:true}),()=>alert(t("تعذر تحديد موقعك، تأكد من السماح للموقع.","Could not access your location.")),{enableHighAccuracy:true,timeout:12000});
+    if(!navigator.geolocation || !map.current) {
+      alert(t("تحديد الموقع غير متاح في هذا المتصفح.","Location is unavailable in this browser."));
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(({coords})=>{
+      if (!map.current || !window.maplibregl) return;
+      userMarker.current?.remove();
+      userAccuracy.current?.remove();
+      const dot=document.createElement("div");
+      dot.setAttribute("role","img");
+      dot.setAttribute("aria-label",t("موقعك الحالي","Your current location"));
+      dot.style.cssText="width:19px;height:19px;border:4px solid white;border-radius:50%;background:#2563eb;box-shadow:0 0 0 7px #3b82f655,0 2px 10px #0005";
+      userMarker.current=new window.maplibregl.Marker({element:dot,anchor:"center"}).setLngLat([coords.longitude,coords.latitude]).addTo(map.current);
+      map.current.flyTo({center:[coords.longitude,coords.latitude],zoom:15,essential:true});
+    },()=>alert(t("تعذر تحديد موقعك، تأكد من السماح للموقع.","Could not access your location.")),{enableHighAccuracy:true,timeout:15000});
   };
   return <section id="interactive-map" className="scroll-mt-24 py-8 md:py-12">
     <div className="mb-6 text-center"><h2 className="flex items-center justify-center gap-2 text-2xl font-bold text-primary md:text-4xl"><Map className="h-7 w-7"/>{t("خريطة فيفاء التفاعلية","Interactive Faifa Map")}</h2>
@@ -111,12 +126,8 @@ export default function InteractiveMap() {
       {ready&&<button onClick={locate} title={t("موقعي الحالي","My location")} className="absolute bottom-10 right-3 z-10 rounded-lg bg-white p-3 text-slate-800 shadow-md" aria-label={t("موقعي الحالي","My location")}><LocateFixed size={20}/></button>}
     </div>
     {selected&&<div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card p-4">
-      <div className="flex items-center gap-2"><MapPin size={22} style={{color:colors[selected.kind]}}/><div><strong className="block">{lang==="ar"?selected.name:selected.en}</strong><span className="text-xs text-muted-foreground">{t("الموقع على الخريطة تقريبي حتى التحقق من الإحداثيات","Approximate pin pending coordinate verification")}</span></div></div>
+      <div className="flex items-center gap-2"><MapPin size={22} style={{color:colors[selected.kind]}}/><div><strong className="block">{lang==="ar"?selected.name:selected.en}</strong></div></div>
       <a className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm text-primary-foreground" href={selected.search} target="_blank" rel="noopener noreferrer"><Navigation size={16}/>{t("فتح في خرائط Google","Open in Google Maps")}</a>
     </div>}
-    <p className="mt-3 text-xs leading-6 text-muted-foreground">{t("تنبيه: علامات الأماكن الحالية تقريبية ولم تُتحقق إحداثياتها بعد؛ لا تعتمد عليها للوصول. استخدم زر خرائط Google للتأكد. الأماكن التي لا نملك إحداثيات لها لم نضع لها علامات عشوائية.","Note: Existing pins are approximate and not verified. Do not use them for navigation. Unlocated places are not pinned.")}</p>
-    <details className="mt-4 rounded-xl border bg-card p-4"><summary className="cursor-pointer font-semibold">{t("أماكن لم تُحدد على الخريطة بعد","Places not pinned yet")}</summary>
-      <p className="mt-3 text-sm text-muted-foreground">{t("نعرض فقط الأماكن الموجودة في القوائم ولها إحداثيات مبدئية. بقية الأماكن تحتاج إحداثيات مؤكدة قبل إضافتها.", "Only listed places with provisional coordinates appear. Other places need verified coordinates.")}</p>
-    </details>
   </section>;
 }
