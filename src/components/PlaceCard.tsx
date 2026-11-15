@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import { MapPin, MessageCircle, Star } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 interface PlaceCardProps {
@@ -73,6 +74,13 @@ const ENGLISH_PLACE_NAMES: Record<string, string> = {
 
 const PlaceCard = ({ compact = false, title, description, englishDescription, additionalContent, mapLink, hideReviews = false, icon, voteCount = 0, hasVoted = false, onVote, voteDisabled = true, celebrating = false, onCelebrationEnd }: PlaceCardProps) => {
   const { lang, t } = useLanguage();
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const touchOrigin = useRef<{x:number;y:number}|null>(null);
+  // Trial only: CC0 image of Fayfa, not claimed to depict Al-Khatm specifically.
+  const trialPhoto = title.startsWith("منتزه وإطلالة الخطم")
+    ? "https://commons.wikimedia.org/wiki/Special:FilePath/%D8%A7%D9%84%D9%82%D8%B1%D9%89_%D8%A7%D9%84%D8%AC%D8%A8%D9%84%D9%8A%D8%A9_%D9%81%D9%8A_%D9%81%D9%8A%D9%81%D8%A7%D8%A1_%E2%80%93_%D8%AC%D8%A7%D8%B2%D8%A7%D9%86%D8%8C_%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9.jpg?width=360"
+    : null;
+  const endTouch = () => { touchOrigin.current = null; setPreviewVisible(false); };
   const splitTitle = (raw: string) => {
     for (const separator of [" – ", " - ", " / "]) {
       if (raw.includes(separator)) {
@@ -91,6 +99,16 @@ const PlaceCard = ({ compact = false, title, description, englishDescription, ad
   const displayTitle = lang === "en" ? (ENGLISH_PLACE_NAMES[title] || parts.en) : parts.ar;
   const primaryDesc = lang === "en" ? (englishDescription || description) : description;
   return (
+    <div className="relative h-full" onTouchStart={e => {
+      if (!trialPhoto) return;
+      touchOrigin.current = {x:e.touches[0].clientX,y:e.touches[0].clientY};
+    }} onTouchMove={e => {
+      if (!touchOrigin.current) return;
+      if (Math.abs(e.touches[0].clientY-touchOrigin.current.y)>8) setPreviewVisible(true);
+    }} onTouchEnd={endTouch} onTouchCancel={endTouch}>
+      {trialPhoto && <div aria-hidden="true" className={`pointer-events-none absolute inset-x-3 top-0 z-0 flex justify-center transition-all duration-300 ease-out motion-reduce:transition-none ${previewVisible?"-translate-y-14 opacity-100":"translate-y-1 opacity-0"}`}>
+        <img src={trialPhoto} loading="lazy" decoding="async" alt="" draggable={false} className="h-20 w-28 rotate-[-5deg] rounded-xl border-2 border-background object-cover shadow-lg" />
+      </div>}
       <article data-faifa-place={title} data-faifa-map-link={mapLink} className={`group relative flex min-h-[210px] flex-col overflow-hidden rounded-[1.2rem] border border-border/70 bg-card p-3 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-lg sm:p-5 ${compact ? "sm:min-h-[235px]" : "md:p-7"}`}>
         <div className="absolute -left-14 -top-14 h-40 w-40 rounded-full bg-primary/[.035] transition-transform duration-700 group-hover:scale-150" aria-hidden="true" />
         <div className="relative mb-3 flex items-start justify-between gap-1.5 sm:mb-5 sm:gap-3">
@@ -114,6 +132,7 @@ const PlaceCard = ({ compact = false, title, description, englishDescription, ad
           <a href={mapLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-1.5 text-[10px] font-medium text-foreground transition hover:border-primary hover:text-primary sm:gap-1.5 sm:px-3 sm:py-2 sm:text-xs" aria-label={t("عرض الموقع على الخريطة", "View on map") + " " + displayTitle}><MapPin size={15} />{t("الموقع", "Location")}</a>
         </div>
       </article>
+    </div>
   );
 };
 export default PlaceCard;
