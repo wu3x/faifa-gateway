@@ -4,7 +4,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 type Kind = "hotel" | "park" | "cafe";
 type Place = { name: string; en: string; kind: Kind; lat: number; lng: number; search: string };
-const places: Place[] = [
+const approximatePlaces: Place[] = [
   ["فندق جارة الغيم","Jarat Al Gheim Hotel","hotel",17.2565,43.1145],
   ["فندق فيفاء الفاخر","Faifa Luxury Hotel","hotel",17.2580,43.1130],
   ["فندق إيوان","Iwan Hotel","hotel",17.2555,43.1160],
@@ -24,11 +24,6 @@ const places: Place[] = [
   ["كافيه تالقة","Taliqa Cafe","cafe",17.2545,43.1168],
   ["لب القهوة","Lub Al-Qahwa","cafe",17.2552,43.1172]
 ].map(([name,en,kind,lat,lng]) => ({name: String(name),en: String(en),kind: kind as Kind,lat: Number(lat),lng: Number(lng),search: String(name) + " فيفاء"}));
-const missing = {
-  hotel: ["أكواخ الندى","شاليه فيفا – Viva Cottage","سكني","الوادي الأخضر للغرف والشقق","الدثنة للشقق المفروشة","السحاب فيو","فيفاء للوحدات السكنية"],
-  park: ["إطلالة فيفا"],
-  cafe: ["غيمة – Cloud","مقهى البرنسيسة","مقهى روز بسنت النسائي","ديوانية واسع الخاطر","أُلفة"]
-};
 const colors: Record<Kind,string> = {hotel:"#2563eb",park:"#16a34a",cafe:"#d97706"};
 const labels: Record<Kind,[string,string]> = {hotel:["الفنادق","Hotels"],park:["المنتزهات والمعالم","Parks"],cafe:["الكافيهات","Cafes"]};
 const MAPLIBRE = "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js";
@@ -56,7 +51,24 @@ export default function InteractiveMap() {
   const container=useRef<HTMLDivElement>(null);
   const map=useRef<any>(null);
   const markers=useRef<any[]>([]);
-  const visible=useMemo(()=>filter==="all"?places:places.filter(p=>p.kind===filter),[filter]);
+  // Read the rendered cards: the map never maintains a second list of destinations.
+  // The legacy coordinate lookup is approximate; do not manufacture pins for other cards.
+  const [places, setPlaces] = useState<Place[]>([]);
+  useEffect(() => {
+    const normalize = (s: string) => s.split(/\\s+[–-]\\s+/)[0].trim().replace(/\\s+/g, " ");
+    const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-faifa-place]"));
+    const matched = cards.flatMap(card => {
+      const name = card.dataset.faifaPlace || "";
+      const link = card.dataset.faifaMapLink || "";
+      const category = card.closest("section[id]")?.id;
+      const original = approximatePlaces.find(p => normalize(p.name) === normalize(name));
+      if (!original || !link) return [];
+      const kind: Kind = category === "hotels" ? "hotel" : category === "cafes" ? "cafe" : "park";
+      return [{ ...original, name, kind, search: link }];
+    });
+    setPlaces(matched);
+  }, []);
+  const visible = useMemo(() => filter === "all" ? places : places.filter(p => p.kind === filter), [filter, places]);
   useEffect(()=>{
     let cancelled=false;
     loadMapLibre().then(lib=>{
@@ -86,25 +98,25 @@ export default function InteractiveMap() {
     if(!navigator.geolocation)return;
     navigator.geolocation.getCurrentPosition(({coords})=>map.current?.flyTo({center:[coords.longitude,coords.latitude],zoom:15,essential:true}),()=>alert(t("تعذر تحديد موقعك، تأكد من السماح للموقع.","Could not access your location.")),{enableHighAccuracy:true,timeout:12000});
   };
-  return <section id="interactive-map" className="scroll-mt-24 py-10 md:py-14">
+  return <section id="interactive-map" className="scroll-mt-24 py-8 md:py-12">
     <div className="mb-6 text-center"><h2 className="flex items-center justify-center gap-2 text-2xl font-bold text-primary md:text-4xl"><Map className="h-7 w-7"/>{t("خريطة فيفاء التفاعلية","Interactive Faifa Map")}</h2>
     <p className="mt-3 text-sm text-muted-foreground">{t("استكشف الطرق والمعالم والمقاهي والإقامة على الخريطة","Explore roads, landmarks, cafes and stays")}</p></div>
     <div className="mb-4 flex flex-wrap justify-center gap-2">
       {(["all","hotel","park","cafe"] as const).map(k=><button key={k} onClick={()=>{setFilter(k);setSelected(null);}} aria-pressed={filter===k} className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${filter===k?"bg-primary text-primary-foreground border-primary":"bg-card hover:bg-muted"}`}>{k==="all"?t("الكل","All"):labels[k][lang==="ar"?0:1]}</button>)}
     </div>
     <div className="relative overflow-hidden rounded-2xl border border-border shadow-lg">
-      <div ref={container} className="h-[360px] w-full sm:h-[440px] lg:h-[540px]" aria-label={t("خريطة فيفاء","Faifa map")}/>
+      <div ref={container} className="h-[320px] w-full sm:h-[400px] lg:h-[460px]" aria-label={t("خريطة فيفاء","Faifa map")}/>
       {!ready&&!error&&<div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-muted text-sm">{t("جاري تحميل الخريطة...","Loading map...")}</div>}
       {error&&<div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-muted p-6 text-center"><p>{t("تعذر تحميل الخريطة الآن. جرّب تحديث الصفحة.","Map could not load. Please refresh.")}</p><button className="rounded-lg bg-primary px-4 py-2 text-primary-foreground" onClick={()=>window.location.reload()}>{t("إعادة المحاولة","Retry")}</button></div>}
       {ready&&<button onClick={locate} title={t("موقعي الحالي","My location")} className="absolute bottom-10 right-3 z-10 rounded-lg bg-white p-3 text-slate-800 shadow-md" aria-label={t("موقعي الحالي","My location")}><LocateFixed size={20}/></button>}
     </div>
     {selected&&<div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card p-4">
       <div className="flex items-center gap-2"><MapPin size={22} style={{color:colors[selected.kind]}}/><div><strong className="block">{lang==="ar"?selected.name:selected.en}</strong><span className="text-xs text-muted-foreground">{t("الموقع على الخريطة تقريبي حتى التحقق من الإحداثيات","Approximate pin pending coordinate verification")}</span></div></div>
-      <a className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm text-primary-foreground" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selected.search)}`} target="_blank" rel="noopener noreferrer"><Navigation size={16}/>{t("فتح في خرائط Google","Open in Google Maps")}</a>
+      <a className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm text-primary-foreground" href={selected.search} target="_blank" rel="noopener noreferrer"><Navigation size={16}/>{t("فتح في خرائط Google","Open in Google Maps")}</a>
     </div>}
     <p className="mt-3 text-xs leading-6 text-muted-foreground">{t("تنبيه: علامات الأماكن الحالية تقريبية ولم تُتحقق إحداثياتها بعد؛ لا تعتمد عليها للوصول. استخدم زر خرائط Google للتأكد. الأماكن التي لا نملك إحداثيات لها لم نضع لها علامات عشوائية.","Note: Existing pins are approximate and not verified. Do not use them for navigation. Unlocated places are not pinned.")}</p>
-    <details className="mt-4 rounded-xl border bg-card p-4"><summary className="cursor-pointer font-semibold">{t("أماكن نحتاج إحداثياتها الدقيقة (13)","Places awaiting verified coordinates (13)")}</summary>
-      <div className="mt-3 space-y-3">{(["hotel","park","cafe"] as Kind[]).map(k=><div key={k}><h4 className="mb-1 font-semibold">{labels[k][lang==="ar"?0:1]}</h4><div className="flex flex-wrap gap-2">{missing[k].map(name=><span key={name} className="rounded-md bg-muted px-2 py-1 text-xs">{name}</span>)}</div></div>)}</div>
+    <details className="mt-4 rounded-xl border bg-card p-4"><summary className="cursor-pointer font-semibold">{t("أماكن لم تُحدد على الخريطة بعد","Places not pinned yet")}</summary>
+      <p className="mt-3 text-sm text-muted-foreground">{t("نعرض فقط الأماكن الموجودة في القوائم ولها إحداثيات مبدئية. بقية الأماكن تحتاج إحداثيات مؤكدة قبل إضافتها.", "Only listed places with provisional coordinates appear. Other places need verified coordinates.")}</p>
     </details>
   </section>;
 }
