@@ -55,7 +55,7 @@ export default function InteractiveMap() {
   // The legacy coordinate lookup is approximate; do not manufacture pins for other cards.
   const [places, setPlaces] = useState<Place[]>([]);
   useEffect(() => {
-    const normalize = (s: string) => s.split(/\s+[–-]\\s+/)[0].trim().replace(/\s+/g, " ");
+    const normalize = (s: string) => s.split(/\s+[–-]\s+/)[0].trim().replace(/\s+/g, " ");
     const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-faifa-place]"));
     const matched = cards.flatMap(card => {
       const name = card.dataset.faifaPlace || "";
