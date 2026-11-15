@@ -6,6 +6,7 @@ import PlaceCard from "@/components/PlaceCard";
 import Footer from "@/components/Footer";
 import CompactControlBar from "@/components/CompactControlBar";
 import BackToTop from "@/components/BackToTop";
+import InteractiveMap from "@/components/InteractiveMap";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 
@@ -434,6 +435,7 @@ const Index = () => {
             icon={<Trees />}
           />
         </CategorySection>
+        <InteractiveMap />
       </main>
 
       <Footer />
