@@ -91,7 +91,7 @@ const PlaceCard = ({ compact = false, title, description, englishDescription, ad
   const displayTitle = lang === "en" ? (ENGLISH_PLACE_NAMES[title] || parts.en) : parts.ar;
   const primaryDesc = lang === "en" ? (englishDescription || description) : description;
   return (
-      <article className={`group relative flex min-h-[210px] flex-col overflow-hidden rounded-[1.2rem] border border-border/70 bg-card p-3 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-lg sm:p-5 ${compact ? "sm:min-h-[235px]" : "md:p-7"}`}>
+      <article data-faifa-place={title} data-faifa-map-link={mapLink} className={`group relative flex min-h-[210px] flex-col overflow-hidden rounded-[1.2rem] border border-border/70 bg-card p-3 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-lg sm:p-5 ${compact ? "sm:min-h-[235px]" : "md:p-7"}`}>
         <div className="absolute -left-14 -top-14 h-40 w-40 rounded-full bg-primary/[.035] transition-transform duration-700 group-hover:scale-150" aria-hidden="true" />
         <div className="relative mb-3 flex items-start justify-between gap-1.5 sm:mb-5 sm:gap-3">
           <span className={`faifa-animated-icon ${iconMotion} flex h-9 w-9 shrink-0 items-center justify-center rounded-xl sm:h-12 sm:w-12 bg-primary/10 text-primary [&_svg]:h-5 [&_svg]:w-5 sm:[&_svg]:h-6 sm:[&_svg]:w-6`}>{icon}</span>
